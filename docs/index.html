@@ -4,94 +4,273 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SmartPack Support &amp; Priser</title>
+<link rel="icon" href="https://smartpack.dk/wp-content/uploads/2022/10/cropped-favicon-smartpack-192x192.png" sizes="192x192">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root {
-    --brand: #1a56db;
-    --brand-light: #e8f0fe;
-    --green: #0e9f6e;
-    --green-light: #e8fdf5;
-    --text: #111827;
-    --muted: #6b7280;
-    --border: #e5e7eb;
-    --bg: #f9fafb;
-    --white: #ffffff;
-    --radius: 10px;
-    --shadow: 0 1px 4px rgba(0,0,0,.08);
+    --green-dark:  #1a5c35;
+    --green-mid:   #237a49;
+    --green:       #27ae60;
+    --green-light: #e8f5ee;
+    --green-border:#b2dfcc;
+    --bg:          #f2f7f4;
+    --white:       #ffffff;
+    --text:        #111827;
+    --muted:       #6b7280;
+    --border:      #e5ede8;
+    --radius:      10px;
+    --shadow:      0 1px 4px rgba(0,0,0,.07);
+    --shadow-md:   0 4px 16px rgba(0,0,0,.09);
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.5; }
-  header { background: var(--brand); color: #fff; padding: 32px 24px 28px; text-align: center; }
-  header h1 { font-size: 1.8rem; font-weight: 700; margin-bottom: 4px; }
-  header p { opacity: .85; font-size: .95rem; }
+  body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+
+  /* ── NAV ── */
+  nav {
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+    padding: 0 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 60px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 1px 3px rgba(0,0,0,.06);
+  }
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    font-weight: 800;
+    font-size: 1.1rem;
+    color: var(--text);
+  }
+  .nav-logo img { width: 28px; height: 28px; }
+  .nav-contact {
+    font-size: .85rem;
+    color: var(--muted);
+  }
+  .nav-contact a { color: var(--green-dark); font-weight: 600; text-decoration: none; }
+  .nav-contact a:hover { text-decoration: underline; }
+
+  /* ── HERO ── */
+  .hero {
+    background: linear-gradient(135deg, #e8f5ee 0%, #f2f7f4 60%, #fff 100%);
+    padding: 56px 32px 48px;
+    text-align: center;
+    border-bottom: 1px solid var(--border);
+  }
+  .hero-badge {
+    display: inline-block;
+    background: var(--white);
+    border: 1px solid var(--green-border);
+    color: var(--green-dark);
+    font-size: .72rem;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    border-radius: 999px;
+    padding: 4px 14px;
+    margin-bottom: 18px;
+  }
+  .hero h1 {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--text);
+    margin-bottom: 10px;
+    line-height: 1.2;
+  }
+  .hero h1 span { color: var(--green-dark); }
+  .hero p { font-size: .95rem; color: var(--muted); max-width: 520px; margin: 0 auto 22px; }
   .hourly-badge {
-    display: inline-block; margin-top: 14px;
-    background: rgba(255,255,255,.18); border: 1px solid rgba(255,255,255,.3);
-    border-radius: 999px; padding: 5px 18px; font-size: .9rem; font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--white);
+    border: 1.5px solid var(--green-border);
+    border-radius: 999px;
+    padding: 8px 22px;
+    font-size: .9rem;
+    font-weight: 700;
+    color: var(--green-dark);
+    box-shadow: var(--shadow);
+  }
+  .hourly-badge::before { content: ''; display: inline-block; width: 8px; height: 8px; background: var(--green); border-radius: 50%; }
+
+  /* ── TOC ── */
+  .toc-wrap {
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+    padding: 10px 24px;
   }
   .toc {
-    background: var(--white); border-bottom: 1px solid var(--border);
-    padding: 12px 24px; display: flex; flex-wrap: wrap; gap: 8px; justify-content: center;
-    position: sticky; top: 0; z-index: 10;
+    max-width: 1000px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    justify-content: center;
   }
   .toc a {
-    text-decoration: none; font-size: .78rem; color: var(--brand);
-    border: 1px solid var(--border); border-radius: 999px; padding: 4px 12px;
-    white-space: nowrap; transition: background .15s;
+    text-decoration: none;
+    font-size: .75rem;
+    font-weight: 500;
+    color: var(--green-dark);
+    border: 1px solid var(--green-border);
+    border-radius: 999px;
+    padding: 4px 12px;
+    background: var(--green-light);
+    white-space: nowrap;
+    transition: background .15s, border-color .15s;
   }
-  .toc a:hover { background: var(--brand-light); }
-  .search-bar { max-width: 600px; margin: 28px auto 0; padding: 0 16px; }
-  .search-bar input {
-    width: 100%; padding: 10px 16px; border: 1px solid var(--border);
-    border-radius: var(--radius); font-size: .95rem; outline: none; box-shadow: var(--shadow);
+  .toc a:hover { background: #c8ebd8; border-color: var(--green); }
+
+  /* ── SEARCH ── */
+  .search-wrap {
+    max-width: 560px;
+    margin: 28px auto 0;
+    padding: 0 16px;
+    position: relative;
   }
-  .search-bar input:focus { border-color: var(--brand); }
-  main { max-width: 1000px; margin: 0 auto; padding: 24px 16px 60px; }
-  .category { margin-bottom: 36px; }
-  .category h2 {
-    font-size: 1.05rem; font-weight: 700; color: var(--brand);
-    border-bottom: 2px solid var(--brand-light); padding-bottom: 8px; margin-bottom: 12px;
+  .search-wrap svg {
+    position: absolute;
+    left: 28px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--muted);
+    pointer-events: none;
   }
-  table { width: 100%; border-collapse: collapse; background: var(--white); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); }
-  thead tr { background: var(--brand-light); }
-  th { padding: 10px 14px; text-align: left; font-size: .8rem; font-weight: 600; text-transform: uppercase; letter-spacing: .04em; color: var(--brand); }
-  td { padding: 11px 14px; border-top: 1px solid var(--border); font-size: .88rem; vertical-align: top; }
-  tr:hover td { background: #f0f5ff; }
-  .task-name { font-weight: 600; }
-  .task-desc { color: var(--muted); font-size: .8rem; margin-top: 2px; }
-  .price-cell { font-weight: 700; white-space: nowrap; }
-  .price-note { color: var(--muted); font-size: .75rem; font-weight: 400; }
-  .time-cell { color: var(--muted); font-size: .83rem; white-space: nowrap; }
-  .guide-link a {
-    display: inline-flex; align-items: center; gap: 4px;
-    color: var(--green); text-decoration: none; font-size: .82rem; font-weight: 500;
-    border: 1px solid #a7f3d0; border-radius: 6px; padding: 3px 10px;
-    background: var(--green-light); transition: background .15s;
+  .search-wrap input {
+    width: 100%;
+    padding: 11px 16px 11px 40px;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    font-size: .9rem;
+    font-family: inherit;
+    outline: none;
+    background: var(--white);
+    box-shadow: var(--shadow);
+    transition: border-color .15s;
   }
-  .guide-link a:hover { background: #c6f6e5; }
+  .search-wrap input:focus { border-color: var(--green); }
+
+  /* ── MAIN ── */
+  main { max-width: 1000px; margin: 0 auto; padding: 28px 16px 72px; }
+
+  /* ── CATEGORY ── */
+  .category { margin-bottom: 40px; }
+  .cat-title {
+    font-size: .72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    color: var(--green-dark);
+    margin-bottom: 10px;
+    padding-left: 4px;
+  }
+
+  /* ── TABLE ── */
+  .table-wrap {
+    background: var(--white);
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+  }
+  table { width: 100%; border-collapse: collapse; }
+  thead tr { background: var(--green-light); }
+  th {
+    padding: 10px 16px;
+    text-align: left;
+    font-size: .72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .07em;
+    color: var(--green-dark);
+  }
+  td { padding: 12px 16px; border-top: 1px solid var(--border); font-size: .87rem; vertical-align: middle; }
+  tr:hover td { background: #f6fcf8; }
+  .task-name { font-weight: 600; color: var(--text); }
+  .task-desc { color: var(--muted); font-size: .78rem; margin-top: 2px; }
+  .price-cell { font-weight: 700; color: var(--green-dark); white-space: nowrap; font-size: .92rem; }
+  .price-note { color: var(--muted); font-size: .72rem; font-weight: 500; }
+  .time-cell { color: var(--muted); font-size: .82rem; white-space: nowrap; }
+  .guide-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: var(--green);
+    color: #fff;
+    text-decoration: none;
+    font-size: .78rem;
+    font-weight: 600;
+    border-radius: 7px;
+    padding: 5px 12px;
+    transition: background .15s;
+    white-space: nowrap;
+  }
+  .guide-btn:hover { background: var(--green-mid); }
   .no-guide { color: #d1d5db; font-size: .78rem; }
   .hidden { display: none !important; }
-  footer { text-align: center; padding: 24px; font-size: .82rem; color: var(--muted); border-top: 1px solid var(--border); }
-  footer a { color: var(--brand); text-decoration: none; }
+
+  /* ── FOOTER ── */
+  footer {
+    text-align: center;
+    padding: 28px;
+    font-size: .82rem;
+    color: var(--muted);
+    border-top: 1px solid var(--border);
+    background: var(--white);
+  }
+  footer a { color: var(--green-dark); text-decoration: none; font-weight: 600; }
+  footer a:hover { text-decoration: underline; }
+
+  @media (max-width: 640px) {
+    .hero h1 { font-size: 1.5rem; }
+    nav { padding: 0 16px; }
+    th:nth-child(2), td:nth-child(2) { display: none; } /* hide time on mobile */
+  }
 </style>
 </head>
 <body>
 
-<header>
-  <h1>SmartPack Support &amp; Priser</h1>
-  <p>Registrerede superbrugere f&aring;r fri og ubegr&aelig;nset support. Nedenfor ses priser for opgaver vi l&oslash;ser for jer.</p>
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="https://smartpack.dk" target="_blank">
+    <img src="https://smartpack.dk/wp-content/uploads/2022/10/cropped-favicon-smartpack-192x192.png" alt="SmartPack" />
+    SmartPack
+  </a>
+  <span class="nav-contact">Sp&oslash;rgsm&aring;l? <a href="mailto:support@smartpack.dk">support@smartpack.dk</a></span>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge">Support &amp; Superbrugere</div>
+  <h1>Hvad koster det, hvis <span>vi g&oslash;r det?</span></h1>
+  <p>Registrerede superbrugere f&aring;r fri support. Nedenfor ses priser for opgaver vi l&oslash;ser for jer &mdash; ekskl. moms.</p>
   <div class="hourly-badge" id="hourlyBadge">Indl&aelig;ser...</div>
-</header>
+</div>
 
-<nav class="toc" id="toc"></nav>
+<!-- TOC -->
+<div class="toc-wrap">
+  <nav class="toc" id="toc"></nav>
+</div>
 
-<div class="search-bar">
+<!-- SEARCH -->
+<div class="search-wrap">
+  <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
   <input type="search" id="searchInput" placeholder="S&oslash;g efter en opgave..." />
 </div>
 
 <main id="main"></main>
 
 <footer>
-  Sp&oslash;rgsm&aring;l? Skriv til <a href="mailto:support@smartpack.dk">support@smartpack.dk</a>
+  Har du brug for hj&aelig;lp til noget der ikke st&aring;r p&aring; listen?
+  Skriv til <a href="mailto:support@smartpack.dk">support@smartpack.dk</a>
 </footer>
 
 <script>
@@ -105,22 +284,31 @@ async function loadPrices() {
 
 function formatPrice(task) {
   if (task.price !== null && task.price !== undefined) {
-    return task.price.toLocaleString('da-DK') + ' kr.' + (task.priceNote ? `<span class="price-note"> ${task.priceNote}</span>` : '');
+    return task.price.toLocaleString('da-DK') + '&nbsp;kr.' +
+      (task.priceNote ? `<span class="price-note"> ${task.priceNote}</span>` : '');
   }
   if (task.priceMin && task.priceMax) {
-    return task.priceMin.toLocaleString('da-DK') + ' &ndash; ' + task.priceMax.toLocaleString('da-DK') + ' kr.';
+    return task.priceMin.toLocaleString('da-DK') + '&ndash;' + task.priceMax.toLocaleString('da-DK') + '&nbsp;kr.';
   }
-  return '&mdash;';
+  return '<span style="color:#d1d5db">&mdash;</span>';
 }
 
 function formatTime(task) {
-  if (!task.minutes) return task.priceMin ? Math.round(task.priceMin/(1250/60))+'&ndash;'+Math.round(task.priceMax/(1250/60))+' min' : '&mdash;';
-  return task.minutes >= 60 ? (task.minutes/60)+' time'+(task.minutes>60?'r':'') : task.minutes+' min';
+  if (!task.minutes) {
+    if (task.priceMin && task.priceMax) {
+      const lo = Math.round(task.priceMin / (1250/60));
+      const hi = Math.round(task.priceMax / (1250/60));
+      return lo + '&ndash;' + hi + ' min';
+    }
+    return '<span style="color:#d1d5db">&mdash;</span>';
+  }
+  if (task.minutes >= 60) return (task.minutes/60) + ' time' + (task.minutes > 60 ? 'r' : '');
+  return task.minutes + ' min';
 }
 
 function renderBadge(data) {
   document.getElementById('hourlyBadge').textContent =
-    'Timepris: ' + data.hourlyRate.toLocaleString('da-DK') + ' ' + data.currency + ' ' + data.vatNote;
+    'Timepris ' + data.hourlyRate.toLocaleString('da-DK') + ' ' + data.currency + ' ' + data.vatNote;
 }
 
 function renderToc(data) {
@@ -140,32 +328,47 @@ function renderAll(data) {
     const section = document.createElement('section');
     section.className = 'category';
     section.id = 'cat-' + cat.id;
-    const h2 = document.createElement('h2');
-    h2.textContent = cat.title;
-    section.appendChild(h2);
+
+    const title = document.createElement('div');
+    title.className = 'cat-title';
+    title.textContent = cat.title;
+    section.appendChild(title);
+
+    const wrap = document.createElement('div');
+    wrap.className = 'table-wrap';
+
     const table = document.createElement('table');
     table.innerHTML = `<thead><tr>
-      <th style="width:45%">Opgave</th>
-      <th style="width:12%">Tid</th>
-      <th style="width:22%">Pris (vi g&oslash;r det)</th>
-      <th style="width:21%">Guide (g&oslash;r det selv)</th>
+      <th style="width:44%">Opgave</th>
+      <th style="width:11%">Tid</th>
+      <th style="width:22%">Pris</th>
+      <th style="width:23%">G&oslash;r det selv</th>
     </tr></thead>`;
+
     const tbody = document.createElement('tbody');
     cat.tasks.forEach(task => {
       const tr = document.createElement('tr');
       tr.dataset.search = (task.name + ' ' + (task.desc||'')).toLowerCase();
       tr.innerHTML = `
-        <td><div class="task-name">${task.name}</div>${task.desc ? `<div class="task-desc">${task.desc}</div>` : ''}</td>
+        <td>
+          <div class="task-name">${task.name}</div>
+          ${task.desc ? `<div class="task-desc">${task.desc}</div>` : ''}
+        </td>
         <td class="time-cell">${formatTime(task)}</td>
         <td class="price-cell">${formatPrice(task)}</td>
-        <td class="guide-link">${task.guideUrl
-          ? `<a href="${task.guideUrl}" target="_blank" rel="noopener">&#128218; L&aelig;s guide</a>`
-          : '<span class="no-guide">Ingen guide endnu</span>'}</td>
+        <td>${task.guideUrl
+          ? `<a class="guide-btn" href="${task.guideUrl}" target="_blank" rel="noopener">
+              <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+              L&aelig;s guide</a>`
+          : '<span class="no-guide">Ingen guide endnu</span>'}
+        </td>
       `;
       tbody.appendChild(tr);
     });
+
     table.appendChild(tbody);
-    section.appendChild(table);
+    wrap.appendChild(table);
+    section.appendChild(wrap);
     main.appendChild(section);
   });
 }
