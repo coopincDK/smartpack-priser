@@ -190,36 +190,128 @@
     margin: 28px auto;
     padding: 0 16px;
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1.15fr 1fr;
     gap: 14px;
+    align-items: start;
   }
-  .cta-card {
-    display: flex;
+
+  /* AI WIZARD */
+  .cta-wizard {
+    display: block;
+    background: var(--green-dark);
+    border-radius: 14px;
+    padding: 28px 28px 24px;
+    text-decoration: none;
+    color: #fff;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(26,92,53,.25);
+    transition: transform .15s, box-shadow .15s;
+  }
+  .cta-wizard::before {
+    content: '';
+    position: absolute;
+    top: -40px; right: -40px;
+    width: 180px; height: 180px;
+    background: radial-gradient(circle, rgba(39,174,96,.35) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .cta-wizard:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(26,92,53,.3); }
+  .wizard-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; }
+  .wizard-live {
+    display: inline-flex;
     align-items: center;
-    gap: 16px;
+    gap: 6px;
+    background: rgba(255,255,255,.12);
+    border: 1px solid rgba(255,255,255,.2);
+    border-radius: 999px;
+    padding: 3px 12px;
+    font-size: .72rem;
+    font-weight: 700;
+    letter-spacing: .04em;
+  }
+  .live-dot {
+    width: 7px; height: 7px;
+    background: #4ade80;
+    border-radius: 50%;
+    display: inline-block;
+    animation: pulse 1.8s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: .6; transform: scale(.8); }
+  }
+  .wizard-badge {
+    font-size: .7rem;
+    font-weight: 700;
+    background: rgba(255,255,255,.15);
+    border-radius: 999px;
+    padding: 3px 10px;
+    letter-spacing: .03em;
+  }
+  .wizard-icon { font-size: 2.4rem; margin-bottom: 12px; }
+  .cta-wizard h3 { font-size: 1.15rem; font-weight: 800; margin-bottom: 8px; line-height: 1.3; }
+  .cta-wizard p { font-size: .85rem; opacity: .85; line-height: 1.55; margin-bottom: 16px; }
+  .wizard-proofs { list-style: none; display: flex; flex-direction: column; gap: 5px; margin-bottom: 20px; }
+  .wizard-proofs li { font-size: .78rem; opacity: .9; }
+  .wizard-cta {
+    display: inline-block;
+    background: var(--green);
+    color: #fff;
+    font-size: .85rem;
+    font-weight: 700;
+    padding: 9px 20px;
+    border-radius: 8px;
+    transition: background .15s;
+  }
+  .cta-wizard:hover .wizard-cta { background: #22a855; }
+
+  /* GUIDES */
+  .cta-guides {
+    display: block;
     background: var(--white);
     border: 1.5px solid var(--border);
-    border-radius: var(--radius);
-    padding: 18px 20px;
+    border-radius: 14px;
+    padding: 24px;
     text-decoration: none;
     color: var(--text);
     box-shadow: var(--shadow);
-    transition: border-color .15s, box-shadow .15s, transform .1s;
+    transition: border-color .15s, box-shadow .15s, transform .15s;
   }
-  .cta-card:hover {
+  .cta-guides:hover {
     border-color: var(--green);
-    box-shadow: 0 4px 16px rgba(39,174,96,.12);
-    transform: translateY(-1px);
+    box-shadow: 0 4px 20px rgba(39,174,96,.1);
+    transform: translateY(-2px);
   }
-  .cta-card-green {
+  .guides-icon { font-size: 2rem; margin-bottom: 12px; }
+  .cta-guides h3 { font-size: 1rem; font-weight: 800; margin-bottom: 7px; color: var(--text); }
+  .cta-guides p { font-size: .83rem; color: var(--muted); line-height: 1.5; margin-bottom: 14px; }
+  .guides-proof {
+    display: inline-block;
     background: var(--green-light);
-    border-color: var(--green-border);
+    color: var(--green-dark);
+    font-size: .75rem;
+    font-weight: 700;
+    padding: 4px 12px;
+    border-radius: 999px;
+    margin-bottom: 14px;
   }
-  .cta-icon { font-size: 1.8rem; flex-shrink: 0; }
-  .cta-text { flex: 1; }
-  .cta-text strong { display: block; font-size: .92rem; font-weight: 700; margin-bottom: 3px; color: var(--text); }
-  .cta-text span { font-size: .8rem; color: var(--muted); line-height: 1.4; }
-  .cta-arrow { color: var(--green); font-size: 1.1rem; font-weight: 700; flex-shrink: 0; }
+  .guides-quote {
+    font-size: .78rem;
+    color: var(--muted);
+    font-style: italic;
+    border-left: 3px solid var(--green-border);
+    padding-left: 10px;
+    margin-bottom: 18px;
+    line-height: 1.4;
+  }
+  .guides-cta {
+    font-size: .85rem;
+    font-weight: 700;
+    color: var(--green-dark);
+  }
+  .cta-guides:hover .guides-cta { color: var(--green); }
+
   @media (max-width: 640px) { .cta-section { grid-template-columns: 1fr; } }
 
   /* ── MAIN ── */
@@ -344,22 +436,34 @@
 
 <!-- CTA -->
 <div class="cta-section">
-  <a class="cta-card" href="https://support.smartpack.dk" target="_blank" rel="noopener">
-    <div class="cta-icon">&#127979;</div>
-    <div class="cta-text">
-      <strong>Guides og selvhjælp</strong>
-      <span>Find trin-for-trin guides til alle opgaver i SmartPack. Bygget til at gøre jer selvkørende.</span>
+
+  <!-- AI WIZARD - HELTEN -->
+  <a class="cta-wizard" href="https://support.smartpack.dk" target="_blank" rel="noopener">
+    <div class="wizard-top">
+      <div class="wizard-live"><span class="live-dot"></span> Live nu</div>
+      <div class="wizard-badge">Kun superbrugere</div>
     </div>
-    <div class="cta-arrow">&#8594;</div>
+    <div class="wizard-icon">&#129302;</div>
+    <h3>Få hjælp uden at vente på en ticket.</h3>
+    <p>AI Wizard er trænet på SmartPack og klar til sparring med det samme. Opsaetning, flows, fejl, rettigheder, alt.</p>
+    <ul class="wizard-proofs">
+      <li>&#9889; Typisk svartid: få sekunder</li>
+      <li>&#10003; Trænet på SmartPack</li>
+      <li>&#10003; 24/7 tilgængelig</li>
+    </ul>
+    <div class="wizard-cta">Spørg AI Wizard &#8594;</div>
   </a>
-  <a class="cta-card cta-card-green" href="https://support.smartpack.dk" target="_blank" rel="noopener">
-    <div class="cta-icon">&#129302;</div>
-    <div class="cta-text">
-      <strong>AI Wizard &mdash; 1:1 sparring</strong>
-      <span>Som superbruger har du adgang til vores AI Wizard. Få svar, sparring og vejledning direkte i chatten.</span>
-    </div>
-    <div class="cta-arrow">&#8594;</div>
+
+  <!-- GUIDES - BIBLIOTEKET -->
+  <a class="cta-guides" href="https://support.smartpack.dk" target="_blank" rel="noopener">
+    <div class="guides-icon">&#128218;</div>
+    <h3>Bliv selvkørende i SmartPack.</h3>
+    <p>Step-by-step guides til de opgaver I bruger hver dag. Lavet til lagre der vil kunne mere selv.</p>
+    <div class="guides-proof">&#128218; 60+ guides og videoer</div>
+    <div class="guides-quote">Vi dokumenterer de ting folk faktisk bruger i hverdagen.</div>
+    <div class="guides-cta">Se alle guides &#8594;</div>
   </a>
+
 </div>
 
 <div class="price-note-bar">
