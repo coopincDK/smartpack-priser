@@ -835,7 +835,7 @@ async function openOverlay(task) {
   // Sæt guide URL — ekstern guide har prioritet, ellers link til playbook-siden
   if (task.guideUrl) {
     guideBtn.href = task.guideUrl;
-    guideBtn.textContent = '\u{1F4D6} Læs guide med billeder';
+    guideBtn.textContent = '\u{1F4D6} Læs guide';
     guideBtn.style.display = 'inline-flex';
   } else if (task.playbookSection) {
     guideBtn.href = './playbook.html#' + slugifySection(task.playbookSection);
