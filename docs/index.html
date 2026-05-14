@@ -328,131 +328,143 @@
 
   @media (max-width: 640px) { .cta-section { grid-template-columns: 1fr; } }
 
-  /* OVERLAY */
+  /* OVERLAY — mobil-first sheet */
   .overlay-bg {
     display: none;
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,.55);
+    background: rgba(0,0,0,.5);
     z-index: 200;
-    align-items: center;
+    align-items: flex-end;       /* sheet fra bunden */
     justify-content: center;
-    padding: 24px 16px;
   }
   .overlay-bg.open { display: flex; }
   .overlay {
     background: var(--white);
-    border-radius: 14px;
+    border-radius: 18px 18px 0 0;
     width: 100%;
-    max-width: 820px;
-    max-height: 90vh;
+    max-width: 100%;
+    height: 88vh;
     display: flex;
     flex-direction: column;
-    box-shadow: 0 24px 80px rgba(0,0,0,.25);
+    box-shadow: 0 -8px 40px rgba(0,0,0,.18);
     overflow: hidden;
-    position: relative;
-    animation: slideUp .2s ease;
+    animation: sheetUp .22s cubic-bezier(.32,1,.32,1);
   }
-  @keyframes slideUp { from { opacity:0; transform: translateY(16px); } to { opacity:1; transform: none; } }
-  .overlay-header {
-    background: var(--green-dark);
-    color: #fff;
-    padding: 18px 24px 14px;
-    position: relative;
+  @keyframes sheetUp { from { transform: translateY(60px); opacity:0; } to { transform:none; opacity:1; } }
+
+  /* Drag handle */
+  .overlay-handle {
+    width: 36px; height: 4px;
+    background: #d1d5db;
+    border-radius: 99px;
+    margin: 10px auto 0;
     flex-shrink: 0;
   }
-  .overlay-header h2 { font-size: 1.05rem; font-weight: 800; margin-bottom: 3px; padding-right: 36px; }
-  .overlay-header p { font-size: .8rem; opacity: .72; }
+
+  /* Header */
+  .overlay-header {
+    padding: 14px 20px 12px;
+    border-bottom: 1px solid var(--border);
+    flex-shrink: 0;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .overlay-header-text { flex: 1; min-width: 0; }
+  .overlay-header h2 {
+    font-size: 1rem;
+    font-weight: 800;
+    color: var(--green-dark);
+    line-height: 1.3;
+    margin-bottom: 2px;
+  }
+  .overlay-header p {
+    font-size: .78rem;
+    color: var(--muted);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
   .overlay-close {
-    position: absolute;
-    top: 14px; right: 14px;
-    background: rgba(255,255,255,.15);
+    flex-shrink: 0;
+    background: var(--bg);
     border: none;
-    color: #fff;
-    width: 30px; height: 30px;
+    color: var(--muted);
+    width: 32px; height: 32px;
     border-radius: 50%;
     cursor: pointer;
     font-size: 1rem;
     display: flex; align-items: center; justify-content: center;
+    margin-top: 2px;
   }
-  .overlay-close:hover { background: rgba(255,255,255,.28); }
+  .overlay-close:hover { background: var(--border); color: var(--text); }
 
-  /* Guide view (markdown) */
+  /* Body */
   .overlay-body {
-    padding: 24px 28px;
+    padding: 20px 20px 8px;
     flex: 1;
     overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
     font-size: .88rem;
     line-height: 1.75;
     color: var(--text);
   }
   .overlay-body h3 {
-    font-size: .75rem;
+    font-size: .72rem;
     font-weight: 800;
     text-transform: uppercase;
     letter-spacing: .08em;
     color: var(--green-dark);
-    margin: 22px 0 9px;
+    margin: 20px 0 8px;
     padding-bottom: 5px;
     border-bottom: 1.5px solid var(--green-border);
   }
   .overlay-body h3:first-child { margin-top: 0; }
-  .overlay-body ul { padding-left: 20px; margin: 8px 0; }
-  .overlay-body ol { padding-left: 20px; margin: 8px 0; }
+  .overlay-body ul, .overlay-body ol { padding-left: 20px; margin: 8px 0; }
   .overlay-body li { margin-bottom: 5px; line-height: 1.6; }
-  .overlay-body table { width: 100%; border-collapse: collapse; margin: 10px 0; font-size: .84rem; }
-  .overlay-body th { background: var(--green-light); color: var(--green-dark); padding: 7px 12px; text-align: left; font-size: .73rem; font-weight: 700; text-transform: uppercase; }
-  .overlay-body td { padding: 8px 12px; border-top: 1px solid var(--border); vertical-align: top; }
+  .overlay-body table { width: 100%; border-collapse: collapse; margin: 10px 0; font-size: .82rem; }
+  .overlay-body th { background: var(--green-light); color: var(--green-dark); padding: 7px 10px; text-align: left; font-size: .7rem; font-weight: 700; text-transform: uppercase; }
+  .overlay-body td { padding: 7px 10px; border-top: 1px solid var(--border); vertical-align: top; }
   .overlay-body tr:hover td { background: #fafcfb; }
   .overlay-body strong { font-weight: 700; }
-  .overlay-body code { background: #f0f2f0; padding: 2px 6px; border-radius: 4px; font-size: .82rem; font-family: monospace; }
+  .overlay-body code { background: #f0f2f0; padding: 2px 6px; border-radius: 4px; font-size: .81rem; font-family: monospace; }
   .overlay-body blockquote {
     border-left: 3px solid var(--green-border);
-    padding: 8px 14px;
+    padding: 8px 12px;
     margin: 10px 0;
     background: var(--green-light);
     border-radius: 0 6px 6px 0;
     color: var(--muted);
-    font-size: .86rem;
+    font-size: .85rem;
   }
   .overlay-body p { margin: 8px 0; }
   .overlay-not-found { color: var(--muted); font-style: italic; }
 
-  /* Playbook iframe view */
-  .overlay-iframe {
-    display: none;
-    flex: 1;
-    border: none;
-    width: 100%;
-  }
-  .overlay-iframe.active { display: block; }
-  .overlay-body.hidden { display: none; }
-
   /* Footer */
   .overlay-footer {
-    padding: 12px 24px;
+    padding: 12px 20px;
     border-top: 1px solid var(--border);
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 10px;
+    gap: 8px;
     background: #f9fafb;
     flex-shrink: 0;
-    flex-wrap: wrap;
   }
-  .overlay-footer-btns { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
-  .overlay-footer-note { font-size: .75rem; color: var(--muted); }
+  .overlay-footer-note { font-size: .72rem; color: var(--muted); }
+  .overlay-footer-btns { display: flex; gap: 8px; flex-wrap: wrap; }
   .overlay-guide-btn {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
+    gap: 5px;
     background: var(--green);
     color: #fff;
     text-decoration: none;
     font-size: .82rem;
     font-weight: 700;
-    padding: 8px 16px;
-    border-radius: 8px;
+    padding: 9px 16px;
+    border-radius: 10px;
     white-space: nowrap;
     transition: background .15s;
     border: none;
@@ -463,22 +475,36 @@
   .overlay-playbook-btn {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
+    gap: 5px;
     background: var(--green-light);
     color: var(--green-dark);
     text-decoration: none;
     font-size: .82rem;
     font-weight: 700;
-    padding: 8px 16px;
-    border-radius: 8px;
+    padding: 9px 16px;
+    border-radius: 10px;
     white-space: nowrap;
     border: 1.5px solid var(--green-border);
-    cursor: pointer;
-    font-family: inherit;
     transition: background .15s;
   }
-  .overlay-playbook-btn:hover { background: #d4eddf; }
-  .overlay-playbook-btn.active { background: var(--green-dark); color: #fff; border-color: var(--green-dark); }
+  .overlay-playbook-btn:hover { background: #d0eadb; }
+
+  /* Desktop: centered modal */
+  @media (min-width: 640px) {
+    .overlay-bg {
+      align-items: center;
+      padding: 24px;
+    }
+    .overlay {
+      border-radius: 16px;
+      max-width: 700px;
+      height: auto;
+      max-height: 88vh;
+      animation: modalIn .2s ease;
+    }
+    @keyframes modalIn { from { opacity:0; transform: translateY(12px) scale(.98); } to { opacity:1; transform:none; } }
+    .overlay-handle { display: none; }
+  }
   .guide-btn {
     background: var(--green);
     color: #fff;
@@ -666,19 +692,21 @@
 <!-- OVERLAY -->
 <div class="overlay-bg" id="overlayBg" onclick="closeOverlay(event)">
   <div class="overlay">
+    <div class="overlay-handle"></div>
     <div class="overlay-header">
-      <h2 id="overlayTitle">Indlæser...</h2>
-      <p id="overlayDesc"></p>
+      <div class="overlay-header-text">
+        <h2 id="overlayTitle">Indlæser...</h2>
+        <p id="overlayDesc"></p>
+      </div>
       <button class="overlay-close" onclick="closeOverlay()">&#10005;</button>
     </div>
     <div class="overlay-body" id="overlayBody"></div>
-    <iframe class="overlay-iframe" id="overlayIframe" title="SmartPack Playbook"></iframe>
     <div class="overlay-footer">
-      <span class="overlay-footer-note">Kilde: SmartPack Playbook</span>
+      <span class="overlay-footer-note">SmartPack Playbook</span>
       <div class="overlay-footer-btns">
-        <button class="overlay-playbook-btn" id="overlayPlaybookBtn" onclick="togglePlaybook()" style="display:none">
-          &#128218; Se hele playbook
-        </button>
+        <a id="overlayPlaybookBtn" class="overlay-playbook-btn" href="#" target="_blank" rel="noopener" style="display:none">
+          &#128218; Hele playbook
+        </a>
         <a id="overlayGuideBtn" class="overlay-guide-btn" href="#" target="_blank" rel="noopener" style="display:none">
           &#128214; Læs guide
         </a>
@@ -894,25 +922,13 @@ function mdInline(s) {
     .replace(/→ Se: (.+)/g, '<span style="color:var(--green-dark)">→ $1</span>');
 }
 
-let _currentPlaybookSlug = null;
-let _playbookOpen = false;
-
 async function openOverlay(task) {
   const bg = document.getElementById('overlayBg');
   const titleEl = document.getElementById('overlayTitle');
   const descEl = document.getElementById('overlayDesc');
   const bodyEl = document.getElementById('overlayBody');
-  const iframe = document.getElementById('overlayIframe');
   const guideBtn = document.getElementById('overlayGuideBtn');
   const playbookBtn = document.getElementById('overlayPlaybookBtn');
-
-  // Reset state
-  _playbookOpen = false;
-  _currentPlaybookSlug = task.playbookSection ? slugifySection(task.playbookSection) : null;
-  bodyEl.classList.remove('hidden');
-  iframe.classList.remove('active');
-  iframe.src = '';
-  playbookBtn.classList.remove('active');
 
   titleEl.textContent = task.name;
   descEl.textContent = task.desc || '';
@@ -923,11 +939,16 @@ async function openOverlay(task) {
   bg.classList.add('open');
   document.body.style.overflow = 'hidden';
 
-  // Ekstern guide-knap
+  // Ekstern guide-knap (support.smartpack.dk)
   if (task.guideUrl) {
     guideBtn.href = task.guideUrl;
-    guideBtn.innerHTML = '&#128214; Læs guide';
     guideBtn.style.display = 'inline-flex';
+  }
+
+  // Playbook-knap (ny fane, direkte til sektion)
+  if (task.playbookSection) {
+    playbookBtn.href = './playbook.html#' + slugifySection(task.playbookSection);
+    playbookBtn.style.display = 'inline-flex';
   }
 
   // Ingen playbook-sektion
@@ -936,9 +957,6 @@ async function openOverlay(task) {
       <p style="margin-top:8px;color:var(--muted)">Kontakt os via supporten, så hjælper vi dig i gang.</p>`;
     return;
   }
-
-  // Vis "Se hele playbook"-knap altid når der er en sektion
-  playbookBtn.style.display = 'inline-flex';
 
   try {
     const sections = await getPlaybook();
@@ -953,29 +971,6 @@ async function openOverlay(task) {
   }
 }
 
-function togglePlaybook() {
-  const bodyEl = document.getElementById('overlayBody');
-  const iframe = document.getElementById('overlayIframe');
-  const btn = document.getElementById('overlayPlaybookBtn');
-
-  _playbookOpen = !_playbookOpen;
-
-  if (_playbookOpen) {
-    bodyEl.classList.add('hidden');
-    iframe.classList.add('active');
-    btn.classList.add('active');
-    btn.innerHTML = '&#8592; Tilbage til guide';
-    // Load playbook kun første gang
-    const url = './playbook.html' + (_currentPlaybookSlug ? '#' + _currentPlaybookSlug : '');
-    if (!iframe.src || iframe.src === location.href) iframe.src = url;
-  } else {
-    bodyEl.classList.remove('hidden');
-    iframe.classList.remove('active');
-    btn.classList.remove('active');
-    btn.innerHTML = '&#128218; Se hele playbook';
-  }
-}
-
 function slugifySection(s) {
   return s.toLowerCase()
     .replace(/[\u00e6]/g, 'ae').replace(/[\u00f8]/g, 'oe').replace(/[\u00e5]/g, 'aa')
@@ -986,11 +981,7 @@ function slugifySection(s) {
 function closeOverlay(e) {
   if (e && e.target !== document.getElementById('overlayBg') && !e.target.classList.contains('overlay-close')) return;
   document.getElementById('overlayBg').classList.remove('open');
-  document.getElementById('overlayIframe').src = '';
-  document.getElementById('overlayIframe').classList.remove('active');
-  document.getElementById('overlayBody').classList.remove('hidden');
   document.body.style.overflow = '';
-  _playbookOpen = false;
 }
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeOverlay({target: document.getElementById('overlayBg')}); });
 
