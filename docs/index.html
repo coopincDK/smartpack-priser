@@ -440,6 +440,14 @@
   }
   .overlay-body p { margin: 8px 0; }
   .overlay-not-found { color: var(--muted); font-style: italic; }
+  .overlay-related {
+    color: var(--green-dark);
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+  .overlay-related:hover { color: var(--green); }
 
   /* Footer */
   .overlay-footer {
@@ -919,7 +927,9 @@ function mdInline(s) {
     .replace(/\*(.+?)\*/g, '<em>$1</em>')
     .replace(/`(.+?)`/g, '<code>$1</code>')
     .replace(/\[(.+?)\]\((.+?)\)/g, '<a href="$2" target="_blank">$1</a>')
-    .replace(/→ Se: (.+)/g, '<span style="color:var(--green-dark)">→ $1</span>');
+    // Relaterede emner → klikbar — loader sektionen i overlayets bodyEl
+    .replace(/→ Se: (.+)/g, (_, heading) =>
+      `<a class="overlay-related" onclick="loadOverlaySection('${heading.replace(/'/g,"\\'")}')">\u2192 ${heading}</a>`);
 }
 
 async function openOverlay(task) {
@@ -968,6 +978,35 @@ async function openOverlay(task) {
     }
   } catch(e) {
     bodyEl.innerHTML = '<p class="overlay-not-found">Kunne ikke indlæse playbook — prøv at genindlæse siden.</p>';
+  }
+}
+
+async function loadOverlaySection(heading) {
+  const bodyEl = document.getElementById('overlayBody');
+  const titleEl = document.getElementById('overlayTitle');
+  const descEl = document.getElementById('overlayDesc');
+  const playbookBtn = document.getElementById('overlayPlaybookBtn');
+
+  bodyEl.innerHTML = '<p style="color:var(--muted)">Indlæser...</p>';
+  titleEl.textContent = heading;
+  descEl.textContent = '';
+
+  if (playbookBtn) {
+    playbookBtn.href = './playbook.html#' + slugifySection(heading);
+    playbookBtn.style.display = 'inline-flex';
+  }
+
+  try {
+    const sections = await getPlaybook();
+    const match = sections.find(s => s.heading === heading);
+    if (match) {
+      bodyEl.innerHTML = renderMarkdown(match.content);
+      bodyEl.scrollTop = 0;
+    } else {
+      bodyEl.innerHTML = `<p class="overlay-not-found">Sektionen &ldquo;${heading}&rdquo; blev ikke fundet.</p>`;
+    }
+  } catch(e) {
+    bodyEl.innerHTML = '<p class="overlay-not-found">Kunne ikke indlæse sektion.</p>';
   }
 }
 

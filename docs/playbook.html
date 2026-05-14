@@ -223,6 +223,19 @@
   .md strong { font-weight: 700; }
   .md em { font-style: italic; }
   .md a { color: var(--green-dark); }
+  .related-link {
+    color: var(--green-dark);
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    background: none;
+    border: none;
+    padding: 0;
+    font-size: inherit;
+    font-family: inherit;
+  }
+  .related-link:hover { color: var(--green); }
   .md hr { border: none; border-top: 1px solid var(--border); margin: 20px 0; }
 
   /* FOOTER ACTIONS */
@@ -509,7 +522,15 @@ function mdInline(s) {
     .replace(/\*(.+?)\*/g, '<em>$1</em>')
     .replace(/`(.+?)`/g, '<code>$1</code>')
     .replace(/\[(.+?)\]\((.+?)\)/g, '<a href="$2" target="_blank">$1</a>')
-    .replace(/&gt;/g, '>');
+    .replace(/&gt;/g, '>')
+    // Relaterede emner: → Se: X  → klikbart link
+    .replace(/\u2192 Se: (.+)/g, (_, heading) =>
+      `<a class="related-link" onclick="navigateToHeading('${heading.replace(/'/g,"\\'")}')">\u2192 ${heading}</a>`);
+}
+
+function navigateToHeading(heading) {
+  const sec = sections.find(s => s.heading === heading);
+  if (sec) showSection(sec);
 }
 
 loadPlaybook();
