@@ -261,24 +261,6 @@
     transition: background .15s;
   }
   .section-footer a:hover { background: var(--green-mid); }
-  .section-footer .copy-link {
-    background: var(--green-light);
-    color: var(--green-dark);
-    border: 1.5px solid var(--green-border);
-    cursor: pointer;
-    font-family: inherit;
-    font-size: .84rem;
-    font-weight: 700;
-    padding: 9px 18px;
-    border-radius: 8px;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    transition: background .15s;
-  }
-  .section-footer .copy-link:hover { background: #c8ebd8; }
-  .copy-confirm { font-size: .78rem; color: var(--green); font-weight: 600; opacity: 0; transition: opacity .3s; }
-  .copy-confirm.show { opacity: 1; }
 
   /* MOBILE */
   @media (max-width: 700px) {
@@ -434,9 +416,7 @@ function showSection(sec) {
     </div>
     <div class="md" id="mdContent"></div>
     <div class="section-footer">
-      <a href="https://support.smartpack.dk" target="_blank" rel="noopener">&#127760; Se alle guides</a>
-      <button class="copy-link" onclick="copyLink()">🔗 Kopiering af link</button>
-      <span class="copy-confirm" id="copyConfirm">Link kopieret!</span>
+      <a href="https://support.smartpack.dk" target="_blank" rel="noopener">&#127760; Se alle guides på support.smartpack.dk</a>
     </div>
   `;
 
@@ -445,16 +425,6 @@ function showSection(sec) {
   // Scroll to top
   document.getElementById('content').scrollTop = 0;
   window.scrollTo(0, 0);
-}
-
-function copyLink() {
-  const url = location.href;
-  navigator.clipboard.writeText(url).then(() => {
-    const el = document.getElementById('copyConfirm');
-    if (!el) return;
-    el.classList.add('show');
-    setTimeout(() => el.classList.remove('show'), 2000);
-  });
 }
 
 function filterSidebar(query) {
