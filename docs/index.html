@@ -756,7 +756,7 @@ async function getPlaybook() {
   if (!res.ok) throw new Error('HTTP ' + res.status);
   const text = await res.text();
   // Split into sections on '---' lines
-  const rawSections = text.split(/\n---+\n/);
+  const rawSections = text.split(/\n\\?---+\n/);
   playbookSections = rawSections.map(s => {
     const lines = s.trim().split('\n');
     const headingLine = lines.find(l => /^## /.test(l));

@@ -363,7 +363,7 @@ function getGroup(heading) {
 }
 
 function parsePlaybook(text) {
-  const rawSections = text.split(/\n---+\n/);
+  const rawSections = text.split(/\n\\?---+\n/);
   sections = rawSections.map(s => {
     const lines = s.trim().split('\n');
     const headingLine = lines.find(l => /^## /.test(l));
