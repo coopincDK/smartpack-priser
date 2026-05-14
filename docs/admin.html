@@ -213,6 +213,114 @@
     white-space: nowrap;
   }
   .toast.show { transform: translateX(-50%) translateY(0); }
+
+  /* TABS */
+  .tabs { display: flex; gap: 4px; margin-bottom: 24px; border-bottom: 2px solid var(--border); }
+  .tab-btn {
+    padding: 10px 20px;
+    font-size: .85rem;
+    font-weight: 600;
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -2px;
+    cursor: pointer;
+    color: var(--muted);
+    font-family: inherit;
+    transition: color .15s;
+  }
+  .tab-btn.active { color: var(--green-dark); border-bottom-color: var(--green-dark); }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  /* PLAYBOOK EDITOR */
+  .pb-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+  }
+  .pb-search {
+    flex: 1;
+    min-width: 200px;
+    padding: 8px 12px;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    font-size: .84rem;
+    font-family: inherit;
+    outline: none;
+  }
+  .pb-search:focus { border-color: var(--green); }
+  .pb-list { border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; background: var(--white); }
+  .pb-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 16px;
+    border-bottom: 1px solid #f3f4f6;
+    cursor: pointer;
+    transition: background .1s;
+  }
+  .pb-item:last-child { border-bottom: none; }
+  .pb-item:hover { background: var(--green-light); }
+  .pb-item-title { flex: 1; font-size: .85rem; }
+  .pb-item-group { font-size: .72rem; color: var(--muted); background: #f3f4f6; padding: 2px 8px; border-radius: 999px; }
+  .pb-item-edit { font-size: .75rem; color: var(--green-dark); font-weight: 600; }
+
+  /* Editor modal */
+  .pb-modal-bg {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.5);
+    z-index: 300;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+  .pb-modal-bg.open { display: flex; }
+  .pb-modal {
+    background: var(--white);
+    border-radius: 12px;
+    width: 100%;
+    max-width: 860px;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 20px 60px rgba(0,0,0,.25);
+  }
+  .pb-modal-header {
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .pb-modal-title { flex: 1; font-weight: 700; font-size: .95rem; }
+  .pb-textarea {
+    flex: 1;
+    width: 100%;
+    padding: 16px 20px;
+    border: none;
+    outline: none;
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-size: .82rem;
+    line-height: 1.65;
+    resize: none;
+    overflow-y: auto;
+    min-height: 400px;
+    color: var(--text);
+  }
+  .pb-modal-footer {
+    padding: 12px 20px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    background: #f9fafb;
+    border-radius: 0 0 12px 12px;
+  }
 </style>
 </head>
 <body>
@@ -221,32 +329,66 @@
   <h1>SmartPack Admin</h1>
   <div class="header-actions">
     <a href="./index.html" style="color:rgba(255,255,255,.7);font-size:.82rem;text-decoration:none;">Se prisoversigt</a>
-    <button class="btn btn-white" onclick="downloadJSON()">Download prices.json</button>
+    <button class="btn btn-white" id="downloadBtn" onclick="downloadJSON()">Download prices.json</button>
   </div>
 </header>
 
 <div class="container">
 
-  <div class="notice">
-    <span>&#9888;&#65039;</span>
-    <span>
-      <strong>Saadan gemmer du:</strong>
-      Rediger nedenfor, klik <strong>Download prices.json</strong> og erstat filen i <code>docs/data/prices.json</code> i dit projekt. Commit og push for at opdatere den offentlige side.
-    </span>
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab('priser', this)">Priser</button>
+    <button class="tab-btn" onclick="switchTab('playbook', this)">Playbook</button>
   </div>
 
-  <div class="hourly-card">
-    <label for="hourlyRate">Timepris (kr.):</label>
-    <input type="number" id="hourlyRate" value="1250" min="0" step="50" onchange="recalcAll()">
-    <span style="font-size:.82rem;color:var(--muted)">ekskl. moms &mdash; bruges til prisberegning</span>
+  <!-- PRISER TAB -->
+  <div class="tab-panel active" id="tab-priser">
+    <div class="notice">
+      <span>&#9888;&#65039;</span>
+      <span>
+        <strong>Saadan gemmer du:</strong>
+        Rediger nedenfor, klik <strong>Download prices.json</strong> og erstat filen i <code>docs/data/prices.json</code> i dit projekt. Commit og push.
+      </span>
+    </div>
+    <div class="hourly-card">
+      <label for="hourlyRate">Timepris (kr.):</label>
+      <input type="number" id="hourlyRate" value="1250" min="0" step="50" onchange="recalcAll()">
+      <span style="font-size:.82rem;color:var(--muted)">ekskl. moms</span>
+    </div>
+    <div id="categories"></div>
+    <button class="btn btn-green" style="margin-top:16px" onclick="addCategory()">+ Tilføj kategori</button>
   </div>
 
-  <div id="categories"></div>
+  <!-- PLAYBOOK TAB -->
+  <div class="tab-panel" id="tab-playbook">
+    <div class="notice">
+      <span>&#9888;&#65039;</span>
+      <span>
+        <strong>Saadan gemmer du:</strong>
+        Rediger sektioner nedenfor, klik <strong>Download playbook.md</strong> og erstat filen i <code>docs/data/playbook.md</code>. Commit og push.
+      </span>
+    </div>
+    <div class="pb-toolbar">
+      <input class="pb-search" id="pbSearch" type="search" placeholder="Sog i sektioner..." oninput="filterPb(this.value)">
+      <button class="btn btn-white" onclick="downloadPlaybook()">Download playbook.md</button>
+    </div>
+    <div class="pb-list" id="pbList"><em style="padding:16px;display:block;color:var(--muted)">Indlæser...</em></div>
+  </div>
 
-  <button class="btn btn-green" style="margin-top:16px" onclick="addCategory()">
-    + Tilfoej kategori
-  </button>
+</div>
 
+<!-- PLAYBOOK EDITOR MODAL -->
+<div class="pb-modal-bg" id="pbModalBg" onclick="closePbModal(event)">
+  <div class="pb-modal">
+    <div class="pb-modal-header">
+      <div class="pb-modal-title" id="pbModalTitle">Rediger sektion</div>
+      <button class="btn btn-sm btn-ghost" style="background:#f3f4f6;color:var(--text)" onclick="closePbModal()">Luk</button>
+    </div>
+    <textarea class="pb-textarea" id="pbTextarea"></textarea>
+    <div class="pb-modal-footer">
+      <button class="btn btn-ghost" style="background:#f3f4f6;color:var(--text)" onclick="closePbModal()">Annuller</button>
+      <button class="btn btn-green" onclick="savePbSection()">Gem sektion</button>
+    </div>
+  </div>
 </div>
 
 <div class="toast" id="toast"></div>
@@ -437,6 +579,123 @@ function toast(msg) {
   t.classList.add('show');
   clearTimeout(t._timer);
   t._timer = setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+loadData();
+
+// =====================
+// TABS
+// =====================
+function switchTab(id, btn) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  btn.classList.add('active');
+  // Vis/skjul download knap
+  document.getElementById('downloadBtn').style.display = id === 'priser' ? '' : 'none';
+  if (id === 'playbook' && !pbSections.length) loadPlaybook();
+}
+
+// =====================
+// PLAYBOOK EDITOR
+// =====================
+let pbRaw = '';
+let pbSections = [];
+let pbEditingIdx = -1;
+
+async function loadPlaybook() {
+  const list = document.getElementById('pbList');
+  try {
+    const res = await fetch('./data/playbook.md');
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    pbRaw = await res.text();
+    parsePbSections();
+    renderPbList('');
+  } catch(e) {
+    list.innerHTML = `<em style="padding:16px;display:block;color:#c00">Fejl: ${e.message}</em>`;
+  }
+}
+
+function parsePbSections() {
+  pbSections = [];
+  const parts = pbRaw.split(/\n\\?---+\n/);
+  parts.forEach((part, i) => {
+    const lines = part.trim().split('\n');
+    const h = lines.find(l => /^## /.test(l));
+    if (h) {
+      pbSections.push({
+        idx: i,
+        heading: h.replace(/^## /, '').trim(),
+        content: part
+      });
+    }
+  });
+}
+
+function renderPbList(q) {
+  const list = document.getElementById('pbList');
+  const filtered = q
+    ? pbSections.filter(s => s.heading.toLowerCase().includes(q.toLowerCase()))
+    : pbSections;
+
+  if (!filtered.length) {
+    list.innerHTML = '<em style="padding:16px;display:block;color:var(--muted)">Ingen sektioner fundet.</em>';
+    return;
+  }
+
+  list.innerHTML = filtered.map((s, i) => `
+    <div class="pb-item" onclick="openPbEditor(${s.idx})">
+      <span class="pb-item-title">${s.heading.replace(/\s*\u2014\s*/g,' ')}</span>
+      <span class="pb-item-edit">Rediger</span>
+    </div>
+  `).join('');
+}
+
+function filterPb(q) {
+  renderPbList(q);
+}
+
+function openPbEditor(idx) {
+  const sec = pbSections.find(s => s.idx === idx);
+  if (!sec) return;
+  pbEditingIdx = idx;
+  document.getElementById('pbModalTitle').textContent = sec.heading.replace(/\s*\u2014\s*/g, ' ');
+  document.getElementById('pbTextarea').value = sec.content;
+  document.getElementById('pbModalBg').classList.add('open');
+}
+
+function closePbModal(e) {
+  if (e && e.target !== document.getElementById('pbModalBg')) return;
+  document.getElementById('pbModalBg').classList.remove('open');
+  pbEditingIdx = -1;
+}
+
+function savePbSection() {
+  if (pbEditingIdx < 0) return;
+  const newContent = document.getElementById('pbTextarea').value;
+  const sec = pbSections.find(s => s.idx === pbEditingIdx);
+  if (sec) sec.content = newContent;
+  // Rebuild raw playbook
+  rebuildPbRaw();
+  document.getElementById('pbModalBg').classList.remove('open');
+  toast('Sektion gemt - husk at downloade og committe');
+}
+
+function rebuildPbRaw() {
+  // Split original into parts, replace edited ones
+  const parts = pbRaw.split(/\n\\?---+\n/);
+  pbSections.forEach(s => { parts[s.idx] = s.content; });
+  pbRaw = parts.join('\n\\---\n');
+}
+
+function downloadPlaybook() {
+  if (!pbRaw) { toast('Indlæs playbook-fanen først'); return; }
+  const blob = new Blob([pbRaw], { type: 'text/markdown' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'playbook.md';
+  a.click();
+  toast('Download startet - erstat docs/data/playbook.md og commit');
 }
 
 loadData();

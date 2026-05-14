@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="da">
 <head>
 <meta charset="UTF-8">
@@ -294,15 +294,15 @@
 <div class="layout">
   <aside class="sidebar">
     <div class="sidebar-search">
-      <input type="search" id="sidebarSearch" placeholder="Sog i emner..." oninput="filterSidebar(this.value)">
+      <input type="search" id="sidebarSearch" placeholder="Søg i emner..." oninput="filterSidebar(this.value)">
     </div>
     <div class="sidebar-nav" id="sidebarNav">Indlaesning...</div>
   </aside>
 
   <main class="content" id="content">
     <div class="content-placeholder">
-      <h2>Vaelg et emne i menuen</h2>
-      <p>Brug sogefeltet eller naviger i kategorierne til venstre.</p>
+      <h2>Vælg et emne i menuen</h2>
+      <p>Brug søgefeltet eller naviger i kategorierne til venstre.</p>
     </div>
   </main>
 </div>
@@ -497,6 +497,7 @@ function buildSidebar() {
     titleEl.className = 'sidebar-group-title';
     titleEl.innerHTML = `<span>${label}</span><span class="chevron">▾</span>`;
     titleEl.onclick = () => groupEl.classList.toggle('collapsed');
+    groupEl.classList.add('collapsed'); // lukket som standard
     groupEl.appendChild(titleEl);
 
     const itemsEl = document.createElement('div');
@@ -615,13 +616,20 @@ function mdInline(s) {
     .replace(/`(.+?)`/g, '<code>$1</code>')
     .replace(/\[(.+?)\]\((.+?)\)/g, '<a href="$2" target="_blank">$1</a>')
     .replace(/&gt;/g, '>')
-    // Relaterede emner: → Se: X  → klikbart link
-    .replace(/\u2192 Se: (.+)/g, (_, heading) =>
-      `<a class="related-link" onclick="navigateToHeading('${heading.replace(/'/g,"\\'")}')">\u2192 ${heading}</a>`);
+    // Relaterede emner: strip .md filnavne fra display tekst
+    .replace(/\u2192 Se: (.+)/g, (_, h) => {
+      const d = h.replace(/\s*\([^)]*\.md[^)]*\)/gi, '').replace(/\s*—\s*/g, ' ').trim();
+      return `<a class="related-link" onclick="navigateToHeading('${h.replace(/'/g, "\\'")}')">→ ${d}</a>`;
+    });
 }
 
 function navigateToHeading(heading) {
-  const sec = sections.find(s => s.heading === heading);
+  const cleaned = heading.replace(/\s*\([^)]*\.md[^)]*\)/gi, '').replace(/\s*\u2014\s*/g, ' ').trim();
+  const sec =
+    sections.find(s => s.heading === heading) ||
+    sections.find(s => s.heading === cleaned) ||
+    sections.find(s => s.heading.startsWith(cleaned)) ||
+    (cleaned.length > 4 && sections.find(s => s.heading.toLowerCase().includes(cleaned.toLowerCase())));
   if (sec) showSection(sec);
 }
 
