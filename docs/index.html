@@ -190,9 +190,9 @@
     margin: 28px auto;
     padding: 0 16px;
     display: grid;
-    grid-template-columns: 1.15fr 1fr;
+    grid-template-columns: 1fr 1fr;
     gap: 14px;
-    align-items: start;
+    align-items: stretch;
   }
 
   /* AI WIZARD */
@@ -268,11 +268,12 @@
 
   /* GUIDES */
   .cta-guides {
-    display: block;
+    display: flex;
+    flex-direction: column;
     background: var(--white);
     border: 1.5px solid var(--border);
     border-radius: 14px;
-    padding: 24px;
+    padding: 28px 28px 24px;
     text-decoration: none;
     color: var(--text);
     box-shadow: var(--shadow);
@@ -305,12 +306,19 @@
     margin-bottom: 18px;
     line-height: 1.4;
   }
+  .guides-spacer { flex: 1; }
   .guides-cta {
+    display: inline-block;
+    background: var(--green-light);
+    color: var(--green-dark);
+    border: 1.5px solid var(--green-border);
     font-size: .85rem;
     font-weight: 700;
-    color: var(--green-dark);
+    padding: 9px 20px;
+    border-radius: 8px;
+    transition: background .15s;
   }
-  .cta-guides:hover .guides-cta { color: var(--green); }
+  .cta-guides:hover .guides-cta { background: #c8ebd8; border-color: var(--green); }
 
   @media (max-width: 640px) { .cta-section { grid-template-columns: 1fr; } }
 
@@ -461,6 +469,7 @@
     <p>Step-by-step guides til de opgaver I bruger hver dag. Lavet til lagre der vil kunne mere selv.</p>
     <div class="guides-proof">&#128218; 60+ guides og videoer</div>
     <div class="guides-quote">Vi dokumenterer de ting folk faktisk bruger i hverdagen.</div>
+    <div class="guides-spacer"></div>
     <div class="guides-cta">Se alle guides &#8594;</div>
   </a>
 
