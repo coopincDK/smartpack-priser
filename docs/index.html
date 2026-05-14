@@ -181,38 +181,13 @@
   .price-note-inner strong { font-weight: 700; }
 
   /* ── TOC ── */
-  .toc-wrap {
-    background: var(--white);
-    border-bottom: 1px solid var(--border);
-    padding: 10px 24px 12px;
-  }
-  .toc {
-    max-width: 1000px;
-    margin: 0 auto;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    justify-content: center;
-  }
-  .toc a {
-    text-decoration: none;
-    font-size: .75rem;
-    font-weight: 500;
-    color: var(--green-dark);
-    border: 1px solid var(--green-border);
-    border-radius: 999px;
-    padding: 4px 12px;
-    background: var(--green-light);
-    white-space: nowrap;
-    transition: background .15s, border-color .15s;
-  }
-  .toc a:hover { background: #c8ebd8; border-color: var(--green); }
+
 
   /* ── SEARCH ── */
   .search-wrap {
-    max-width: 560px;
-    margin: 28px auto 0;
-    padding: 0 16px;
+    max-width: 640px;
+    margin: 28px auto 24px;
+    padding: 0 24px;
     position: relative;
   }
   .search-wrap svg {
@@ -225,17 +200,18 @@
   }
   .search-wrap input {
     width: 100%;
-    padding: 11px 16px 11px 40px;
+    padding: 13px 18px 13px 44px;
     border: 1.5px solid var(--border);
-    border-radius: var(--radius);
-    font-size: .9rem;
+    border-radius: 999px;
+    font-size: .95rem;
     font-family: inherit;
     outline: none;
     background: var(--white);
-    box-shadow: var(--shadow);
-    transition: border-color .15s;
+    box-shadow: 0 2px 8px rgba(0,0,0,.08);
+    transition: border-color .15s, box-shadow .15s;
   }
-  .search-wrap input:focus { border-color: var(--green); }
+  .search-wrap input:focus { border-color: var(--green); box-shadow: 0 2px 12px rgba(39,174,96,.15); }
+  .search-wrap svg { left: 36px; }
 
   /* ── MAIN ── */
   main { max-width: 1000px; margin: 0 auto; padding: 28px 16px 72px; }
@@ -357,15 +333,10 @@
   </div>
 </div>
 
-<!-- TOC -->
-<div class="toc-wrap">
-  <nav class="toc" id="toc"></nav>
-</div>
-
 <!-- SEARCH -->
 <div class="search-wrap">
   <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-  <input type="search" id="searchInput" placeholder="Søg efter en opgave..." />
+  <input type="search" id="searchInput" placeholder="Søg efter en opgave, fx &apos;GLS&apos; eller &apos;CSV&apos;..." />
 </div>
 
 <div class="price-note-bar">
@@ -421,15 +392,7 @@ function renderBadge(data) {
   if (badge) badge.textContent = data.hourlyRate.toLocaleString('da-DK') + ' kr.';
 }
 
-function renderToc(data) {
-  const toc = document.getElementById('toc');
-  data.categories.forEach(cat => {
-    const a = document.createElement('a');
-    a.href = '#cat-' + cat.id;
-    a.textContent = cat.title;
-    toc.appendChild(a);
-  });
-}
+function renderToc(data) { /* TOC fjernet */ }
 
 function renderAll(data) {
   const main = document.getElementById('main');
