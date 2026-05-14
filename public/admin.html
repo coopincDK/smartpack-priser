@@ -10,13 +10,14 @@
     --brand-light: #e8f0fe;
     --green: #0e9f6e;
     --red: #e02424;
+    --orange: #f59e0b;
     --text: #111827;
     --muted: #6b7280;
     --border: #e5e7eb;
-    --bg: #f9fafb;
+    --bg: #f3f4f6;
     --white: #fff;
-    --radius: 8px;
-    --shadow: 0 1px 4px rgba(0,0,0,.08);
+    --radius: 10px;
+    --shadow: 0 1px 3px rgba(0,0,0,.1);
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); }
@@ -24,257 +25,411 @@
   header {
     background: #111827;
     color: #fff;
-    padding: 18px 24px;
+    padding: 16px 24px;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 8px rgba(0,0,0,.3);
   }
-  header h1 { font-size: 1.1rem; font-weight: 700; }
+  header h1 { font-size: 1rem; font-weight: 700; display: flex; align-items: center; gap: 8px; }
   header a { color: #93c5fd; font-size: .85rem; text-decoration: none; }
 
-  .container { max-width: 960px; margin: 0 auto; padding: 28px 16px 60px; }
+  .container { max-width: 1100px; margin: 0 auto; padding: 24px 16px 80px; }
 
-  /* HOURLY RATE CARD */
-  .card {
+  /* HOURLY CARD */
+  .hourly-card {
     background: var(--white);
     border: 1px solid var(--border);
     border-radius: var(--radius);
-    padding: 20px 24px;
-    margin-bottom: 28px;
+    padding: 18px 24px;
+    margin-bottom: 32px;
     box-shadow: var(--shadow);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
   }
-  .card h2 { font-size: 1rem; font-weight: 700; margin-bottom: 14px; color: var(--brand); }
-  .form-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
-  .form-row label { font-size: .88rem; font-weight: 600; min-width: 100px; }
-  .form-row input[type=number], .form-row input[type=text] {
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    padding: 8px 12px;
-    font-size: .9rem;
-    width: 160px;
+  .hourly-card label { font-weight: 700; font-size: .9rem; color: var(--brand); }
+  .hourly-card input {
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 14px;
+    font-size: 1rem;
+    font-weight: 700;
+    width: 140px;
     outline: none;
   }
-  .form-row input:focus { border-color: var(--brand); }
-  .hint { font-size: .78rem; color: var(--muted); margin-top: 6px; }
+  .hourly-card input:focus { border-color: var(--brand); }
+  .hourly-card .hint { font-size: .78rem; color: var(--muted); flex: 1; }
 
   /* BUTTONS */
   .btn {
     padding: 8px 18px;
     border: none;
-    border-radius: 6px;
-    font-size: .88rem;
+    border-radius: 7px;
+    font-size: .85rem;
     font-weight: 600;
     cursor: pointer;
-    transition: opacity .15s;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: opacity .15s, transform .1s;
+    white-space: nowrap;
   }
-  .btn:hover { opacity: .85; }
+  .btn:active { transform: scale(.97); }
+  .btn:hover { opacity: .88; }
   .btn-primary { background: var(--brand); color: #fff; }
-  .btn-success { background: var(--green); color: #fff; }
-  .btn-sm { padding: 4px 12px; font-size: .8rem; }
+  .btn-green { background: var(--green); color: #fff; }
+  .btn-red { background: var(--red); color: #fff; padding: 5px 10px; font-size: .78rem; }
+  .btn-add { background: #f0fdf4; color: var(--green); border: 1px dashed #6ee7b7; padding: 7px 14px; font-size: .83rem; width: 100%; justify-content: center; margin-top: 8px; border-radius: 8px; }
+  .btn-add:hover { background: #dcfce7; }
+  .btn-save { background: var(--brand); color: #fff; padding: 5px 12px; font-size: .78rem; }
+
+  /* CATEGORIES GRID */
+  .categories { display: grid; gap: 28px; }
+
+  /* CATEGORY CARD */
+  .cat-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+  }
+  .cat-card.drag-over {
+    border-color: var(--brand);
+    box-shadow: 0 0 0 3px rgba(26,86,219,.2);
+  }
+  .cat-header {
+    background: var(--brand-light);
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-bottom: 1px solid #c7d7f9;
+  }
+  .cat-header h2 { font-size: .9rem; font-weight: 700; color: var(--brand); flex: 1; }
+  .cat-count {
+    background: var(--brand);
+    color: #fff;
+    border-radius: 999px;
+    font-size: .72rem;
+    font-weight: 700;
+    padding: 2px 9px;
+  }
+
+  /* TASK ROWS */
+  .tasks-list { padding: 6px 10px 4px; }
+
+  .task-row {
+    display: grid;
+    grid-template-columns: 24px 1fr 1fr 80px 100px 110px 110px 74px 42px;
+    gap: 6px;
+    align-items: center;
+    padding: 7px 6px;
+    border-radius: 7px;
+    border: 1px solid transparent;
+    margin-bottom: 3px;
+    transition: background .12s, border-color .12s;
+    cursor: default;
+  }
+  .task-row:hover { background: #f5f7ff; border-color: var(--border); }
+  .task-row.dragging { opacity: .4; }
+  .task-row.drag-target { border-color: var(--brand); background: #eef2ff; }
+
+  .drag-handle {
+    cursor: grab;
+    color: #9ca3af;
+    font-size: 1rem;
+    text-align: center;
+    user-select: none;
+    padding: 2px;
+  }
+  .drag-handle:active { cursor: grabbing; }
+
+  .task-row .col-header {
+    display: grid;
+    grid-template-columns: 24px 1fr 1fr 80px 100px 110px 110px 74px 42px;
+    gap: 6px;
+    padding: 5px 6px 8px;
+    font-size: .72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+    color: var(--muted);
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 4px;
+  }
+
+  input.f {
+    width: 100%;
+    border: 1px solid #e5e7eb;
+    border-radius: 5px;
+    padding: 5px 7px;
+    font-size: .82rem;
+    background: #f9fafb;
+    outline: none;
+    transition: border-color .15s, background .15s;
+  }
+  input.f:focus { border-color: var(--brand); background: var(--white); }
+  input.f[type=number] { text-align: right; }
+
+  .no-tasks { padding: 16px; text-align: center; color: var(--muted); font-size: .83rem; }
 
   /* TOAST */
   #toast {
     position: fixed;
-    bottom: 24px;
-    right: 24px;
-    background: #1f2937;
-    color: #fff;
+    bottom: 28px;
+    right: 28px;
     padding: 12px 22px;
-    border-radius: 8px;
+    border-radius: 9px;
     font-size: .88rem;
-    font-weight: 500;
-    box-shadow: 0 4px 12px rgba(0,0,0,.2);
+    font-weight: 600;
+    box-shadow: 0 4px 16px rgba(0,0,0,.2);
     opacity: 0;
     pointer-events: none;
-    transition: opacity .25s;
-    z-index: 999;
+    transition: opacity .2s, transform .2s;
+    transform: translateY(8px);
+    z-index: 9999;
   }
-  #toast.show { opacity: 1; }
-  #toast.ok { background: var(--green); }
-  #toast.err { background: var(--red); }
-
-  /* CATEGORY */
-  .category { margin-bottom: 36px; }
-  .cat-header {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 10px;
-  }
-  .cat-header h2 { font-size: 1rem; font-weight: 700; color: var(--brand); flex: 1; }
-
-  /* TABLE */
-  table { width: 100%; border-collapse: collapse; background: var(--white); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); font-size: .85rem; }
-  thead tr { background: var(--brand-light); }
-  th { padding: 9px 12px; text-align: left; font-size: .75rem; font-weight: 600; text-transform: uppercase; letter-spacing: .04em; color: var(--brand); }
-  td { padding: 8px 10px; border-top: 1px solid var(--border); vertical-align: middle; }
-  tr:hover td { background: #f5f7ff; }
-  .task-name { font-weight: 600; font-size: .85rem; }
-  .task-desc-edit { font-size: .78rem; color: var(--muted); }
-
-  input.inline {
-    border: 1px solid var(--border);
-    border-radius: 5px;
-    padding: 4px 8px;
-    font-size: .83rem;
-    width: 100%;
-    outline: none;
-    background: #f9fafb;
-  }
-  input.inline:focus { border-color: var(--brand); background: var(--white); }
-  input.inline.wide { width: 100%; }
+  #toast.show { opacity: 1; transform: translateY(0); }
+  #toast.ok { background: var(--green); color: #fff; }
+  #toast.err { background: var(--red); color: #fff; }
+  #toast.info { background: #1f2937; color: #fff; }
 </style>
 </head>
 <body>
 
 <header>
-  <h1>&#9998;&nbsp; Admin &mdash; SmartPack Priser</h1>
+  <h1>&#9998; Admin &mdash; SmartPack Priser</h1>
   <a href="/">&#8592; Se prisoversigt</a>
 </header>
 
 <div class="container">
 
-  <!-- TIMEPRIS CARD -->
-  <div class="card" id="hourlyCard">
-    <h2>&#128176; Timepris</h2>
-    <div class="form-row">
-      <label>Timepris</label>
-      <input type="number" id="hourlyInput" min="0" step="50" value="1250" />
-      <span style="font-size:.88rem;color:var(--muted)">kr. ekskl. moms</span>
-      <button class="btn btn-primary" onclick="saveHourlyRate()">Gem &amp; genberegn priser</button>
-    </div>
-    <p class="hint">Gem timepris genberegner automatisk alle opgaver med en fast tidsangivelse (15 min = timepris/4).</p>
+  <!-- TIMEPRIS -->
+  <div class="hourly-card">
+    <label>&#128176; Timepris</label>
+    <input type="number" id="hourlyInput" min="0" step="50" value="1250" />
+    <span style="font-size:.88rem;color:var(--muted)">kr. ekskl. moms</span>
+    <button class="btn btn-primary" onclick="saveHourlyRate()">&#8635; Gem &amp; genberegn alle priser</button>
+    <span class="hint">Genberegner automatisk alle opgaver med en fast tidsangivelse (15&nbsp;min&nbsp;= timepris/4).</span>
   </div>
 
-  <!-- CATEGORIES -->
-  <div id="categoriesContainer"></div>
+  <div class="categories" id="categoriesContainer"></div>
 
 </div>
 
 <div id="toast"></div>
 
 <script>
-let priceData = null;
+let data = null;
+let draggedTaskId = null;
+let draggedFromCatId = null;
 
 async function load() {
   const res = await fetch('/api/prices');
-  priceData = await res.json();
-  document.getElementById('hourlyInput').value = priceData.hourlyRate;
-  renderCategories();
+  data = await res.json();
+  document.getElementById('hourlyInput').value = data.hourlyRate;
+  render();
 }
 
-function renderCategories() {
+function render() {
   const container = document.getElementById('categoriesContainer');
   container.innerHTML = '';
-  priceData.categories.forEach(cat => {
-    const div = document.createElement('div');
-    div.className = 'category';
-    div.innerHTML = `
-      <div class="cat-header">
-        <h2>${cat.title}</h2>
-      </div>
-    `;
+  data.categories.forEach(cat => container.appendChild(buildCatCard(cat)));
+}
 
-    const table = document.createElement('table');
-    table.innerHTML = `
-      <thead><tr>
-        <th style="width:32%">Opgave</th>
-        <th style="width:20%">Beskrivelse</th>
-        <th style="width:10%">Min.</th>
-        <th style="width:13%">Fast pris</th>
-        <th style="width:11%">Fra (range)</th>
-        <th style="width:11%">Til (range)</th>
-        <th style="width:8%"></th>
-      </tr></thead>
-    `;
-    const tbody = document.createElement('tbody');
+function buildCatCard(cat) {
+  const card = document.createElement('div');
+  card.className = 'cat-card';
+  card.dataset.catId = cat.id;
 
-    cat.tasks.forEach(task => {
-      const tr = document.createElement('tr');
-      tr.id = 'row-' + task.id;
-      tr.innerHTML = `
-        <td>
-          <input class="inline wide" data-field="name" data-id="${task.id}" value="${escHtml(task.name)}" />
-        </td>
-        <td>
-          <input class="inline wide" data-field="desc" data-id="${task.id}" value="${escHtml(task.desc||'')}" placeholder="(ingen)" />
-        </td>
-        <td>
-          <input class="inline" type="number" data-field="minutes" data-id="${task.id}" value="${task.minutes ?? ''}" placeholder="–" min="0" step="5" />
-        </td>
-        <td>
-          <input class="inline" type="number" data-field="price" data-id="${task.id}" value="${task.price ?? ''}" placeholder="–" min="0" step="1" />
-        </td>
-        <td>
-          <input class="inline" type="number" data-field="priceMin" data-id="${task.id}" value="${task.priceMin ?? ''}" placeholder="–" min="0" step="50" />
-        </td>
-        <td>
-          <input class="inline" type="number" data-field="priceMax" data-id="${task.id}" value="${task.priceMax ?? ''}" placeholder="–" min="0" step="50" />
-        </td>
-        <td style="text-align:center">
-          <button class="btn btn-success btn-sm" onclick="saveTask('${task.id}')">Gem</button>
-        </td>
-      `;
-      tbody.appendChild(tr);
-    });
+  // Header
+  card.innerHTML = `
+    <div class="cat-header">
+      <h2>${esc(cat.title)}</h2>
+      <span class="cat-count">${cat.tasks.length}</span>
+    </div>
+  `;
 
-    table.appendChild(tbody);
-    div.appendChild(table);
-    container.appendChild(div);
+  // Column headers
+  const headers = document.createElement('div');
+  headers.style.cssText = 'padding:6px 16px 0;';
+  headers.innerHTML = `<div class="task-row col-header">
+    <span></span>
+    <span>Opgave</span>
+    <span>Beskrivelse</span>
+    <span>Min.</span>
+    <span style="text-align:right">Fast pris</span>
+    <span style="text-align:right">Fra (range)</span>
+    <span style="text-align:right">Til (range)</span>
+    <span></span>
+    <span></span>
+  </div>`;
+  card.appendChild(headers);
+
+  // Tasks list
+  const list = document.createElement('div');
+  list.className = 'tasks-list';
+  list.dataset.catId = cat.id;
+
+  if (cat.tasks.length === 0) {
+    list.innerHTML = '<div class="no-tasks">Ingen opgaver endnu &mdash; tilf&oslash;j en nedenfor</div>';
+  } else {
+    cat.tasks.forEach(task => list.appendChild(buildTaskRow(task, cat.id)));
+  }
+
+  // Drop zone events
+  list.addEventListener('dragover', e => {
+    e.preventDefault();
+    card.classList.add('drag-over');
+    // Highlight nearest row
+    const rows = [...list.querySelectorAll('.task-row:not(.dragging)')];
+    rows.forEach(r => r.classList.remove('drag-target'));
+    const target = e.target.closest('.task-row');
+    if (target) target.classList.add('drag-target');
   });
+  list.addEventListener('dragleave', e => {
+    if (!card.contains(e.relatedTarget)) card.classList.remove('drag-over');
+  });
+  list.addEventListener('drop', async e => {
+    e.preventDefault();
+    card.classList.remove('drag-over');
+    list.querySelectorAll('.task-row').forEach(r => r.classList.remove('drag-target'));
+    if (!draggedTaskId) return;
+
+    const toCatId = cat.id;
+    const target = e.target.closest('.task-row[data-task-id]');
+    const toIndex = target
+      ? [...list.querySelectorAll('.task-row[data-task-id]')].indexOf(target)
+      : cat.tasks.length;
+
+    await apiFetch(`/api/prices/task/${draggedTaskId}/move`, 'PUT', { toCatId, toIndex });
+    await reload();
+    showToast('Opgave flyttet!', 'info');
+  });
+
+  card.appendChild(list);
+
+  // Add button
+  const addBtn = document.createElement('button');
+  addBtn.className = 'btn btn-add';
+  addBtn.innerHTML = '&#43; Tilf&oslash;j opgave';
+  addBtn.onclick = () => addTask(cat.id);
+  const addWrap = document.createElement('div');
+  addWrap.style.cssText = 'padding:4px 10px 12px;';
+  addWrap.appendChild(addBtn);
+  card.appendChild(addWrap);
+
+  return card;
+}
+
+function buildTaskRow(task, catId) {
+  const tr = document.createElement('div');
+  tr.className = 'task-row';
+  tr.dataset.taskId = task.id;
+  tr.draggable = true;
+
+  tr.innerHTML = `
+    <span class="drag-handle" title="Tr&aelig;k for at flytte">&#8759;</span>
+    <input class="f" data-field="name" value="${esc(task.name)}" placeholder="Opgavenavn" />
+    <input class="f" data-field="desc" value="${esc(task.desc||'')}" placeholder="Beskrivelse" />
+    <input class="f" type="number" data-field="minutes" value="${task.minutes ?? ''}" placeholder="15" min="0" step="5" />
+    <input class="f" type="number" data-field="price" value="${task.price ?? ''}" placeholder="&ndash;" min="0" />
+    <input class="f" type="number" data-field="priceMin" value="${task.priceMin ?? ''}" placeholder="&ndash;" min="0" step="50" />
+    <input class="f" type="number" data-field="priceMax" value="${task.priceMax ?? ''}" placeholder="&ndash;" min="0" step="50" />
+    <button class="btn btn-save" onclick="saveTask('${task.id}', this)">&#10003; Gem</button>
+    <button class="btn btn-red" onclick="deleteTask('${task.id}', '${catId}')">&#128465;</button>
+  `;
+
+  tr.addEventListener('dragstart', e => {
+    draggedTaskId = task.id;
+    draggedFromCatId = catId;
+    tr.classList.add('dragging');
+    e.dataTransfer.effectAllowed = 'move';
+  });
+  tr.addEventListener('dragend', () => {
+    tr.classList.remove('dragging');
+    draggedTaskId = null;
+    document.querySelectorAll('.drag-over').forEach(el => el.classList.remove('drag-over'));
+  });
+
+  return tr;
+}
+
+async function saveTask(taskId, btn) {
+  const row = btn.closest('.task-row');
+  const updates = {};
+  row.querySelectorAll('input[data-field]').forEach(inp => {
+    const f = inp.dataset.field;
+    const v = inp.value.trim();
+    updates[f] = ['price','priceMin','priceMax','minutes'].includes(f)
+      ? (v === '' ? null : Number(v))
+      : v;
+  });
+  const res = await apiFetch(`/api/prices/task/${taskId}`, 'PUT', updates);
+  if (res.ok) showToast('Gemt!', 'ok');
+  else showToast(res.error || 'Fejl', 'err');
+}
+
+async function deleteTask(taskId, catId) {
+  if (!confirm('Slet denne opgave?')) return;
+  const res = await apiFetch(`/api/prices/task/${taskId}`, 'DELETE');
+  if (res.ok) {
+    await reload();
+    showToast('Opgave slettet', 'info');
+  } else showToast(res.error || 'Fejl', 'err');
+}
+
+async function addTask(catId) {
+  const name = prompt('Navn p\u00e5 ny opgave:');
+  if (!name || !name.trim()) return;
+  const res = await apiFetch(`/api/prices/category/${catId}/task`, 'POST', { name: name.trim() });
+  if (res.ok) {
+    await reload();
+    showToast('Opgave tilf\u00f8jet!', 'ok');
+  } else showToast(res.error || 'Fejl', 'err');
 }
 
 async function saveHourlyRate() {
   const val = Number(document.getElementById('hourlyInput').value);
   if (!val || val < 1) return showToast('Ugyldig timepris', 'err');
-  const res = await fetch('/api/prices/hourlyRate', {
-    method: 'PUT',
-    headers: {'Content-Type':'application/json'},
-    body: JSON.stringify({ hourlyRate: val })
-  });
-  const json = await res.json();
-  if (json.ok) {
-    priceData = json.data;
-    renderCategories();
-    showToast('Timepris og priser opdateret!', 'ok');
-  } else {
-    showToast(json.error || 'Fejl', 'err');
-  }
+  const res = await apiFetch('/api/prices/hourlyRate', 'PUT', { hourlyRate: val });
+  if (res.ok) {
+    data = res.data;
+    render();
+    showToast('Timepris og alle priser opdateret!', 'ok');
+  } else showToast(res.error || 'Fejl', 'err');
 }
 
-async function saveTask(taskId) {
-  const row = document.getElementById('row-' + taskId);
-  const inputs = row.querySelectorAll('input[data-field]');
-  const updates = {};
-  inputs.forEach(inp => {
-    const field = inp.dataset.field;
-    const val = inp.value.trim();
-    if (['price','priceMin','priceMax','minutes'].includes(field)) {
-      updates[field] = val === '' ? null : Number(val);
-    } else {
-      updates[field] = val;
-    }
-  });
-
-  const res = await fetch('/api/prices/task/' + taskId, {
-    method: 'PUT',
-    headers: {'Content-Type':'application/json'},
-    body: JSON.stringify(updates)
-  });
-  const json = await res.json();
-  if (json.ok) showToast('Gemt!', 'ok');
-  else showToast(json.error || 'Fejl ved gemning', 'err');
+async function reload() {
+  const res = await fetch('/api/prices');
+  data = await res.json();
+  render();
 }
 
-function showToast(msg, type='ok') {
+async function apiFetch(url, method, body) {
+  const res = await fetch(url, {
+    method,
+    headers: body ? { 'Content-Type': 'application/json' } : {},
+    body: body ? JSON.stringify(body) : undefined
+  });
+  return res.json();
+}
+
+function showToast(msg, type = 'ok') {
   const t = document.getElementById('toast');
   t.textContent = msg;
   t.className = 'show ' + type;
   clearTimeout(t._timer);
-  t._timer = setTimeout(() => t.className = '', 2800);
+  t._timer = setTimeout(() => { t.className = ''; }, 2500);
 }
 
-function escHtml(str) {
+function esc(str) {
   return (str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
