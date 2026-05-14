@@ -940,8 +940,8 @@ async function openOverlay(task) {
   const guideBtn = document.getElementById('overlayGuideBtn');
   const playbookBtn = document.getElementById('overlayPlaybookBtn');
 
-  titleEl.textContent = task.name;
-  descEl.textContent = task.desc || '';
+  titleEl.textContent = task.name.replace(/\s*\u2014\s*/g, ' ');
+  descEl.textContent = (task.desc || '').replace(/\s*\u2014\s*/g, ' ');
   bodyEl.innerHTML = '<p style="color:var(--muted)">Indlæser...</p>';
   guideBtn.style.display = 'none';
   playbookBtn.style.display = 'none';

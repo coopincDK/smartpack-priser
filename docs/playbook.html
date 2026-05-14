@@ -470,6 +470,11 @@ function parsePlaybook(text) {
   }).filter(s => s.heading && !['Filstruktur','Hvem bruger hvad','Hurtig reference','Indholdsfortegnelse'].includes(s.heading));
 }
 
+// Strip em-dash fra visning (beholder originalt heading til matching)
+function displayText(s) {
+  return s.replace(/\s*\u2014\s*/g, ' ').trim();
+}
+
 function buildSidebar() {
   const nav = document.getElementById('sidebarNav');
   nav.innerHTML = '';
@@ -483,7 +488,7 @@ function buildSidebar() {
   });
 
   Object.entries(groups).forEach(([label, items]) => {
-    if (!items.length) return; // skip tomme grupper
+    if (!items.length) return;
 
     const groupEl = document.createElement('div');
     groupEl.className = 'sidebar-group';
@@ -499,8 +504,8 @@ function buildSidebar() {
     items.forEach(sec => {
       const a = document.createElement('a');
       a.className = 'sidebar-item';
-      a.textContent = sec.heading;
-      a.dataset.heading = sec.heading.toLowerCase();
+      a.textContent = displayText(sec.heading); // strip em-dash i visning
+      a.dataset.heading = sec.heading.toLowerCase(); // originalt til matching
       a.onclick = () => showSection(sec);
       itemsEl.appendChild(a);
     });
@@ -530,7 +535,7 @@ function showSection(sec) {
   const content = document.getElementById('content');
   content.innerHTML = `
     <div class="section-header">
-      <h1>${sec.heading}</h1>
+      <h1>${displayText(sec.heading)}</h1>
       <div class="section-meta">SmartPack Playbook &bull; ${sec.group}</div>
     </div>
     <div class="md" id="mdContent"></div>
