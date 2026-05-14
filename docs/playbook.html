@@ -31,7 +31,7 @@
   }
 
   /* NAV */
-  nav {
+  .main-nav {
     background: var(--green-dark);
     color: #fff;
     display: flex;
@@ -44,9 +44,9 @@
     z-index: 100;
     box-shadow: 0 2px 8px rgba(0,0,0,.2);
   }
-  nav img { height: 28px; }
-  nav .nav-title { font-weight: 800; font-size: 1rem; letter-spacing: -.01em; }
-  nav .nav-badge {
+  .main-nav img { height: 28px; }
+  .main-nav .nav-title { font-weight: 800; font-size: 1rem; letter-spacing: -.01em; }
+  .main-nav .nav-badge {
     background: rgba(255,255,255,.15);
     border-radius: 999px;
     padding: 2px 10px;
@@ -54,7 +54,7 @@
     font-weight: 700;
     letter-spacing: .04em;
   }
-  nav .nav-back {
+  .main-nav .nav-back {
     margin-left: auto;
     color: rgba(255,255,255,.8);
     text-decoration: none;
@@ -63,7 +63,7 @@
     align-items: center;
     gap: 5px;
   }
-  nav .nav-back:hover { color: #fff; }
+  .main-nav .nav-back:hover { color: #fff; }
 
   /* LAYOUT */
   .layout {
@@ -285,13 +285,10 @@
 </head>
 <body>
 
-<nav>
+<nav class="main-nav">
   <img src="https://smartpack.dk/assets/cropped-favicon-smartpack.png" alt="SmartPack">
   <span class="nav-title">SmartPack Playbook</span>
-
-  <a class="nav-back" href="./index.html">
-    &#8592; Tilbage til prisoversigt
-  </a>
+  <a class="nav-back" href="./index.html">&#8592; Tilbage til prisoversigt</a>
 </nav>
 
 <div class="layout">
@@ -299,7 +296,7 @@
     <div class="sidebar-search">
       <input type="search" id="sidebarSearch" placeholder="Sog i emner..." oninput="filterSidebar(this.value)">
     </div>
-    <nav class="sidebar-nav" id="sidebarNav">Indlaesning...</nav>
+    <div class="sidebar-nav" id="sidebarNav">Indlaesning...</div>
   </aside>
 
   <main class="content" id="content">
