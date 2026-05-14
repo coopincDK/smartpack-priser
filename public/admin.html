@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin &ndash; SmartPack Priser</title>
+<style>
+  :root {
+    --brand: #1a56db;
+    --brand-light: #e8f0fe;
+    --green: #0e9f6e;
+    --red: #e02424;
+    --text: #111827;
+    --muted: #6b7280;
+    --border: #e5e7eb;
+    --bg: #f9fafb;
+    --white: #fff;
+    --radius: 8px;
+    --shadow: 0 1px 4px rgba(0,0,0,.08);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); }
+
+  header {
+    background: #111827;
+    color: #fff;
+    padding: 18px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  header h1 { font-size: 1.1rem; font-weight: 700; }
+  header a { color: #93c5fd; font-size: .85rem; text-decoration: none; }
+
+  .container { max-width: 960px; margin: 0 auto; padding: 28px 16px 60px; }
+
+  /* HOURLY RATE CARD */
+  .card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px 24px;
+    margin-bottom: 28px;
+    box-shadow: var(--shadow);
+  }
+  .card h2 { font-size: 1rem; font-weight: 700; margin-bottom: 14px; color: var(--brand); }
+  .form-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .form-row label { font-size: .88rem; font-weight: 600; min-width: 100px; }
+  .form-row input[type=number], .form-row input[type=text] {
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-size: .9rem;
+    width: 160px;
+    outline: none;
+  }
+  .form-row input:focus { border-color: var(--brand); }
+  .hint { font-size: .78rem; color: var(--muted); margin-top: 6px; }
+
+  /* BUTTONS */
+  .btn {
+    padding: 8px 18px;
+    border: none;
+    border-radius: 6px;
+    font-size: .88rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity .15s;
+  }
+  .btn:hover { opacity: .85; }
+  .btn-primary { background: var(--brand); color: #fff; }
+  .btn-success { background: var(--green); color: #fff; }
+  .btn-sm { padding: 4px 12px; font-size: .8rem; }
+
+  /* TOAST */
+  #toast {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background: #1f2937;
+    color: #fff;
+    padding: 12px 22px;
+    border-radius: 8px;
+    font-size: .88rem;
+    font-weight: 500;
+    box-shadow: 0 4px 12px rgba(0,0,0,.2);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .25s;
+    z-index: 999;
+  }
+  #toast.show { opacity: 1; }
+  #toast.ok { background: var(--green); }
+  #toast.err { background: var(--red); }
+
+  /* CATEGORY */
+  .category { margin-bottom: 36px; }
+  .cat-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 10px;
+  }
+  .cat-header h2 { font-size: 1rem; font-weight: 700; color: var(--brand); flex: 1; }
+
+  /* TABLE */
+  table { width: 100%; border-collapse: collapse; background: var(--white); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); font-size: .85rem; }
+  thead tr { background: var(--brand-light); }
+  th { padding: 9px 12px; text-align: left; font-size: .75rem; font-weight: 600; text-transform: uppercase; letter-spacing: .04em; color: var(--brand); }
+  td { padding: 8px 10px; border-top: 1px solid var(--border); vertical-align: middle; }
+  tr:hover td { background: #f5f7ff; }
+  .task-name { font-weight: 600; font-size: .85rem; }
+  .task-desc-edit { font-size: .78rem; color: var(--muted); }
+
+  input.inline {
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    padding: 4px 8px;
+    font-size: .83rem;
+    width: 100%;
+    outline: none;
+    background: #f9fafb;
+  }
+  input.inline:focus { border-color: var(--brand); background: var(--white); }
+  input.inline.wide { width: 100%; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>&#9998;&nbsp; Admin &mdash; SmartPack Priser</h1>
+  <a href="/">&#8592; Se prisoversigt</a>
+</header>
+
+<div class="container">
+
+  <!-- TIMEPRIS CARD -->
+  <div class="card" id="hourlyCard">
+    <h2>&#128176; Timepris</h2>
+    <div class="form-row">
+      <label>Timepris</label>
+      <input type="number" id="hourlyInput" min="0" step="50" value="1250" />
+      <span style="font-size:.88rem;color:var(--muted)">kr. ekskl. moms</span>
+      <button class="btn btn-primary" onclick="saveHourlyRate()">Gem &amp; genberegn priser</button>
+    </div>
+    <p class="hint">Gem timepris genberegner automatisk alle opgaver med en fast tidsangivelse (15 min = timepris/4).</p>
+  </div>
+
+  <!-- CATEGORIES -->
+  <div id="categoriesContainer"></div>
+
+</div>
+
+<div id="toast"></div>
+
+<script>
+let priceData = null;
+
+async function load() {
+  const res = await fetch('/api/prices');
+  priceData = await res.json();
+  document.getElementById('hourlyInput').value = priceData.hourlyRate;
+  renderCategories();
+}
+
+function renderCategories() {
+  const container = document.getElementById('categoriesContainer');
+  container.innerHTML = '';
+  priceData.categories.forEach(cat => {
+    const div = document.createElement('div');
+    div.className = 'category';
+    div.innerHTML = `
+      <div class="cat-header">
+        <h2>${cat.title}</h2>
+      </div>
+    `;
+
+    const table = document.createElement('table');
+    table.innerHTML = `
+      <thead><tr>
+        <th style="width:32%">Opgave</th>
+        <th style="width:20%">Beskrivelse</th>
+        <th style="width:10%">Min.</th>
+        <th style="width:13%">Fast pris</th>
+        <th style="width:11%">Fra (range)</th>
+        <th style="width:11%">Til (range)</th>
+        <th style="width:8%"></th>
+      </tr></thead>
+    `;
+    const tbody = document.createElement('tbody');
+
+    cat.tasks.forEach(task => {
+      const tr = document.createElement('tr');
+      tr.id = 'row-' + task.id;
+      tr.innerHTML = `
+        <td>
+          <input class="inline wide" data-field="name" data-id="${task.id}" value="${escHtml(task.name)}" />
+        </td>
+        <td>
+          <input class="inline wide" data-field="desc" data-id="${task.id}" value="${escHtml(task.desc||'')}" placeholder="(ingen)" />
+        </td>
+        <td>
+          <input class="inline" type="number" data-field="minutes" data-id="${task.id}" value="${task.minutes ?? ''}" placeholder="–" min="0" step="5" />
+        </td>
+        <td>
+          <input class="inline" type="number" data-field="price" data-id="${task.id}" value="${task.price ?? ''}" placeholder="–" min="0" step="1" />
+        </td>
+        <td>
+          <input class="inline" type="number" data-field="priceMin" data-id="${task.id}" value="${task.priceMin ?? ''}" placeholder="–" min="0" step="50" />
+        </td>
+        <td>
+          <input class="inline" type="number" data-field="priceMax" data-id="${task.id}" value="${task.priceMax ?? ''}" placeholder="–" min="0" step="50" />
+        </td>
+        <td style="text-align:center">
+          <button class="btn btn-success btn-sm" onclick="saveTask('${task.id}')">Gem</button>
+        </td>
+      `;
+      tbody.appendChild(tr);
+    });
+
+    table.appendChild(tbody);
+    div.appendChild(table);
+    container.appendChild(div);
+  });
+}
+
+async function saveHourlyRate() {
+  const val = Number(document.getElementById('hourlyInput').value);
+  if (!val || val < 1) return showToast('Ugyldig timepris', 'err');
+  const res = await fetch('/api/prices/hourlyRate', {
+    method: 'PUT',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({ hourlyRate: val })
+  });
+  const json = await res.json();
+  if (json.ok) {
+    priceData = json.data;
+    renderCategories();
+    showToast('Timepris og priser opdateret!', 'ok');
+  } else {
+    showToast(json.error || 'Fejl', 'err');
+  }
+}
+
+async function saveTask(taskId) {
+  const row = document.getElementById('row-' + taskId);
+  const inputs = row.querySelectorAll('input[data-field]');
+  const updates = {};
+  inputs.forEach(inp => {
+    const field = inp.dataset.field;
+    const val = inp.value.trim();
+    if (['price','priceMin','priceMax','minutes'].includes(field)) {
+      updates[field] = val === '' ? null : Number(val);
+    } else {
+      updates[field] = val;
+    }
+  });
+
+  const res = await fetch('/api/prices/task/' + taskId, {
+    method: 'PUT',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify(updates)
+  });
+  const json = await res.json();
+  if (json.ok) showToast('Gemt!', 'ok');
+  else showToast(json.error || 'Fejl ved gemning', 'err');
+}
+
+function showToast(msg, type='ok') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'show ' + type;
+  clearTimeout(t._timer);
+  t._timer = setTimeout(() => t.className = '', 2800);
+}
+
+function escHtml(str) {
+  return (str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+load();
+</script>
+</body>
+</html>

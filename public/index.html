@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SmartPack Support &amp; Priser</title>
+<style>
+  :root {
+    --brand: #1a56db;
+    --brand-light: #e8f0fe;
+    --green: #0e9f6e;
+    --green-light: #e8fdf5;
+    --text: #111827;
+    --muted: #6b7280;
+    --border: #e5e7eb;
+    --bg: #f9fafb;
+    --white: #ffffff;
+    --radius: 10px;
+    --shadow: 0 1px 4px rgba(0,0,0,.08);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.5; }
+
+  /* HEADER */
+  header {
+    background: var(--brand);
+    color: #fff;
+    padding: 32px 24px 28px;
+    text-align: center;
+  }
+  header h1 { font-size: 1.8rem; font-weight: 700; margin-bottom: 4px; }
+  header p { opacity: .85; font-size: .95rem; }
+  .hourly-badge {
+    display: inline-block;
+    margin-top: 14px;
+    background: rgba(255,255,255,.18);
+    border: 1px solid rgba(255,255,255,.3);
+    border-radius: 999px;
+    padding: 5px 18px;
+    font-size: .9rem;
+    font-weight: 600;
+  }
+
+  /* NAV / TOC */
+  .toc {
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+    padding: 12px 24px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+  }
+  .toc a {
+    text-decoration: none;
+    font-size: .78rem;
+    color: var(--brand);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 4px 12px;
+    white-space: nowrap;
+    transition: background .15s;
+  }
+  .toc a:hover { background: var(--brand-light); }
+
+  /* SEARCH */
+  .search-bar {
+    max-width: 600px;
+    margin: 28px auto 0;
+    padding: 0 16px;
+  }
+  .search-bar input {
+    width: 100%;
+    padding: 10px 16px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    font-size: .95rem;
+    outline: none;
+    box-shadow: var(--shadow);
+  }
+  .search-bar input:focus { border-color: var(--brand); }
+
+  /* MAIN */
+  main { max-width: 1000px; margin: 0 auto; padding: 24px 16px 60px; }
+
+  /* CATEGORY */
+  .category { margin-bottom: 36px; }
+  .category h2 {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--brand);
+    border-bottom: 2px solid var(--brand-light);
+    padding-bottom: 8px;
+    margin-bottom: 12px;
+  }
+
+  /* TABLE */
+  table { width: 100%; border-collapse: collapse; background: var(--white); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); }
+  thead tr { background: var(--brand-light); }
+  th { padding: 10px 14px; text-align: left; font-size: .8rem; font-weight: 600; text-transform: uppercase; letter-spacing: .04em; color: var(--brand); }
+  td { padding: 11px 14px; border-top: 1px solid var(--border); font-size: .88rem; vertical-align: top; }
+  tr:hover td { background: #f0f5ff; }
+  .task-name { font-weight: 600; }
+  .task-desc { color: var(--muted); font-size: .8rem; margin-top: 2px; }
+  .price-cell { font-weight: 700; color: var(--text); white-space: nowrap; }
+  .price-note { color: var(--muted); font-size: .75rem; font-weight: 400; }
+  .time-cell { color: var(--muted); font-size: .83rem; white-space: nowrap; }
+  .guide-link a {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    color: var(--green);
+    text-decoration: none;
+    font-size: .82rem;
+    font-weight: 500;
+    border: 1px solid #a7f3d0;
+    border-radius: 6px;
+    padding: 3px 10px;
+    background: var(--green-light);
+    transition: background .15s;
+  }
+  .guide-link a:hover { background: #c6f6e5; }
+  .no-guide { color: #d1d5db; font-size: .78rem; }
+  .hidden { display: none !important; }
+
+  /* FOOTER */
+  footer {
+    text-align: center;
+    padding: 24px;
+    font-size: .82rem;
+    color: var(--muted);
+    border-top: 1px solid var(--border);
+  }
+  footer a { color: var(--brand); text-decoration: none; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>SmartPack Support &amp; Priser</h1>
+  <p>Registrerede superbrugere f&aring;r fri og ubegr&aelig;nset support. Nedenfor ses priser for opgaver vi l&oslash;ser for jer.</p>
+  <div class="hourly-badge" id="hourlyBadge">Timepris: 1.250 kr. ekskl. moms</div>
+</header>
+
+<nav class="toc" id="toc"></nav>
+
+<div class="search-bar">
+  <input type="search" id="searchInput" placeholder="S&oslash;g efter en opgave..." />
+</div>
+
+<main id="main"></main>
+
+<footer>
+  Sp&oslash;rgsm&aring;l? Skriv til <a href="mailto:support@smartpack.dk">support@smartpack.dk</a>
+  &nbsp;&bull;&nbsp;
+  <a href="/admin.html">&#9998; Admin</a>
+</footer>
+
+<script>
+async function loadPrices() {
+  const res = await fetch('/api/prices');
+  const data = await res.json();
+  renderBadge(data);
+  renderToc(data);
+  renderAll(data);
+}
+
+function formatPrice(task) {
+  if (task.price !== null && task.price !== undefined) {
+    return task.price.toLocaleString('da-DK') + ' kr.' + (task.priceNote ? `<span class="price-note"> ${task.priceNote}</span>` : '');
+  }
+  if (task.priceMin && task.priceMax) {
+    return task.priceMin.toLocaleString('da-DK') + ' &ndash; ' + task.priceMax.toLocaleString('da-DK') + ' kr.';
+  }
+  return '&mdash;';
+}
+
+function formatTime(task) {
+  if (!task.minutes) {
+    if (task.priceMin && task.priceMax) {
+      return Math.round(task.priceMin / (1250/60)) + '&ndash;' + Math.round(task.priceMax / (1250/60)) + ' min';
+    }
+    return '&mdash;';
+  }
+  return task.minutes >= 60 ? (task.minutes/60) + ' time' + (task.minutes > 60 ? 'r' : '') : task.minutes + ' min';
+}
+
+function renderBadge(data) {
+  document.getElementById('hourlyBadge').textContent =
+    'Timepris: ' + data.hourlyRate.toLocaleString('da-DK') + ' ' + data.currency + ' ' + data.vatNote;
+}
+
+function renderToc(data) {
+  const toc = document.getElementById('toc');
+  data.categories.forEach(cat => {
+    const a = document.createElement('a');
+    a.href = '#cat-' + cat.id;
+    a.textContent = cat.title;
+    toc.appendChild(a);
+  });
+}
+
+function renderAll(data) {
+  const main = document.getElementById('main');
+  main.innerHTML = '';
+  data.categories.forEach(cat => {
+    const section = document.createElement('section');
+    section.className = 'category';
+    section.id = 'cat-' + cat.id;
+
+    const h2 = document.createElement('h2');
+    h2.textContent = cat.title;
+    section.appendChild(h2);
+
+    const table = document.createElement('table');
+    table.innerHTML = `
+      <thead><tr>
+        <th style="width:45%">Opgave</th>
+        <th style="width:15%">Tid</th>
+        <th style="width:20%">Pris</th>
+        <th style="width:20%">Guide</th>
+      </tr></thead>
+    `;
+    const tbody = document.createElement('tbody');
+
+    cat.tasks.forEach(task => {
+      const tr = document.createElement('tr');
+      tr.setAttribute('data-search', (task.name + ' ' + (task.desc||'')).toLowerCase());
+      tr.innerHTML = `
+        <td>
+          <div class="task-name">${task.name}</div>
+          ${task.desc ? `<div class="task-desc">${task.desc}</div>` : ''}
+        </td>
+        <td class="time-cell">${formatTime(task)}</td>
+        <td class="price-cell">${formatPrice(task)}</td>
+        <td class="guide-link">${task.guideUrl
+          ? `<a href="${task.guideUrl}" target="_blank" rel="noopener">&#128218; Læs guide</a>`
+          : '<span class="no-guide">Ingen guide endnu</span>'}
+        </td>
+      `;
+      tbody.appendChild(tr);
+    });
+
+    table.appendChild(tbody);
+    section.appendChild(table);
+    main.appendChild(section);
+  });
+}
+
+// Search
+document.getElementById('searchInput').addEventListener('input', function() {
+  const q = this.value.toLowerCase().trim();
+  document.querySelectorAll('tr[data-search]').forEach(tr => {
+    tr.classList.toggle('hidden', q && !tr.dataset.search.includes(q));
+  });
+  document.querySelectorAll('.category').forEach(sec => {
+    const visible = sec.querySelectorAll('tr[data-search]:not(.hidden)').length;
+    sec.classList.toggle('hidden', q && visible === 0);
+  });
+});
+
+loadPrices();
+</script>
+</body>
+</html>
