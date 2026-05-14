@@ -165,6 +165,21 @@
     .info-col { padding: 8px 4px; }
   }
 
+  .price-note-bar {
+    background: var(--green-light);
+    border-top: 1px solid var(--green-border);
+    border-bottom: 1px solid var(--green-border);
+    padding: 11px 24px;
+  }
+  .price-note-inner {
+    max-width: 1000px;
+    margin: 0 auto;
+    font-size: .82rem;
+    color: var(--green-dark);
+    line-height: 1.5;
+  }
+  .price-note-inner strong { font-weight: 700; }
+
   /* ── TOC ── */
   .toc-wrap {
     background: var(--white);
@@ -319,7 +334,6 @@
   <div class="hero-quote">
     „Vi bruger hellere tiden på at gøre jer stærke i SmartPack end på at løse ting for jer.“
   </div>
-  <div class="hourly-badge" id="hourlyBadge">Indlæser...</div>
 </div>
 
 <!-- INFO BANNER -->
@@ -340,14 +354,6 @@
         <span>Har I ikke tiden? Vi løser opgaven effektivt, men uden oplæringsforløbet.</span>
       </div>
     </div>
-    <div class="info-divider"></div>
-    <div class="info-col">
-      <div class="info-icon">&#128176;</div>
-      <div>
-        <strong>Timepris <span id="hourlyInline">1.250</span> kr. ekskl. moms</strong>
-        <span>Fast og transparent pris — ingen overraskelser.</span>
-      </div>
-    </div>
   </div>
 </div>
 
@@ -360,6 +366,12 @@
 <div class="search-wrap">
   <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
   <input type="search" id="searchInput" placeholder="Søg efter en opgave..." />
+</div>
+
+<div class="price-note-bar">
+  <div class="price-note-inner">
+    Priserne nedenfor er for opgaver vi udfører for jer. Timepris <strong id="hourlyBadge">1.250 kr.</strong> ekskl. moms. Når vi løser en opgave gør vi det effektivt, men uden det oplæringsforløb der normalt ligger i supporten.
+  </div>
 </div>
 
 <main id="main"></main>
@@ -405,8 +417,8 @@ function formatTime(task) {
 function renderBadge(data) {
   document.getElementById('hourlyBadge').textContent =
     'Timepris ' + data.hourlyRate.toLocaleString('da-DK') + ' ' + data.currency + ' ' + data.vatNote;
-  const inline = document.getElementById('hourlyInline');
-  if (inline) inline.textContent = data.hourlyRate.toLocaleString('da-DK');
+  const badge = document.getElementById('hourlyBadge');
+  if (badge) badge.textContent = data.hourlyRate.toLocaleString('da-DK') + ' kr.';
 }
 
 function renderToc(data) {
