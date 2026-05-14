@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SmartPack Playbook</title>
+<link rel="icon" href="https://smartpack.dk/assets/cropped-favicon-smartpack.png">
+<style>
+  :root {
+    --green-dark: #1a5c35;
+    --green: #27ae60;
+    --green-mid: #219a52;
+    --green-light: #e8f5ee;
+    --green-border: #b8deca;
+    --text: #1a2e22;
+    --muted: #6b7c72;
+    --border: #e2e8e4;
+    --bg: #f4f7f5;
+    --white: #ffffff;
+    --sidebar-w: 280px;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { font-size: 15px; }
+  body {
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+
+  /* NAV */
+  nav {
+    background: var(--green-dark);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 0 24px;
+    height: 54px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 8px rgba(0,0,0,.2);
+  }
+  nav img { height: 28px; }
+  nav .nav-title { font-weight: 800; font-size: 1rem; letter-spacing: -.01em; }
+  nav .nav-badge {
+    background: rgba(255,255,255,.15);
+    border-radius: 999px;
+    padding: 2px 10px;
+    font-size: .72rem;
+    font-weight: 700;
+    letter-spacing: .04em;
+  }
+  nav .nav-back {
+    margin-left: auto;
+    color: rgba(255,255,255,.8);
+    text-decoration: none;
+    font-size: .82rem;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  nav .nav-back:hover { color: #fff; }
+
+  /* LAYOUT */
+  .layout {
+    display: flex;
+    flex: 1;
+    min-height: 0;
+  }
+
+  /* SIDEBAR */
+  .sidebar {
+    width: var(--sidebar-w);
+    flex-shrink: 0;
+    background: var(--white);
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    position: sticky;
+    top: 54px;
+    height: calc(100vh - 54px);
+    overflow: hidden;
+  }
+  .sidebar-search {
+    padding: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+  .sidebar-search input {
+    width: 100%;
+    padding: 7px 10px;
+    border: 1.5px solid var(--border);
+    border-radius: 7px;
+    font-size: .82rem;
+    outline: none;
+    color: var(--text);
+    background: var(--bg);
+  }
+  .sidebar-search input:focus { border-color: var(--green); background: var(--white); }
+  .sidebar-nav {
+    overflow-y: auto;
+    flex: 1;
+    padding: 8px 0;
+  }
+  .sidebar-group { }
+  .sidebar-group-title {
+    font-size: .68rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    color: var(--muted);
+    padding: 10px 16px 4px;
+  }
+  .sidebar-item {
+    display: block;
+    padding: 7px 16px;
+    font-size: .82rem;
+    color: var(--text);
+    text-decoration: none;
+    line-height: 1.35;
+    cursor: pointer;
+    border-left: 3px solid transparent;
+    transition: background .1s;
+  }
+  .sidebar-item:hover { background: var(--green-light); }
+  .sidebar-item.active {
+    background: var(--green-light);
+    border-left-color: var(--green);
+    color: var(--green-dark);
+    font-weight: 700;
+  }
+  .sidebar-item.hidden { display: none; }
+
+  /* CONTENT */
+  .content {
+    flex: 1;
+    padding: 40px 48px;
+    max-width: 780px;
+    min-width: 0;
+  }
+  .content-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 300px;
+    color: var(--muted);
+    text-align: center;
+    gap: 10px;
+  }
+  .content-placeholder h2 { font-size: 1.1rem; color: var(--text); }
+  .content-placeholder p { font-size: .85rem; }
+
+  /* SECTION HEADER */
+  .section-header {
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 2px solid var(--green-border);
+  }
+  .section-header h1 {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: var(--green-dark);
+    line-height: 1.2;
+    margin-bottom: 6px;
+  }
+  .section-header .section-meta {
+    font-size: .78rem;
+    color: var(--muted);
+  }
+
+  /* MARKDOWN CONTENT */
+  .md h3 {
+    font-size: .8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .07em;
+    color: var(--green-dark);
+    margin: 24px 0 10px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid var(--border);
+  }
+  .md h3:first-child { margin-top: 0; }
+  .md p { margin: 8px 0; line-height: 1.7; font-size: .9rem; }
+  .md ul, .md ol { padding-left: 20px; margin: 8px 0; }
+  .md li { margin-bottom: 5px; font-size: .9rem; line-height: 1.6; }
+  .md table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 12px 0;
+    font-size: .84rem;
+  }
+  .md th {
+    background: var(--green-light);
+    color: var(--green-dark);
+    padding: 8px 12px;
+    text-align: left;
+    font-size: .74rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+  }
+  .md td { padding: 8px 12px; border-top: 1px solid var(--border); vertical-align: top; }
+  .md tr:hover td { background: var(--bg); }
+  .md code {
+    background: #f0f2f1;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: .83rem;
+    font-family: 'Consolas', 'Fira Code', monospace;
+  }
+  .md blockquote {
+    border-left: 3px solid var(--green-border);
+    padding: 8px 14px;
+    margin: 10px 0;
+    background: var(--green-light);
+    border-radius: 0 6px 6px 0;
+    color: var(--muted);
+    font-size: .87rem;
+  }
+  .md strong { font-weight: 700; }
+  .md em { font-style: italic; }
+  .md a { color: var(--green-dark); }
+  .md hr { border: none; border-top: 1px solid var(--border); margin: 20px 0; }
+
+  /* FOOTER ACTIONS */
+  .section-footer {
+    margin-top: 32px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+  .section-footer a {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--green);
+    color: #fff;
+    text-decoration: none;
+    font-size: .84rem;
+    font-weight: 700;
+    padding: 9px 18px;
+    border-radius: 8px;
+    transition: background .15s;
+  }
+  .section-footer a:hover { background: var(--green-mid); }
+  .section-footer .copy-link {
+    background: var(--green-light);
+    color: var(--green-dark);
+    border: 1.5px solid var(--green-border);
+    cursor: pointer;
+    font-family: inherit;
+    font-size: .84rem;
+    font-weight: 700;
+    padding: 9px 18px;
+    border-radius: 8px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: background .15s;
+  }
+  .section-footer .copy-link:hover { background: #c8ebd8; }
+  .copy-confirm { font-size: .78rem; color: var(--green); font-weight: 600; opacity: 0; transition: opacity .3s; }
+  .copy-confirm.show { opacity: 1; }
+
+  /* MOBILE */
+  @media (max-width: 700px) {
+    .sidebar { display: none; }
+    .content { padding: 24px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <img src="https://smartpack.dk/assets/cropped-favicon-smartpack.png" alt="SmartPack">
+  <span class="nav-title">SmartPack Playbook</span>
+  <span class="nav-badge">Komplet opslagsvaerk</span>
+  <a class="nav-back" href="./index.html">
+    &#8592; Tilbage til prisoversigt
+  </a>
+</nav>
+
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-search">
+      <input type="search" id="sidebarSearch" placeholder="Sog i emner..." oninput="filterSidebar(this.value)">
+    </div>
+    <nav class="sidebar-nav" id="sidebarNav">Indlaesning...</nav>
+  </aside>
+
+  <main class="content" id="content">
+    <div class="content-placeholder">
+      <h2>Vaelg et emne i menuen</h2>
+      <p>Brug sogefeltet eller naviger i kategorierne til venstre.</p>
+    </div>
+  </main>
+</div>
+
+<script>
+let sections = [];
+
+async function loadPlaybook() {
+  const res = await fetch('./data/playbook.md?nc=' + Date.now());
+  const text = await res.text();
+  parsePlaybook(text);
+  buildSidebar();
+  // Deep-link: check URL hash
+  const hash = decodeURIComponent(location.hash.slice(1));
+  if (hash) {
+    const match = sections.find(s => slugify(s.heading) === hash);
+    if (match) showSection(match);
+  }
+}
+
+function slugify(s) {
+  return s.toLowerCase()
+    .replace(/[\u00e6]/g, 'ae').replace(/[\u00f8]/g, 'oe').replace(/[\u00e5]/g, 'aa')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+}
+
+// Group labels derived from # or structure
+const GROUP_MAP = [
+  { test: h => /login|kodeord|medarbej|roller|support/i.test(h), label: 'Brugere og adgang' },
+  { test: h => /dashboard/i.test(h), label: 'Dashboard' },
+  { test: h => /ordre|ordredetaljer|manuel ordre|klon|label|afsendelse|waybill|dropship|annull/i.test(h), label: 'Ordrestyring' },
+  { test: h => /produkt|stregkode|kolli|flags|placering|warehouse weight|lagerhistorik|kostpris/i.test(h), label: 'Produkter' },
+  { test: h => /indkøb|leverandør|forecast|presell/i.test(h), label: 'Indkøb og leverandører' },
+  { test: h => /lager.*status|revision|lager.*økonomi|lagerdesigner|optegning|reol|refill|test.*plukke/i.test(h), label: 'Lager og design' },
+  { test: h => /plukkeprofil|eksklusive plukke|plukkeprofil til transfer/i.test(h), label: 'Plukkeprofiler' },
+  { test: h => /sorterings|leveringsmetode|leveringspris|shop checkout/i.test(h), label: 'Sortering og levering' },
+  { test: h => /medarbejderadministration|arbejdsplaner|kundeoversi|valutakurs|3pl|lagerrapport/i.test(h), label: 'Administration' },
+  { test: h => /batchsporing|serienummer|totes|emballage|vogne|printere|enhedstyper/i.test(h), label: 'Udstyr og sporing' },
+  { test: h => /returportal|alternativ retur|returårsager/i.test(h), label: 'Retur' },
+  { test: h => /workflow|email-skabeloner|følgeseddel|stregkode.*label|smtp|systemindstillinger|genstart|lokationer|csv|flush|api-adgang/i.test(h), label: 'Konfiguration' },
+  { test: h => /woocommerce|pos.*kasse|ankomstoversigt|transfer ordre|lager-kpi/i.test(h), label: 'Integrationer og flow' },
+  { test: h => /newland|zebra|printservice|hardware|browser|datasimkort/i.test(h), label: 'Hardware og opsætning' },
+  { test: h => /terminal|skift bruger|log ud|navigation|plukliste|app-oversigt|realtids/i.test(h), label: 'Terminal' },
+  { test: h => /ankomst|retur.*modtagelse|retur.*typer|modtag transfer|pluk ordrer|plukstrategi|aktiv plukning|fejlhåndtering.*pluk|pak ordrer|pakningsprocessen|labelprint|flyt lager|nedlæg|lagerrevision|placeringsrevision|løbende opt/i.test(h), label: 'Terminal: Arbejdsgange' },
+  { test: h => /ordreinfo|produktinfo|produktion|scan til palle|klienttilstand|printerindstillinger|brugerindstillinger|automatiserings|plukindstillinger|stemme|stregkodeindstillinger|andre indstillinger|genvejs|stregkodepraefiks/i.test(h), label: 'Terminal: Indstillinger' },
+  { test: h => /fejlkode|fejl:/i.test(h), label: 'Fejlkoder' },
+  { test: h => /business central|shopify|visma|gls|postnord|bring|bft|dandomain|herodesk|woocommerce|api.*generelt/i.test(h), label: 'Integrationsguides' },
+  { test: h => /abc-analyse|batch picking|batchnummer|batch\/lot|bom|bundle|cloudbaseret|cross dock|cut-off|demand|dropshipping|ean|end-of-day|erp|fefo|fifo|fors|fragtlabel|full sync|genopfyldning|gs1|gtin|håndterminal|intrastat|ioss|just-in-time|karantæne|kitting|kpi|kostpris|lager|lot|mikro|minimums|method key|otd|ordrestyring|pakning|pick|pim|plukning|plukprofil|pre-pack|presell.*forS|printservice|re-commerce|returflow|reverse|rma|roi|same-day|scm|serienummer|signalr|sku|sla|sofia|sorteringszone|stregkode.*ordb|tote|transfer ordre|tsm|udløb|uom|varemodtagelse|waybill|wave|weee|webhook|wms/i.test(h), label: 'Ordbog' }
+];
+
+function getGroup(heading) {
+  for (const g of GROUP_MAP) {
+    if (g.test(heading)) return g.label;
+  }
+  return 'Andet';
+}
+
+function parsePlaybook(text) {
+  const rawSections = text.split(/\n---+\n/);
+  sections = rawSections.map(s => {
+    const lines = s.trim().split('\n');
+    const headingLine = lines.find(l => /^## /.test(l));
+    const heading = headingLine ? headingLine.replace(/^## /, '').trim() : null;
+    return { heading, content: s.trim(), group: heading ? getGroup(heading) : null };
+  }).filter(s => s.heading && !['Filstruktur','Hvem bruger hvad','Hurtig reference','Indholdsfortegnelse'].includes(s.heading));
+}
+
+function buildSidebar() {
+  const nav = document.getElementById('sidebarNav');
+  nav.innerHTML = '';
+
+  const groups = {};
+  sections.forEach(s => {
+    if (!groups[s.group]) groups[s.group] = [];
+    groups[s.group].push(s);
+  });
+
+  Object.entries(groups).forEach(([label, items]) => {
+    const groupEl = document.createElement('div');
+    groupEl.className = 'sidebar-group';
+
+    const titleEl = document.createElement('div');
+    titleEl.className = 'sidebar-group-title';
+    titleEl.textContent = label;
+    groupEl.appendChild(titleEl);
+
+    items.forEach(sec => {
+      const a = document.createElement('a');
+      a.className = 'sidebar-item';
+      a.textContent = sec.heading;
+      a.dataset.heading = sec.heading.toLowerCase();
+      a.onclick = () => showSection(sec);
+      groupEl.appendChild(a);
+    });
+
+    nav.appendChild(groupEl);
+  });
+}
+
+function showSection(sec) {
+  // Update active state
+  document.querySelectorAll('.sidebar-item').forEach(el => {
+    el.classList.toggle('active', el.dataset.heading === sec.heading.toLowerCase());
+  });
+
+  // Update hash
+  history.replaceState(null, '', '#' + slugify(sec.heading));
+
+  // Render
+  const content = document.getElementById('content');
+  content.innerHTML = `
+    <div class="section-header">
+      <h1>${sec.heading}</h1>
+      <div class="section-meta">SmartPack Playbook &bull; ${sec.group}</div>
+    </div>
+    <div class="md" id="mdContent"></div>
+    <div class="section-footer">
+      <a href="https://support.smartpack.dk" target="_blank" rel="noopener">&#127760; Se alle guides</a>
+      <button class="copy-link" onclick="copyLink()">🔗 Kopiering af link</button>
+      <span class="copy-confirm" id="copyConfirm">Link kopieret!</span>
+    </div>
+  `;
+
+  document.getElementById('mdContent').innerHTML = renderMarkdown(sec.content);
+
+  // Scroll to top
+  document.getElementById('content').scrollTop = 0;
+  window.scrollTo(0, 0);
+}
+
+function copyLink() {
+  const url = location.href;
+  navigator.clipboard.writeText(url).then(() => {
+    const el = document.getElementById('copyConfirm');
+    if (!el) return;
+    el.classList.add('show');
+    setTimeout(() => el.classList.remove('show'), 2000);
+  });
+}
+
+function filterSidebar(query) {
+  const q = query.toLowerCase();
+  let visibleGroups = new Set();
+  document.querySelectorAll('.sidebar-item').forEach(el => {
+    const match = !q || el.dataset.heading.includes(q);
+    el.classList.toggle('hidden', !match);
+    if (match) visibleGroups.add(el.closest('.sidebar-group'));
+  });
+  document.querySelectorAll('.sidebar-group').forEach(g => {
+    const hasVisible = [...g.querySelectorAll('.sidebar-item')].some(el => !el.classList.contains('hidden'));
+    g.style.display = hasVisible ? '' : 'none';
+  });
+}
+
+function renderMarkdown(md) {
+  md = md.replace(/^## .+$/m, '').trim();
+  md = md.replace(/^> \*\*Version.*$/gm, '').replace(/^> \*\*Bem.*$/gm, '');
+  let html = '';
+  const lines = md.split('\n');
+  let inTable = false, inList = false, listTag = 'ul';
+  for (let i = 0; i < lines.length; i++) {
+    let line = lines[i];
+    if (line.trim() === '---') { if (inList) { html += `</${listTag}>`; inList = false; } if (inTable) { html += '</table>'; inTable = false; } continue; }
+    if (/^### /.test(line)) {
+      if (inList) { html += `</${listTag}>`; inList = false; }
+      if (inTable) { html += '</table>'; inTable = false; }
+      html += `<h3>${line.replace(/^### /, '')}</h3>`;
+    } else if (/^\|/.test(line)) {
+      if (inList) { html += `</${listTag}>`; inList = false; }
+      if (!inTable) { html += '<table>'; inTable = true; }
+      const cells = line.split('|').filter((c,i,a) => i > 0 && i < a.length-1).map(c => c.trim());
+      if (cells.every(c => /^[-:]+$/.test(c))) continue;
+      const isHead = lines[i+1] && /^\|[-| :]+\|/.test(lines[i+1]);
+      const tag = isHead ? 'th' : 'td';
+      html += `<tr>${cells.map(c => `<${tag}>${mdInline(c)}</${tag}>`).join('')}</tr>`;
+    } else {
+      if (inTable) { html += '</table>'; inTable = false; }
+      if (/^- /.test(line) || /^\* /.test(line)) {
+        if (!inList || listTag !== 'ul') { if (inList) html += `</${listTag}>`; html += '<ul>'; inList = true; listTag = 'ul'; }
+        html += `<li>${mdInline(line.replace(/^[-*] /, ''))}</li>`;
+      } else if (/^\d+\.\s/.test(line)) {
+        if (!inList || listTag !== 'ol') { if (inList) html += `</${listTag}>`; html += '<ol>'; inList = true; listTag = 'ol'; }
+        html += `<li>${mdInline(line.replace(/^\d+\.\s*/, ''))}</li>`;
+      } else if (line.trim() === '') {
+        if (inList) { html += `</${listTag}>`; inList = false; }
+      } else if (/^> /.test(line)) {
+        html += `<blockquote>${mdInline(line.replace(/^> /, ''))}</blockquote>`;
+      } else {
+        if (inList) { html += `</${listTag}>`; inList = false; }
+        if (line.trim()) html += `<p>${mdInline(line)}</p>`;
+      }
+    }
+  }
+  if (inList) html += `</${listTag}>`;
+  if (inTable) html += '</table>';
+  return html;
+}
+
+function mdInline(s) {
+  return s
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\*(.+?)\*/g, '<em>$1</em>')
+    .replace(/`(.+?)`/g, '<code>$1</code>')
+    .replace(/\[(.+?)\]\((.+?)\)/g, '<a href="$2" target="_blank">$1</a>')
+    .replace(/&gt;/g, '>');
+}
+
+loadPlaybook();
+</script>
+</body>
+</html>

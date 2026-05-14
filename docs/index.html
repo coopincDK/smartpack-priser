@@ -832,8 +832,14 @@ async function openOverlay(task) {
   bg.classList.add('open');
   document.body.style.overflow = 'hidden';
 
+  // Sæt guide URL — ekstern guide har prioritet, ellers link til playbook-siden
   if (task.guideUrl) {
     guideBtn.href = task.guideUrl;
+    guideBtn.textContent = '\u{1F4D6} Læs guide med billeder';
+    guideBtn.style.display = 'inline-flex';
+  } else if (task.playbookSection) {
+    guideBtn.href = './playbook.html#' + slugifySection(task.playbookSection);
+    guideBtn.textContent = '\u{1F4DA} Åbn i Playbook';
     guideBtn.style.display = 'inline-flex';
   }
 
@@ -857,6 +863,13 @@ async function openOverlay(task) {
   } catch(e) {
     bodyEl.innerHTML = '<p class="overlay-not-found">Kunne ikke indlæse playbook.</p>';
   }
+}
+
+function slugifySection(s) {
+  return s.toLowerCase()
+    .replace(/[\u00e6]/g, 'ae').replace(/[\u00f8]/g, 'oe').replace(/[\u00e5]/g, 'aa')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
 }
 
 function closeOverlay(e) {
