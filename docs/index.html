@@ -678,6 +678,9 @@ function renderBadge(data) {
 
 function renderToc(data) { /* TOC fjernet */ }
 
+// Task lookup map — undgår JSON-i-onclick problemer med æøå og anførselstegn
+const taskMap = {};
+
 function renderAll(data) {
   const main = document.getElementById('main');
   main.innerHTML = '';
@@ -704,21 +707,35 @@ function renderAll(data) {
 
     const tbody = document.createElement('tbody');
     cat.tasks.forEach(task => {
+      // Gem task i map så vi kan slå op via ID
+      const mapKey = cat.id + '__' + task.id;
+      taskMap[mapKey] = task;
+
       const tr = document.createElement('tr');
       tr.dataset.search = (task.name + ' ' + (task.desc||'')).toLowerCase();
-      tr.innerHTML = `
-        <td>
-          <div class="task-name">${task.name}</div>
-          ${task.desc ? `<div class="task-desc">${task.desc}</div>` : ''}
-        </td>
-        <td class="time-cell">${formatTime(task)}</td>
-        <td class="price-cell">${formatPrice(task)}</td>
-        <td>
-          <button class="guide-btn" onclick="openOverlay(${JSON.stringify(task).replace(/"/g,'&quot;')})">
-            &#128214; Se guide
-          </button>
-        </td>
-      `;
+
+      const td1 = document.createElement('td');
+      td1.innerHTML = `<div class="task-name">${task.name}</div>${task.desc ? `<div class="task-desc">${task.desc}</div>` : ''}`;
+
+      const td2 = document.createElement('td');
+      td2.className = 'time-cell';
+      td2.innerHTML = formatTime(task);
+
+      const td3 = document.createElement('td');
+      td3.className = 'price-cell';
+      td3.innerHTML = formatPrice(task);
+
+      const td4 = document.createElement('td');
+      const btn = document.createElement('button');
+      btn.className = 'guide-btn';
+      btn.innerHTML = '&#128214; Se guide';
+      btn.addEventListener('click', () => openOverlay(taskMap[mapKey]));
+      td4.appendChild(btn);
+
+      tr.appendChild(td1);
+      tr.appendChild(td2);
+      tr.appendChild(td3);
+      tr.appendChild(td4);
       tbody.appendChild(tr);
     });
 
@@ -735,7 +752,8 @@ let playbookSections = null;
 
 async function getPlaybook() {
   if (playbookSections) return playbookSections;
-  const res = await fetch('./data/playbook.md?nc=' + Date.now());
+  const res = await fetch('./data/playbook.md');
+  if (!res.ok) throw new Error('HTTP ' + res.status);
   const text = await res.text();
   // Split into sections on '---' lines
   const rawSections = text.split(/\n---+\n/);

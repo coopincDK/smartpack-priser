@@ -306,15 +306,21 @@
 let sections = [];
 
 async function loadPlaybook() {
-  const res = await fetch('./data/playbook.md?nc=' + Date.now());
-  const text = await res.text();
-  parsePlaybook(text);
-  buildSidebar();
-  // Deep-link: check URL hash
-  const hash = decodeURIComponent(location.hash.slice(1));
-  if (hash) {
-    const match = sections.find(s => slugify(s.heading) === hash);
-    if (match) showSection(match);
+  try {
+    const res = await fetch('./data/playbook.md');
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const text = await res.text();
+    parsePlaybook(text);
+    buildSidebar();
+    // Deep-link: check URL hash
+    const hash = decodeURIComponent(location.hash.slice(1));
+    if (hash) {
+      const match = sections.find(s => slugify(s.heading) === hash);
+      if (match) showSection(match);
+    }
+  } catch(e) {
+    document.getElementById('sidebarNav').innerHTML = '<div style="padding:16px;color:#c00;font-size:.82rem">Fejl: ' + e.message + '</div>';
+    document.getElementById('content').innerHTML = '<div style="padding:40px;color:#c00">Playbook kunne ikke indlæses. Prøv at genindlæse siden.</div>';
   }
 }
 
