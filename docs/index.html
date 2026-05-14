@@ -101,6 +101,70 @@
   }
   .hourly-badge::before { content: ''; display: inline-block; width: 8px; height: 8px; background: var(--green); border-radius: 50%; }
 
+  /* HERO TEKST */
+  .hero-lead { font-size: 1rem; color: var(--muted); max-width: 580px; margin: 0 auto 16px; }
+  .hero-quote {
+    font-size: .95rem;
+    font-style: italic;
+    color: var(--green-dark);
+    font-weight: 600;
+    max-width: 560px;
+    margin: 0 auto 24px;
+    border-left: 3px solid var(--green);
+    padding-left: 14px;
+    text-align: left;
+  }
+
+  /* INFO BANNER */
+  .info-banner {
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+    padding: 20px 24px;
+  }
+  .info-banner-inner {
+    max-width: 1000px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 0;
+    flex-wrap: wrap;
+  }
+  .info-col {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    flex: 1;
+    min-width: 220px;
+    padding: 8px 20px;
+  }
+  .info-icon {
+    font-size: 1.4rem;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .info-col strong {
+    display: block;
+    font-size: .88rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 2px;
+  }
+  .info-col span {
+    font-size: .8rem;
+    color: var(--muted);
+    line-height: 1.4;
+  }
+  .info-divider {
+    width: 1px;
+    height: 48px;
+    background: var(--border);
+    flex-shrink: 0;
+  }
+  @media (max-width: 700px) {
+    .info-divider { display: none; }
+    .info-col { padding: 8px 4px; }
+  }
+
   /* ── TOC ── */
   .toc-wrap {
     background: var(--white);
@@ -250,9 +314,41 @@
 <!-- HERO -->
 <div class="hero">
   <div class="hero-badge">Support &amp; Superbrugere</div>
-  <h1>Hvad koster det, hvis <span>vi gør det?</span></h1>
-  <p>Registrerede superbrugere får fri support. Nedenfor ses priser for opgaver vi løser for jer — ekskl. moms.</p>
+  <h1>Vi gør jer stærke i SmartPack.<br><span>Ikke bare opgaverne.</span></h1>
+  <p class="hero-lead">Registrerede superbrugere får fri og ubegrænset support. Vi guider, sparrer og oplærer jer i, hvordan systemet bruges bedst i hverdagen.</p>
+  <div class="hero-quote">
+    „Vi bruger hellere tiden på at gøre jer stærke i SmartPack end på at løse ting for jer.“
+  </div>
   <div class="hourly-badge" id="hourlyBadge">Indlæser...</div>
+</div>
+
+<!-- INFO BANNER -->
+<div class="info-banner">
+  <div class="info-banner-inner">
+    <div class="info-col">
+      <div class="info-icon">&#127979;</div>
+      <div>
+        <strong>Fri og ubegrænset support</strong>
+        <span>Superbrugere får fuld vejledning, sparring og oplæring uden beregning.</span>
+      </div>
+    </div>
+    <div class="info-divider"></div>
+    <div class="info-col">
+      <div class="info-icon">&#9201;</div>
+      <div>
+        <strong>Vi kan også gøre det for jer</strong>
+        <span>Har I ikke tiden? Vi løser opgaven effektivt, men uden oplæringsforløbet.</span>
+      </div>
+    </div>
+    <div class="info-divider"></div>
+    <div class="info-col">
+      <div class="info-icon">&#128176;</div>
+      <div>
+        <strong>Timepris <span id="hourlyInline">1.250</span> kr. ekskl. moms</strong>
+        <span>Fast og transparent pris — ingen overraskelser.</span>
+      </div>
+    </div>
+  </div>
 </div>
 
 <!-- TOC -->
@@ -309,6 +405,8 @@ function formatTime(task) {
 function renderBadge(data) {
   document.getElementById('hourlyBadge').textContent =
     'Timepris ' + data.hourlyRate.toLocaleString('da-DK') + ' ' + data.currency + ' ' + data.vatNote;
+  const inline = document.getElementById('hourlyInline');
+  if (inline) inline.textContent = data.hourlyRate.toLocaleString('da-DK');
 }
 
 function renderToc(data) {
