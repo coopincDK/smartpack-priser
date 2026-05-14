@@ -104,17 +104,30 @@
   }
   .sidebar-group { }
   .sidebar-group-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     font-size: .68rem;
     font-weight: 800;
     text-transform: uppercase;
-    letter-spacing: .08em;
+    letter-spacing: .07em;
     color: var(--muted);
-    padding: 10px 16px 4px;
+    padding: 10px 16px 5px;
+    cursor: pointer;
+    user-select: none;
   }
+  .sidebar-group-title:hover { color: var(--green-dark); }
+  .sidebar-group-title .chevron {
+    font-size: .6rem;
+    transition: transform .18s;
+    opacity: .6;
+  }
+  .sidebar-group.collapsed .chevron { transform: rotate(-90deg); }
+  .sidebar-group.collapsed .sidebar-items { display: none; }
   .sidebar-item {
     display: block;
-    padding: 7px 16px;
-    font-size: .82rem;
+    padding: 6px 16px 6px 20px;
+    font-size: .81rem;
     color: var(--text);
     text-decoration: none;
     line-height: 1.35;
@@ -325,35 +338,128 @@ function slugify(s) {
     .replace(/^-+|-+$/g, '');
 }
 
-// Group labels derived from # or structure
-const GROUP_MAP = [
-  { test: h => /login|kodeord|medarbej|roller|support/i.test(h), label: 'Brugere og adgang' },
-  { test: h => /dashboard/i.test(h), label: 'Dashboard' },
-  { test: h => /ordre|ordredetaljer|manuel ordre|klon|label|afsendelse|waybill|dropship|annull/i.test(h), label: 'Ordrestyring' },
-  { test: h => /produkt|stregkode|kolli|flags|placering|warehouse weight|lagerhistorik|kostpris/i.test(h), label: 'Produkter' },
-  { test: h => /indkøb|leverandør|forecast|presell/i.test(h), label: 'Indkøb og leverandører' },
-  { test: h => /lager.*status|revision|lager.*økonomi|lagerdesigner|optegning|reol|refill|test.*plukke/i.test(h), label: 'Lager og design' },
-  { test: h => /plukkeprofil|eksklusive plukke|plukkeprofil til transfer/i.test(h), label: 'Plukkeprofiler' },
-  { test: h => /sorterings|leveringsmetode|leveringspris|shop checkout/i.test(h), label: 'Sortering og levering' },
-  { test: h => /medarbejderadministration|arbejdsplaner|kundeoversi|valutakurs|3pl|lagerrapport/i.test(h), label: 'Administration' },
-  { test: h => /batchsporing|serienummer|totes|emballage|vogne|printere|enhedstyper/i.test(h), label: 'Udstyr og sporing' },
-  { test: h => /returportal|alternativ retur|returårsager/i.test(h), label: 'Retur' },
-  { test: h => /workflow|email-skabeloner|følgeseddel|stregkode.*label|smtp|systemindstillinger|genstart|lokationer|csv|flush|api-adgang/i.test(h), label: 'Konfiguration' },
-  { test: h => /woocommerce|pos.*kasse|ankomstoversigt|transfer ordre|lager-kpi/i.test(h), label: 'Integrationer og flow' },
-  { test: h => /newland|zebra|printservice|hardware|browser|datasimkort/i.test(h), label: 'Hardware og opsætning' },
-  { test: h => /terminal|skift bruger|log ud|navigation|plukliste|app-oversigt|realtids/i.test(h), label: 'Terminal' },
-  { test: h => /ankomst|retur.*modtagelse|retur.*typer|modtag transfer|pluk ordrer|plukstrategi|aktiv plukning|fejlhåndtering.*pluk|pak ordrer|pakningsprocessen|labelprint|flyt lager|nedlæg|lagerrevision|placeringsrevision|løbende opt/i.test(h), label: 'Terminal: Arbejdsgange' },
-  { test: h => /ordreinfo|produktinfo|produktion|scan til palle|klienttilstand|printerindstillinger|brugerindstillinger|automatiserings|plukindstillinger|stemme|stregkodeindstillinger|andre indstillinger|genvejs|stregkodepraefiks/i.test(h), label: 'Terminal: Indstillinger' },
-  { test: h => /fejlkode|fejl:/i.test(h), label: 'Fejlkoder' },
-  { test: h => /business central|shopify|visma|gls|postnord|bring|bft|dandomain|herodesk|woocommerce|api.*generelt/i.test(h), label: 'Integrationsguides' },
-  { test: h => /abc-analyse|batch picking|batchnummer|batch\/lot|bom|bundle|cloudbaseret|cross dock|cut-off|demand|dropshipping|ean|end-of-day|erp|fefo|fifo|fors|fragtlabel|full sync|genopfyldning|gs1|gtin|håndterminal|intrastat|ioss|just-in-time|karantæne|kitting|kpi|kostpris|lager|lot|mikro|minimums|method key|otd|ordrestyring|pakning|pick|pim|plukning|plukprofil|pre-pack|presell.*forS|printservice|re-commerce|returflow|reverse|rma|roi|same-day|scm|serienummer|signalr|sku|sla|sofia|sorteringszone|stregkode.*ordb|tote|transfer ordre|tsm|udløb|uom|varemodtagelse|waybill|wave|weee|webhook|wms/i.test(h), label: 'Ordbog' }
+// Eksplicit gruppe-tildeling — heading (del af) → gruppe
+// Rækkefølge matcher SmartPack admin-navigation
+const HEADING_GROUPS = [
+  // Login & adgang
+  ['Login (Admin)', 'Glemt kodeord', 'Opret / Rediger medarbejder', 'Roller og rettigheder', 'Supportchat — adgang'],
+  // Dashboard
+  ['Dashboard — Oversigt og KPI-tiles', 'Dashboard Builder', 'Employee Performance Dashboard'],
+  // Ordrer
+  ['Ordreliste — Oversigt og søgning', 'Ordredetaljer — Alle felter og tidslinje', 'Opret manuel ordre',
+   'Klon / Gensend ordre', 'Opret label uden ordre (LabelOnly)', 'Sæt ordrelinjer on hold',
+   'Opdel ordre (Tillad Delvis Levering)', 'Gensend afsendelsesmail', 'Genudskriv følgeseddel',
+   'Genudskriv fragtlabel (pakket ordre)', 'Dropshipping — To metoder', 'Annullér ordre',
+   'Afsendelse og Waybill / End-of-day'],
+  // Produkter
+  ['Produktoversigt', 'Produkttyper — Normal', 'Produkttyper — Normal + Ekstra pluk',
+   'Produkttyper — Kollektions', 'Produkttyper — Virtuel', 'Produkttyper — Bundle',
+   'Produktdata — Alle felter', 'Stregkoder på produkter', 'Kolli-stregkoder', 'Produktflags',
+   'Foretrukken placering (Preferred Placement)', 'Warehouse Weight (Lager-specifik vægt)',
+   'Lagerhistorik på produkt', 'Kostpris vs. Lageromkostning'],
+  // Indkøb & leverandører
+  ['Indkøbsordrer — Kladde, åbne, afsluttede', 'Leverandøroversigt og prislister',
+   'Forecasting og ABC-analyse', 'Presell (forudsalg)'],
+  // Lager
+  ['Lager — Status og reguleringer', 'Revisionszoner og løbende optælling',
+   'Lager økonomi-oversigt', 'Lagerrapporter og historikvisninger', 'Batchsporing', 'Serienummersporing'],
+  // Lagerdesign & plukkeprofiler
+  ['Lagerdesigner — Introduktion', 'Optegning af lager (Trin-for-trin)', 'Reol og placeringsstruktur',
+   'Refill-lokationer og sektioner', 'Test af historiske plukkeruter', 'Lagertegning er blank (Fejl)',
+   'Introduktion til plukkeprofiler', 'Plukkeprofil — Generelle indstillinger',
+   'Plukkeprofil — Rute og listeindstillinger', 'Plukkeprofil — Pakkeindstillinger',
+   'Plukkeprofil — Produktprioritet', 'Plukkeprofil — Ordrefiltrering',
+   'Plukkeprofil — Postnummer, lande og kundenummer', 'Plukkeprofil — Produktfiltrering',
+   'Plukkeprofil — Kunder / Shops', 'Plukkeprofil — Leveringsmetoder',
+   'Plukkeprofil — Lokationer og lagersektioner', 'Plukkeprofil — Ekskluder profiler',
+   'Eksklusive plukkeprofiler', 'Plukkeprofil til transfer ordre', 'Eget lagerflyt',
+   'Sorteringszoner — Komplet guide'],
+  // Levering & retur
+  ['Leveringsmetoder — Opsætning', 'Leveringspris konfiguration', 'Shop Checkout konfiguration',
+   'Returportal — Opsætning', 'Alternativ returadresse', 'Returårsager og -handlinger'],
+  // Administration
+  ['Medarbejderadministration', 'Arbejdsplaner', 'Kundeoversigt',
+   'Valutakurs — Overstyring', '3PL Prissætning', 'Lager-KPI\'er og benchmarks'],
+  // Udstyr & opsætning
+  ['Totes og plukkekasser', 'Emballage og pakketyper', 'Vogne', 'Printere', 'Enhedstyper',
+   'Newland MT9084 — Opsætning', 'Newland — Lås til SmartPack (Admin Tool)',
+   'Newland — Special stregkode (GS1/AI)', 'Zebra Håndterminal — Opsætning',
+   'Printservice — Opsætning (Windows)', 'Printservice — Tilføj ekstra printer',
+   'Anbefalet Hardware', 'Browser-kompatibilitet', 'Datasimkort'],
+  // Konfiguration
+  ['Workflows — Komplet guide', 'Email-skabeloner — Komplet opsætning', 'Følgeseddel-skabeloner',
+   'Stregkode-/labelskabeloner', 'SMTP-opsætning', 'Systemindstillinger — Oversigt',
+   'Genstart SmartPack', 'Lokationer', 'CSV-separator (CultureInfo)', 'Flush DNS', 'API-adgang'],
+  // Terminal
+  ['Login', 'Skift bruger', 'Log ud', 'Navigation og hjemknap',
+   'Terminal lader eller fryser', 'Plukliste låst/optaget', 'App-oversigt og badge-tællere',
+   'Realtidsopdateringer (SignalR)',
+   'Ankomst — Oversigt og ankomstliste', 'Ankomst — Opret ny (tilknyt indkøbsordre)',
+   'Ankomst — Opret ny (manuel)', 'Ankomst — Behandl (trin-for-trin)',
+   'Ankomst — Ekstrafelter (batch, udløbsdato, produktionsdato)', 'Ankomst — GS1 stregkoder',
+   'Ankomst — Blandet leverance', 'Ankomst — Bundles (VIGTIG REGEL)', 'Ankomst — Batch/LOT-sporing',
+   'Retur — Modtagelse af returpakke', 'Retur — Returtyper', 'Retur — Bundlevarer ved retur',
+   'Modtag Transfer',
+   'Pluk Ordrer — Generer plukliste', 'Plukstrategi — Multipluks Ordre (med totes)',
+   'Plukstrategi — Runner / Singlelines (uden totes)', 'Plukstrategi — Masseprint',
+   'Plukstrategi — Priority', 'Plukstrategi — Pickup / Afhentning',
+   'Plukstrategi — Eksklusive profiler',
+   'Aktiv plukning — Plukskærmen', 'Aktiv plukning — Trin-for-trin',
+   'Aktiv plukning — Interaktive elementer', 'Aktiv plukning — Vogn og tote',
+   'Fejlhåndtering — Vare mangler på hyldeplads', 'Fejlhåndtering — Delvist plukket ordre',
+   'Fejlhåndtering — For mange varer plukket', 'Fejlhåndtering — Ordre annulleret i shop',
+   'Pak Ordrer — Toteliste oversigt', 'Pak Ordrer — Naviger til en ordre',
+   'Pak Ordrer — OID-assistent', 'Pakningsprocessen — Trin-for-trin',
+   'Pakningsprocessen — Manuel ordre (Runner/Singlelines)', 'Pakningsprocessen — Fast Pack',
+   'Pakningsprocessen — Alle tilgængelige handlinger',
+   'Labelprint — Fejl og løsninger', 'Labelprint — Genudskriv (pakket ordre)',
+   'Labelprint — Glemt produkt i pakket ordre',
+   'Flyt Lager — Genopfyldningsliste fra totes', 'Flyt Lager — Direkte flytning (placering til placering)',
+   'Flyt Lager — Sektionsoversigt', 'Nedlæg plukliste',
+   'Lagerrevision (Stock Audit)', 'Lagerrevision — LOT/Batch håndtering',
+   'Lagerrevision — Karantæne', 'Placeringsrevision', 'Løbende optælling (automatisk revision)',
+   'Ordreinfo', 'Produktinfo / Vareinfo', 'Produktion', 'Scan til Palle', 'Klienttilstand (Client Mode)',
+   'Printerindstillinger og printervælger', 'Brugerindstillinger', 'Automatiseringsindstillinger',
+   'Plukindstillinger', 'Stemmeassistent', 'Stregkodeindstillinger', 'Andre indstillinger',
+   'Genvejsknapper', 'Stregkodepræfikser og systemkoder'],
+  // Integrationer
+  ['Generelle principper for fragtintegrationer', 'Business Central (BC)', 'Shopify',
+   'Visma e-conomic', 'GLS', 'PostNord', 'Bring', 'BFT Logistik', 'DanDomain', 'Herodesk',
+   'WooCommerce', 'API — Generelt',
+   'Ankomstoversigt og afsendelse', 'Transfer ordre — Komplet guide',
+   'POS / Kasse Flow', 'WooCommerce integration'],
+  // Fejlkoder
+  ['Fejlkoder — Quick Reference', 'Hurtige fejlløsninger',
+   'Fejlkode 301 — ItemNotFound', 'Fejlkode 326', 'Fejlkode 341 — ItemBundleCantContainSelfOrParent',
+   'Fejlkode 352 — ItemBatchNumberRequired', 'Fejlkode 1206 — StockingLotMissingBatchNumber',
+   'Fejlkode 1300 — PickingNoPicksFound', 'Fejlkode 1404 — PackageTooManyItems',
+   'Fejl: OrderFromLocationAddressIsEmpty', 'Fejl: The JSON value could not be converted',
+   'Fejl: Unable to find pickup location', 'Fejl: Printer Not Online (1002)',
+   'Fejl: Systemet reagerer ikke (Baglås)', 'Fejl: Terminal lader (loader)',
+   'Fejl: Label vil ikke udskrives', 'Fejl: GLS Flexdelivery not possible',
+   'Fejl: Bring — Telefonnummer format', 'Fejl: DanDomain — Fakturamail kun én gang',
+   'Fejl: BC — OrderLineAlreadyExists', 'Fejl: CSV/Excel ser forkert ud'],
+  // Ordbog
+  [] // catch-all for ordbog og alt andet
 ];
 
+const GROUP_LABELS = [
+  'Login og adgang', 'Dashboard', 'Ordrer', 'Produkter',
+  'Indkøb og leverandører', 'Lager', 'Lagerdesign og plukkeprofiler',
+  'Levering og retur', 'Administration', 'Udstyr og opsætning',
+  'Konfiguration', 'Terminal', 'Integrationer', 'Fejlkoder', 'Ordbog'
+];
+
+// Byg heading → group index map
+const headingGroupMap = {};
+HEADING_GROUPS.forEach((headings, i) => {
+  headings.forEach(h => { headingGroupMap[h] = i; });
+});
+
 function getGroup(heading) {
-  for (const g of GROUP_MAP) {
-    if (g.test(heading)) return g.label;
-  }
-  return 'Andet';
+  const i = headingGroupMap[heading];
+  if (i !== undefined) return GROUP_LABELS[i];
+  return 'Ordbog'; // catch-all
 }
 
 function parsePlaybook(text) {
@@ -370,38 +476,53 @@ function buildSidebar() {
   const nav = document.getElementById('sidebarNav');
   nav.innerHTML = '';
 
+  // Bevar rækkefølge fra GROUP_LABELS
   const groups = {};
+  GROUP_LABELS.forEach(l => { groups[l] = []; });
   sections.forEach(s => {
     if (!groups[s.group]) groups[s.group] = [];
     groups[s.group].push(s);
   });
 
   Object.entries(groups).forEach(([label, items]) => {
+    if (!items.length) return; // skip tomme grupper
+
     const groupEl = document.createElement('div');
     groupEl.className = 'sidebar-group';
 
     const titleEl = document.createElement('div');
     titleEl.className = 'sidebar-group-title';
-    titleEl.textContent = label;
+    titleEl.innerHTML = `<span>${label}</span><span class="chevron">▾</span>`;
+    titleEl.onclick = () => groupEl.classList.toggle('collapsed');
     groupEl.appendChild(titleEl);
 
+    const itemsEl = document.createElement('div');
+    itemsEl.className = 'sidebar-items';
     items.forEach(sec => {
       const a = document.createElement('a');
       a.className = 'sidebar-item';
       a.textContent = sec.heading;
       a.dataset.heading = sec.heading.toLowerCase();
       a.onclick = () => showSection(sec);
-      groupEl.appendChild(a);
+      itemsEl.appendChild(a);
     });
+    groupEl.appendChild(itemsEl);
 
     nav.appendChild(groupEl);
   });
 }
 
 function showSection(sec) {
-  // Update active state
+  // Update active state + sørg for at gruppen er åben
   document.querySelectorAll('.sidebar-item').forEach(el => {
-    el.classList.toggle('active', el.dataset.heading === sec.heading.toLowerCase());
+    const isActive = el.dataset.heading === sec.heading.toLowerCase();
+    el.classList.toggle('active', isActive);
+    if (isActive) {
+      const group = el.closest('.sidebar-group');
+      if (group) group.classList.remove('collapsed');
+      // Scroll item i sigte
+      el.scrollIntoView({ block: 'nearest' });
+    }
   });
 
   // Update hash
@@ -421,23 +542,21 @@ function showSection(sec) {
   `;
 
   document.getElementById('mdContent').innerHTML = renderMarkdown(sec.content);
-
-  // Scroll to top
   document.getElementById('content').scrollTop = 0;
-  window.scrollTo(0, 0);
 }
 
 function filterSidebar(query) {
   const q = query.toLowerCase();
-  let visibleGroups = new Set();
   document.querySelectorAll('.sidebar-item').forEach(el => {
     const match = !q || el.dataset.heading.includes(q);
     el.classList.toggle('hidden', !match);
-    if (match) visibleGroups.add(el.closest('.sidebar-group'));
   });
   document.querySelectorAll('.sidebar-group').forEach(g => {
     const hasVisible = [...g.querySelectorAll('.sidebar-item')].some(el => !el.classList.contains('hidden'));
     g.style.display = hasVisible ? '' : 'none';
+    // Auto-åbn grupper når man søger
+    if (q && hasVisible) g.classList.remove('collapsed');
+    if (!q) g.classList.remove('collapsed'); // nulstil ved tom søgning
   });
 }
 
