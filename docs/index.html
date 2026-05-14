@@ -184,34 +184,43 @@
 
 
   /* ── SEARCH ── */
-  .search-wrap {
-    max-width: 640px;
-    margin: 28px auto 24px;
-    padding: 0 24px;
-    position: relative;
+  /* CTA SEKTION */
+  .cta-section {
+    max-width: 1000px;
+    margin: 28px auto;
+    padding: 0 16px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
   }
-  .search-wrap svg {
-    position: absolute;
-    left: 28px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: var(--muted);
-    pointer-events: none;
-  }
-  .search-wrap input {
-    width: 100%;
-    padding: 13px 18px 13px 44px;
-    border: 1.5px solid var(--border);
-    border-radius: 999px;
-    font-size: .95rem;
-    font-family: inherit;
-    outline: none;
+  .cta-card {
+    display: flex;
+    align-items: center;
+    gap: 16px;
     background: var(--white);
-    box-shadow: 0 2px 8px rgba(0,0,0,.08);
-    transition: border-color .15s, box-shadow .15s;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px 20px;
+    text-decoration: none;
+    color: var(--text);
+    box-shadow: var(--shadow);
+    transition: border-color .15s, box-shadow .15s, transform .1s;
   }
-  .search-wrap input:focus { border-color: var(--green); box-shadow: 0 2px 12px rgba(39,174,96,.15); }
-  .search-wrap svg { left: 36px; }
+  .cta-card:hover {
+    border-color: var(--green);
+    box-shadow: 0 4px 16px rgba(39,174,96,.12);
+    transform: translateY(-1px);
+  }
+  .cta-card-green {
+    background: var(--green-light);
+    border-color: var(--green-border);
+  }
+  .cta-icon { font-size: 1.8rem; flex-shrink: 0; }
+  .cta-text { flex: 1; }
+  .cta-text strong { display: block; font-size: .92rem; font-weight: 700; margin-bottom: 3px; color: var(--text); }
+  .cta-text span { font-size: .8rem; color: var(--muted); line-height: 1.4; }
+  .cta-arrow { color: var(--green); font-size: 1.1rem; font-weight: 700; flex-shrink: 0; }
+  @media (max-width: 640px) { .cta-section { grid-template-columns: 1fr; } }
 
   /* ── MAIN ── */
   main { max-width: 1000px; margin: 0 auto; padding: 28px 16px 72px; }
@@ -333,10 +342,24 @@
   </div>
 </div>
 
-<!-- SEARCH -->
-<div class="search-wrap">
-  <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-  <input type="search" id="searchInput" placeholder="Søg efter en opgave, fx &apos;GLS&apos; eller &apos;CSV&apos;..." />
+<!-- CTA -->
+<div class="cta-section">
+  <a class="cta-card" href="https://support.smartpack.dk" target="_blank" rel="noopener">
+    <div class="cta-icon">&#127979;</div>
+    <div class="cta-text">
+      <strong>Guides og selvhjælp</strong>
+      <span>Find trin-for-trin guides til alle opgaver i SmartPack. Bygget til at gøre jer selvkørende.</span>
+    </div>
+    <div class="cta-arrow">&#8594;</div>
+  </a>
+  <a class="cta-card cta-card-green" href="https://support.smartpack.dk" target="_blank" rel="noopener">
+    <div class="cta-icon">&#129302;</div>
+    <div class="cta-text">
+      <strong>AI Wizard &mdash; 1:1 sparring</strong>
+      <span>Som superbruger har du adgang til vores AI Wizard. Få svar, sparring og vejledning direkte i chatten.</span>
+    </div>
+    <div class="cta-arrow">&#8594;</div>
+  </a>
 </div>
 
 <div class="price-note-bar">
@@ -446,15 +469,7 @@ function renderAll(data) {
   });
 }
 
-document.getElementById('searchInput').addEventListener('input', function() {
-  const q = this.value.toLowerCase().trim();
-  document.querySelectorAll('tr[data-search]').forEach(tr =>
-    tr.classList.toggle('hidden', q && !tr.dataset.search.includes(q))
-  );
-  document.querySelectorAll('.category').forEach(sec =>
-    sec.classList.toggle('hidden', q && sec.querySelectorAll('tr[data-search]:not(.hidden)').length === 0)
-  );
-});
+
 
 loadPrices();
 </script>
