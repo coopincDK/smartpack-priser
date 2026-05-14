@@ -3,437 +3,443 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Admin &ndash; SmartPack Priser</title>
+<title>Admin – SmartPack Priser</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --brand: #1a56db;
-    --brand-light: #e8f0fe;
-    --green: #0e9f6e;
-    --red: #e02424;
-    --orange: #f59e0b;
+    --green-dark: #1a5c35;
+    --green: #27ae60;
+    --green-light: #e8f5ee;
+    --green-border: #b2dfcc;
+    --red: #dc2626;
+    --red-light: #fee2e2;
+    --orange: #d97706;
     --text: #111827;
     --muted: #6b7280;
     --border: #e5e7eb;
     --bg: #f3f4f6;
     --white: #fff;
     --radius: 10px;
-    --shadow: 0 1px 3px rgba(0,0,0,.1);
+    --shadow: 0 1px 3px rgba(0,0,0,.08);
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); }
+  body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color: var(--text); -webkit-font-smoothing: antialiased; }
 
   header {
-    background: #111827;
+    background: var(--green-dark);
     color: #fff;
-    padding: 16px 24px;
+    padding: 0 24px;
+    height: 56px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     position: sticky;
     top: 0;
     z-index: 100;
-    box-shadow: 0 2px 8px rgba(0,0,0,.3);
+    box-shadow: 0 2px 8px rgba(0,0,0,.2);
   }
-  header h1 { font-size: 1rem; font-weight: 700; display: flex; align-items: center; gap: 8px; }
-  header a { color: #93c5fd; font-size: .85rem; text-decoration: none; }
+  header h1 { font-size: .95rem; font-weight: 700; }
+  .header-actions { display: flex; gap: 10px; align-items: center; }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 16px;
+    border-radius: 7px;
+    font-size: .82rem;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    font-family: inherit;
+    transition: opacity .15s;
+  }
+  .btn:hover { opacity: .88; }
+  .btn-white { background: #fff; color: var(--green-dark); }
+  .btn-green { background: var(--green); color: #fff; }
+  .btn-red { background: var(--red); color: #fff; }
+  .btn-ghost { background: rgba(255,255,255,.15); color: #fff; border: 1px solid rgba(255,255,255,.25); }
+  .btn-sm { padding: 4px 10px; font-size: .75rem; border-radius: 5px; }
+
+  .notice {
+    background: #fffbeb;
+    border: 1px solid #fcd34d;
+    border-radius: 8px;
+    padding: 12px 18px;
+    font-size: .83rem;
+    color: #92400e;
+    margin-bottom: 24px;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+  }
 
   .container { max-width: 1100px; margin: 0 auto; padding: 24px 16px 80px; }
 
-  /* HOURLY CARD */
   .hourly-card {
     background: var(--white);
     border: 1px solid var(--border);
     border-radius: var(--radius);
     padding: 18px 24px;
-    margin-bottom: 32px;
+    margin-bottom: 28px;
     box-shadow: var(--shadow);
     display: flex;
     align-items: center;
     gap: 16px;
     flex-wrap: wrap;
   }
-  .hourly-card label { font-weight: 700; font-size: .9rem; color: var(--brand); }
+  .hourly-card label { font-weight: 600; font-size: .9rem; }
   .hourly-card input {
-    border: 2px solid var(--border);
-    border-radius: 8px;
-    padding: 8px 14px;
-    font-size: 1rem;
-    font-weight: 700;
-    width: 140px;
+    width: 120px;
+    padding: 7px 12px;
+    border: 1.5px solid var(--border);
+    border-radius: 7px;
+    font-size: .95rem;
+    font-family: inherit;
     outline: none;
   }
-  .hourly-card input:focus { border-color: var(--brand); }
-  .hourly-card .hint { font-size: .78rem; color: var(--muted); flex: 1; }
+  .hourly-card input:focus { border-color: var(--green); }
 
-  /* BUTTONS */
-  .btn {
-    padding: 8px 18px;
-    border: none;
-    border-radius: 7px;
-    font-size: .85rem;
-    font-weight: 600;
-    cursor: pointer;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    transition: opacity .15s, transform .1s;
-    white-space: nowrap;
-  }
-  .btn:active { transform: scale(.97); }
-  .btn:hover { opacity: .88; }
-  .btn-primary { background: var(--brand); color: #fff; }
-  .btn-green { background: var(--green); color: #fff; }
-  .btn-red { background: var(--red); color: #fff; padding: 5px 10px; font-size: .78rem; }
-  .btn-add { background: #f0fdf4; color: var(--green); border: 1px dashed #6ee7b7; padding: 7px 14px; font-size: .83rem; width: 100%; justify-content: center; margin-top: 8px; border-radius: 8px; }
-  .btn-add:hover { background: #dcfce7; }
-  .btn-save { background: var(--brand); color: #fff; padding: 5px 12px; font-size: .78rem; }
-
-  /* CATEGORIES GRID */
-  .categories { display: grid; gap: 28px; }
-
-  /* CATEGORY CARD */
-  .cat-card {
+  .category-block {
     background: var(--white);
     border: 1px solid var(--border);
     border-radius: var(--radius);
+    margin-bottom: 20px;
     box-shadow: var(--shadow);
     overflow: hidden;
   }
-  .cat-card.drag-over {
-    border-color: var(--brand);
-    box-shadow: 0 0 0 3px rgba(26,86,219,.2);
-  }
   .cat-header {
-    background: var(--brand-light);
-    padding: 12px 16px;
     display: flex;
     align-items: center;
+    justify-content: space-between;
+    padding: 12px 18px;
+    background: var(--green-light);
+    border-bottom: 1px solid var(--green-border);
     gap: 10px;
-    border-bottom: 1px solid #c7d7f9;
   }
-  .cat-header h2 { font-size: .9rem; font-weight: 700; color: var(--brand); flex: 1; }
-  .cat-count {
-    background: var(--brand);
-    color: #fff;
-    border-radius: 999px;
-    font-size: .72rem;
+  .cat-title-input {
+    flex: 1;
     font-weight: 700;
-    padding: 2px 9px;
+    font-size: .92rem;
+    color: var(--green-dark);
+    background: transparent;
+    border: none;
+    outline: none;
+    font-family: inherit;
+    padding: 2px 6px;
+    border-radius: 4px;
   }
+  .cat-title-input:focus { background: #fff; border: 1px solid var(--green-border); }
 
-  /* TASK ROWS */
-  .tasks-list { padding: 6px 10px 4px; }
-
-  .task-row {
-    display: grid;
-    grid-template-columns: 24px 1fr 1fr 80px 100px 110px 110px 74px 42px;
-    gap: 6px;
-    align-items: center;
-    padding: 7px 6px;
-    border-radius: 7px;
-    border: 1px solid transparent;
-    margin-bottom: 3px;
-    transition: background .12s, border-color .12s;
-    cursor: default;
+  table { width: 100%; border-collapse: collapse; }
+  th {
+    padding: 9px 12px;
+    text-align: left;
+    font-size: .71rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .07em;
+    color: var(--muted);
+    background: #f9fafb;
+    border-bottom: 1px solid var(--border);
   }
-  .task-row:hover { background: #f5f7ff; border-color: var(--border); }
-  .task-row.dragging { opacity: .4; }
-  .task-row.drag-target { border-color: var(--brand); background: #eef2ff; }
+  td { padding: 9px 12px; border-bottom: 1px solid #f3f4f6; vertical-align: middle; }
+  tr:last-child td { border-bottom: none; }
+  tr.dragging { opacity: .4; }
+  tr.drag-over td { border-top: 2px solid var(--green); }
+
+  .editable {
+    width: 100%;
+    padding: 5px 8px;
+    border: 1.5px solid transparent;
+    border-radius: 5px;
+    font-size: .84rem;
+    font-family: inherit;
+    background: transparent;
+    outline: none;
+    transition: border-color .1s;
+  }
+  .editable:focus { border-color: var(--green); background: #fff; }
+  input[type=number].editable { width: 90px; }
+
+  .price-type { display: flex; flex-direction: column; gap: 4px; }
+  .price-row { display: flex; gap: 6px; align-items: center; }
+  .price-label { font-size: .7rem; color: var(--muted); width: 32px; flex-shrink: 0; }
 
   .drag-handle {
     cursor: grab;
-    color: #9ca3af;
-    font-size: 1rem;
-    text-align: center;
+    color: #d1d5db;
+    font-size: 1.1rem;
+    padding: 0 4px;
     user-select: none;
-    padding: 2px;
   }
-  .drag-handle:active { cursor: grabbing; }
+  .drag-handle:hover { color: var(--muted); }
 
-  .task-row .col-header {
-    display: grid;
-    grid-template-columns: 24px 1fr 1fr 80px 100px 110px 110px 74px 42px;
-    gap: 6px;
-    padding: 5px 6px 8px;
-    font-size: .72rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: .04em;
-    color: var(--muted);
-    border-bottom: 1px solid var(--border);
-    margin-bottom: 4px;
-  }
-
-  input.f {
-    width: 100%;
-    border: 1px solid #e5e7eb;
-    border-radius: 5px;
-    padding: 5px 7px;
-    font-size: .82rem;
+  .add-task-row td {
+    padding: 10px 12px;
     background: #f9fafb;
-    outline: none;
-    transition: border-color .15s, background .15s;
   }
-  input.f:focus { border-color: var(--brand); background: var(--white); }
-  input.f[type=number] { text-align: right; }
+  .add-task-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: .8rem;
+    font-weight: 600;
+    color: var(--green-dark);
+    background: none;
+    border: 1.5px dashed var(--green-border);
+    border-radius: 6px;
+    padding: 6px 14px;
+    cursor: pointer;
+    font-family: inherit;
+    transition: background .15s, border-color .15s;
+  }
+  .add-task-btn:hover { background: var(--green-light); border-color: var(--green); }
 
-  .no-tasks { padding: 16px; text-align: center; color: var(--muted); font-size: .83rem; }
-
-  /* TOAST */
-  #toast {
+  .toast {
     position: fixed;
-    bottom: 28px;
-    right: 28px;
-    padding: 12px 22px;
-    border-radius: 9px;
-    font-size: .88rem;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(80px);
+    background: var(--green-dark);
+    color: #fff;
+    padding: 11px 24px;
+    border-radius: 999px;
+    font-size: .85rem;
     font-weight: 600;
     box-shadow: 0 4px 16px rgba(0,0,0,.2);
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity .2s, transform .2s;
-    transform: translateY(8px);
-    z-index: 9999;
+    transition: transform .25s ease;
+    z-index: 999;
+    white-space: nowrap;
   }
-  #toast.show { opacity: 1; transform: translateY(0); }
-  #toast.ok { background: var(--green); color: #fff; }
-  #toast.err { background: var(--red); color: #fff; }
-  #toast.info { background: #1f2937; color: #fff; }
+  .toast.show { transform: translateX(-50%) translateY(0); }
 </style>
 </head>
 <body>
 
 <header>
-  <h1>&#9998; Admin &mdash; SmartPack Priser</h1>
-  <a href="/">&#8592; Se prisoversigt</a>
+  <h1>SmartPack Admin</h1>
+  <div class="header-actions">
+    <a href="./index.html" style="color:rgba(255,255,255,.7);font-size:.82rem;text-decoration:none;">Se prisoversigt</a>
+    <button class="btn btn-white" onclick="downloadJSON()">Download prices.json</button>
+  </div>
 </header>
 
 <div class="container">
 
-  <!-- TIMEPRIS -->
-  <div class="hourly-card">
-    <label>&#128176; Timepris</label>
-    <input type="number" id="hourlyInput" min="0" step="50" value="1250" />
-    <span style="font-size:.88rem;color:var(--muted)">kr. ekskl. moms</span>
-    <button class="btn btn-primary" onclick="saveHourlyRate()">&#8635; Gem &amp; genberegn alle priser</button>
-    <span class="hint">Genberegner automatisk alle opgaver med en fast tidsangivelse (15&nbsp;min&nbsp;= timepris/4).</span>
+  <div class="notice">
+    <span>&#9888;&#65039;</span>
+    <span>
+      <strong>Saadan gemmer du:</strong>
+      Rediger nedenfor, klik <strong>Download prices.json</strong> og erstat filen i <code>docs/data/prices.json</code> i dit projekt. Commit og push for at opdatere den offentlige side.
+    </span>
   </div>
 
-  <div class="categories" id="categoriesContainer"></div>
+  <div class="hourly-card">
+    <label for="hourlyRate">Timepris (kr.):</label>
+    <input type="number" id="hourlyRate" value="1250" min="0" step="50" onchange="recalcAll()">
+    <span style="font-size:.82rem;color:var(--muted)">ekskl. moms &mdash; bruges til prisberegning</span>
+  </div>
+
+  <div id="categories"></div>
+
+  <button class="btn btn-green" style="margin-top:16px" onclick="addCategory()">
+    + Tilfoej kategori
+  </button>
 
 </div>
 
-<div id="toast"></div>
+<div class="toast" id="toast"></div>
 
 <script>
 let data = null;
-let draggedTaskId = null;
-let draggedFromCatId = null;
 
-async function load() {
-  const res = await fetch('/api/prices');
-  data = await res.json();
-  document.getElementById('hourlyInput').value = data.hourlyRate;
-  render();
-}
-
-function render() {
-  const container = document.getElementById('categoriesContainer');
-  container.innerHTML = '';
-  data.categories.forEach(cat => container.appendChild(buildCatCard(cat)));
-}
-
-function buildCatCard(cat) {
-  const card = document.createElement('div');
-  card.className = 'cat-card';
-  card.dataset.catId = cat.id;
-
-  // Header
-  card.innerHTML = `
-    <div class="cat-header">
-      <h2>${esc(cat.title)}</h2>
-      <span class="cat-count">${cat.tasks.length}</span>
-    </div>
-  `;
-
-  // Column headers
-  const headers = document.createElement('div');
-  headers.style.cssText = 'padding:6px 16px 0;';
-  headers.innerHTML = `<div class="task-row col-header">
-    <span></span>
-    <span>Opgave</span>
-    <span>Beskrivelse</span>
-    <span>Min.</span>
-    <span style="text-align:right">Fast pris</span>
-    <span style="text-align:right">Fra (range)</span>
-    <span style="text-align:right">Til (range)</span>
-    <span></span>
-    <span></span>
-  </div>`;
-  card.appendChild(headers);
-
-  // Tasks list
-  const list = document.createElement('div');
-  list.className = 'tasks-list';
-  list.dataset.catId = cat.id;
-
-  if (cat.tasks.length === 0) {
-    list.innerHTML = '<div class="no-tasks">Ingen opgaver endnu &mdash; tilf&oslash;j en nedenfor</div>';
-  } else {
-    cat.tasks.forEach(task => list.appendChild(buildTaskRow(task, cat.id)));
+async function loadData() {
+  try {
+    const res = await fetch('./data/prices.json?nc=' + Date.now());
+    data = await res.json();
+  } catch(e) {
+    data = { hourlyRate: 1250, currency: 'kr.', vatNote: 'ekskl. moms', categories: [] };
   }
-
-  // Drop zone events
-  list.addEventListener('dragover', e => {
-    e.preventDefault();
-    card.classList.add('drag-over');
-    // Highlight nearest row
-    const rows = [...list.querySelectorAll('.task-row:not(.dragging)')];
-    rows.forEach(r => r.classList.remove('drag-target'));
-    const target = e.target.closest('.task-row');
-    if (target) target.classList.add('drag-target');
-  });
-  list.addEventListener('dragleave', e => {
-    if (!card.contains(e.relatedTarget)) card.classList.remove('drag-over');
-  });
-  list.addEventListener('drop', async e => {
-    e.preventDefault();
-    card.classList.remove('drag-over');
-    list.querySelectorAll('.task-row').forEach(r => r.classList.remove('drag-target'));
-    if (!draggedTaskId) return;
-
-    const toCatId = cat.id;
-    const target = e.target.closest('.task-row[data-task-id]');
-    const toIndex = target
-      ? [...list.querySelectorAll('.task-row[data-task-id]')].indexOf(target)
-      : cat.tasks.length;
-
-    await apiFetch(`/api/prices/task/${draggedTaskId}/move`, 'PUT', { toCatId, toIndex });
-    await reload();
-    showToast('Opgave flyttet!', 'info');
-  });
-
-  card.appendChild(list);
-
-  // Add button
-  const addBtn = document.createElement('button');
-  addBtn.className = 'btn btn-add';
-  addBtn.innerHTML = '&#43; Tilf&oslash;j opgave';
-  addBtn.onclick = () => addTask(cat.id);
-  const addWrap = document.createElement('div');
-  addWrap.style.cssText = 'padding:4px 10px 12px;';
-  addWrap.appendChild(addBtn);
-  card.appendChild(addWrap);
-
-  return card;
+  document.getElementById('hourlyRate').value = data.hourlyRate;
+  renderAll();
 }
 
-function buildTaskRow(task, catId) {
-  const tr = document.createElement('div');
-  tr.className = 'task-row';
-  tr.dataset.taskId = task.id;
+function getRate() {
+  return parseFloat(document.getElementById('hourlyRate').value) || 1250;
+}
+
+function recalcAll() {
+  data.hourlyRate = getRate();
+  renderAll();
+}
+
+function renderAll() {
+  const el = document.getElementById('categories');
+  el.innerHTML = '';
+  data.categories.forEach((cat, ci) => el.appendChild(renderCategory(cat, ci)));
+}
+
+function renderCategory(cat, ci) {
+  const block = document.createElement('div');
+  block.className = 'category-block';
+  block.innerHTML = `
+    <div class="cat-header">
+      <input class="cat-title-input" value="${esc(cat.title)}" onchange="data.categories[${ci}].title = this.value" />
+      <div style="display:flex;gap:8px">
+        <button class="btn btn-ghost btn-sm" onclick="addTask(${ci})">+ Opgave</button>
+        <button class="btn btn-red btn-sm" onclick="deleteCategory(${ci})">Slet kategori</button>
+      </div>
+    </div>
+    <table>
+      <thead><tr>
+        <th style="width:28px"></th>
+        <th>Opgave</th>
+        <th>Beskrivelse</th>
+        <th>Min.</th>
+        <th>Pris (kr.)</th>
+        <th>Guide URL</th>
+        <th style="width:60px"></th>
+      </tr></thead>
+      <tbody id="tbody-${ci}"></tbody>
+    </table>
+  `;
+  const tbody = block.querySelector(`#tbody-${ci}`);
+  cat.tasks.forEach((task, ti) => tbody.appendChild(renderTask(task, ci, ti)));
+
+  // Add task row
+  const addRow = document.createElement('tr');
+  addRow.className = 'add-task-row';
+  addRow.innerHTML = `<td colspan="7"><button class="add-task-btn" onclick="addTask(${ci})">+ Tilfoej opgave</button></td>`;
+  tbody.appendChild(addRow);
+
+  return block;
+}
+
+function renderTask(task, ci, ti) {
+  const tr = document.createElement('tr');
   tr.draggable = true;
+  tr.dataset.ci = ci;
+  tr.dataset.ti = ti;
+
+  const rate = getRate();
+  const calcPrice = task.minutes ? Math.round(task.minutes / 60 * rate) : '';
 
   tr.innerHTML = `
-    <span class="drag-handle" title="Tr&aelig;k for at flytte">&#8759;</span>
-    <input class="f" data-field="name" value="${esc(task.name)}" placeholder="Opgavenavn" />
-    <input class="f" data-field="desc" value="${esc(task.desc||'')}" placeholder="Beskrivelse" />
-    <input class="f" type="number" data-field="minutes" value="${task.minutes ?? ''}" placeholder="15" min="0" step="5" />
-    <input class="f" type="number" data-field="price" value="${task.price ?? ''}" placeholder="&ndash;" min="0" />
-    <input class="f" type="number" data-field="priceMin" value="${task.priceMin ?? ''}" placeholder="&ndash;" min="0" step="50" />
-    <input class="f" type="number" data-field="priceMax" value="${task.priceMax ?? ''}" placeholder="&ndash;" min="0" step="50" />
-    <button class="btn btn-save" onclick="saveTask('${task.id}', this)">&#10003; Gem</button>
-    <button class="btn btn-red" onclick="deleteTask('${task.id}', '${catId}')">&#128465;</button>
+    <td><span class="drag-handle" title="Træk for at flytte">&#8597;</span></td>
+    <td><input class="editable" value="${esc(task.name)}" onchange="data.categories[${ci}].tasks[${ti}].name = this.value" placeholder="Opgavenavn" /></td>
+    <td><input class="editable" value="${esc(task.desc||'')}" onchange="data.categories[${ci}].tasks[${ti}].desc = this.value" placeholder="Beskrivelse" /></td>
+    <td><input class="editable" type="number" value="${task.minutes||''}" onchange="updateMinutes(${ci},${ti},this.value)" placeholder="min" style="width:70px" /></td>
+    <td>
+      <div class="price-type">
+        <div class="price-row">
+          <span class="price-label">Fast:</span>
+          <input class="editable" type="number" value="${task.price!=null?task.price:''}" onchange="updatePrice(${ci},${ti},'price',this.value)" placeholder="${calcPrice||'auto'}" style="width:90px" />
+        </div>
+        <div class="price-row">
+          <span class="price-label">Fra:</span>
+          <input class="editable" type="number" value="${task.priceMin!=null?task.priceMin:''}" onchange="updatePrice(${ci},${ti},'priceMin',this.value)" style="width:90px" />
+        </div>
+        <div class="price-row">
+          <span class="price-label">Til:</span>
+          <input class="editable" type="number" value="${task.priceMax!=null?task.priceMax:''}" onchange="updatePrice(${ci},${ti},'priceMax',this.value)" style="width:90px" />
+        </div>
+      </div>
+    </td>
+    <td><input class="editable" value="${esc(task.guideUrl||'')}" onchange="data.categories[${ci}].tasks[${ti}].guideUrl = this.value||null" placeholder="https://..." /></td>
+    <td><button class="btn btn-red btn-sm" onclick="deleteTask(${ci},${ti})">Slet</button></td>
   `;
 
-  tr.addEventListener('dragstart', e => {
-    draggedTaskId = task.id;
-    draggedFromCatId = catId;
-    tr.classList.add('dragging');
-    e.dataTransfer.effectAllowed = 'move';
-  });
-  tr.addEventListener('dragend', () => {
-    tr.classList.remove('dragging');
-    draggedTaskId = null;
-    document.querySelectorAll('.drag-over').forEach(el => el.classList.remove('drag-over'));
+  // Drag & drop
+  tr.addEventListener('dragstart', e => { e.dataTransfer.setData('text/plain', JSON.stringify({ci,ti})); tr.classList.add('dragging'); });
+  tr.addEventListener('dragend', () => tr.classList.remove('dragging'));
+  tr.addEventListener('dragover', e => { e.preventDefault(); tr.classList.add('drag-over'); });
+  tr.addEventListener('dragleave', () => tr.classList.remove('drag-over'));
+  tr.addEventListener('drop', e => {
+    e.preventDefault();
+    tr.classList.remove('drag-over');
+    const from = JSON.parse(e.dataTransfer.getData('text/plain'));
+    const to = { ci: parseInt(tr.dataset.ci), ti: parseInt(tr.dataset.ti) };
+    if (from.ci === to.ci && from.ti !== to.ti) {
+      const tasks = data.categories[from.ci].tasks;
+      const [moved] = tasks.splice(from.ti, 1);
+      tasks.splice(to.ti, 0, moved);
+      renderAll();
+    } else if (from.ci !== to.ci) {
+      const task = data.categories[from.ci].tasks.splice(from.ti, 1)[0];
+      data.categories[to.ci].tasks.splice(to.ti, 0, task);
+      renderAll();
+    }
   });
 
   return tr;
 }
 
-async function saveTask(taskId, btn) {
-  const row = btn.closest('.task-row');
-  const updates = {};
-  row.querySelectorAll('input[data-field]').forEach(inp => {
-    const f = inp.dataset.field;
-    const v = inp.value.trim();
-    updates[f] = ['price','priceMin','priceMax','minutes'].includes(f)
-      ? (v === '' ? null : Number(v))
-      : v;
-  });
-  const res = await apiFetch(`/api/prices/task/${taskId}`, 'PUT', updates);
-  if (res.ok) showToast('Gemt!', 'ok');
-  else showToast(res.error || 'Fejl', 'err');
+function updateMinutes(ci, ti, val) {
+  const m = parseInt(val) || null;
+  data.categories[ci].tasks[ti].minutes = m;
+  if (m && data.categories[ci].tasks[ti].price === null) {
+    // auto-calculate suggestion — don't overwrite, just store minutes
+  }
 }
 
-async function deleteTask(taskId, catId) {
-  if (!confirm('Slet denne opgave?')) return;
-  const res = await apiFetch(`/api/prices/task/${taskId}`, 'DELETE');
-  if (res.ok) {
-    await reload();
-    showToast('Opgave slettet', 'info');
-  } else showToast(res.error || 'Fejl', 'err');
+function updatePrice(ci, ti, field, val) {
+  data.categories[ci].tasks[ti][field] = val === '' ? null : parseFloat(val);
 }
 
-async function addTask(catId) {
-  const name = prompt('Navn p\u00e5 ny opgave:');
-  if (!name || !name.trim()) return;
-  const res = await apiFetch(`/api/prices/category/${catId}/task`, 'POST', { name: name.trim() });
-  if (res.ok) {
-    await reload();
-    showToast('Opgave tilf\u00f8jet!', 'ok');
-  } else showToast(res.error || 'Fejl', 'err');
+function addTask(ci) {
+  const id = 'task_' + Date.now();
+  data.categories[ci].tasks.push({ id, name: '', desc: '', minutes: 15, price: null, priceMin: null, priceMax: null, guideUrl: null });
+  renderAll();
+  toast('Opgave tilfojet');
 }
 
-async function saveHourlyRate() {
-  const val = Number(document.getElementById('hourlyInput').value);
-  if (!val || val < 1) return showToast('Ugyldig timepris', 'err');
-  const res = await apiFetch('/api/prices/hourlyRate', 'PUT', { hourlyRate: val });
-  if (res.ok) {
-    data = res.data;
-    render();
-    showToast('Timepris og alle priser opdateret!', 'ok');
-  } else showToast(res.error || 'Fejl', 'err');
+function deleteTask(ci, ti) {
+  if (!confirm('Slet opgaven "' + data.categories[ci].tasks[ti].name + '"?')) return;
+  data.categories[ci].tasks.splice(ti, 1);
+  renderAll();
+  toast('Opgave slettet');
 }
 
-async function reload() {
-  const res = await fetch('/api/prices');
-  data = await res.json();
-  render();
+function addCategory() {
+  const title = prompt('Kategorinavn:');
+  if (!title) return;
+  data.categories.push({ id: 'cat_' + Date.now(), title, tasks: [] });
+  renderAll();
+  toast('Kategori oprettet');
 }
 
-async function apiFetch(url, method, body) {
-  const res = await fetch(url, {
-    method,
-    headers: body ? { 'Content-Type': 'application/json' } : {},
-    body: body ? JSON.stringify(body) : undefined
-  });
-  return res.json();
+function deleteCategory(ci) {
+  if (!confirm('Slet kategorien "' + data.categories[ci].title + '" og alle dens opgaver?')) return;
+  data.categories.splice(ci, 1);
+  renderAll();
+  toast('Kategori slettet');
 }
 
-function showToast(msg, type = 'ok') {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.className = 'show ' + type;
-  clearTimeout(t._timer);
-  t._timer = setTimeout(() => { t.className = ''; }, 2500);
+function downloadJSON() {
+  data.hourlyRate = getRate();
+  const json = JSON.stringify(data, null, 2);
+  const blob = new Blob([json], { type: 'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'prices.json';
+  a.click();
+  toast('prices.json hentet - erstat docs/data/prices.json og commit');
 }
 
 function esc(str) {
-  return (str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  return String(str||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');
 }
 
-load();
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(t._timer);
+  t._timer = setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+loadData();
 </script>
 </body>
 </html>
