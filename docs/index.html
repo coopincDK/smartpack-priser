@@ -837,19 +837,22 @@ async function openOverlay(task) {
     guideBtn.style.display = 'inline-flex';
   }
 
+  // No playbook section linked
+  if (!task.playbookSection) {
+    bodyEl.innerHTML = `<p class="overlay-not-found">Ingen guide tilknyttet denne opgave i playbooken endnu.</p>
+      <p style="margin-top:8px;color:var(--muted)">Kontakt os via supporten, så hjælper vi dig i gang.</p>`;
+    return;
+  }
+
   try {
     const sections = await getPlaybook();
-    let best = null, bestScore = 0;
-    sections.forEach(sec => {
-      const score = scoreMatch(task.name, sec.heading);
-      if (score > bestScore) { bestScore = score; best = sec; }
-    });
+    // Exact match on playbookSection heading
+    const match = sections.find(s => s.heading === task.playbookSection);
 
-    if (best && bestScore >= 20) {
-      bodyEl.innerHTML = renderMarkdown(best.content);
+    if (match) {
+      bodyEl.innerHTML = renderMarkdown(match.content);
     } else {
-      bodyEl.innerHTML = `<p class="overlay-not-found">Ingen specifik guide fundet i playbooken for denne opgave.</p>
-        <p style="margin-top:8px;color:var(--muted)">Brug "Læs guide" knappen nedenfor eller kontakt support.</p>`;
+      bodyEl.innerHTML = `<p class="overlay-not-found">Guide-sektion "${task.playbookSection}" kunne ikke findes i playbooken.</p>`;
     }
   } catch(e) {
     bodyEl.innerHTML = '<p class="overlay-not-found">Kunne ikke indlæse playbook.</p>';
