@@ -217,10 +217,8 @@
           "id": "pp14",
           "name": "Komplet opsætning af ny plukkeprofil fra bunden",
           "desc": "Vi designer den med jer",
-          "minutes": null,
-          "priceMin": 1250,
-          "priceMax": 2500,
-          "price": null,
+          "minutes": 90,
+          "price": 1875,
           "guideUrl": null,
           "playbookSection": "Introduktion til plukkeprofiler"
         },
@@ -504,11 +502,11 @@
           "name": "Fuld data-rens og lagerimport",
           "desc": "Vi rydder op i jeres fil og importerer alt",
           "minutes": null,
-          "priceMin": 1250,
-          "priceMax": 2500,
-          "price": null,
+          "price": 1250,
           "guideUrl": null,
-          "playbookSection": "Lager — Status og reguleringer"
+          "playbookSection": "Lager — Status og reguleringer",
+          "priceLabel": "1.250 kr.",
+          "perLabel": "pr. time"
         },
         {
           "id": "csv3",
