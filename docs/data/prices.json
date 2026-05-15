@@ -21,17 +21,7 @@
     {
       "id": "praeferencer",
       "title": "2. Præferencer",
-      "tasks": [
-        {
-          "id": "p1",
-          "name": "Fastsættelse af Manuel Valutakurs",
-          "desc": "",
-          "minutes": 30,
-          "price": 625,
-          "guideUrl": "https://support.smartpack.dk/da/articles/10429280-fastsaettelse-af-manuel-valutakurs",
-          "playbookSection": "Valutakurs — Overstyring"
-        }
-      ]
+      "tasks": []
     },
     {
       "id": "plukkeprofiler",
@@ -264,8 +254,17 @@
     },
     {
       "id": "valuta",
-      "title": "7. Valutakurstilsidesættelser",
+      "title": "Valuta",
       "tasks": [
+        {
+          "id": "p1",
+          "name": "Fastsættelse af Manuel Valutakurs",
+          "desc": "",
+          "minutes": 30,
+          "price": 625,
+          "guideUrl": "https://support.smartpack.dk/da/articles/10429280-fastsaettelse-af-manuel-valutakurs",
+          "playbookSection": "Valutakurs — Overstyring"
+        },
         {
           "id": "v1",
           "name": "Fastsæt manuel valutakurs",
