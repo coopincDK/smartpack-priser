@@ -226,11 +226,13 @@
           "id": "lm3",
           "name": "Opsætning af fragtintegration",
           "desc": "GLS, PostNord, Bring, BFT og øvrige",
-          "minutes": 45,
-          "price": 938,
+          "minutes": null,
+          "price": 1500,
           "priceNote": "pr. transportør",
           "guideUrl": null,
-          "playbookSection": "Generelle principper for fragtintegrationer"
+          "playbookSection": "Generelle principper for fragtintegrationer",
+          "priceLabel": "1.500 kr.",
+          "perLabel": "pr. transportør"
         },
         {
           "id": "lm4",
