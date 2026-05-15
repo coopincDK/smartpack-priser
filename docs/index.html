@@ -570,9 +570,11 @@
   tr:hover td { background: #f6fcf8; }
   .task-name { font-weight: 600; color: var(--text); }
   .task-desc { color: var(--muted); font-size: .78rem; margin-top: 2px; }
-  .price-cell { font-weight: 700; color: var(--green-dark); white-space: nowrap; font-size: .92rem; }
+  .price-cell { font-weight: 700; color: var(--green-dark); white-space: nowrap; font-size: .92rem; vertical-align: middle !important; }
   .price-note { color: var(--muted); font-size: .72rem; font-weight: 500; }
   .time-cell { color: var(--muted); font-size: .82rem; white-space: nowrap; }
+  .price-row { display: flex; align-items: center; gap: 8px; }
+  .price-val { display: inline-block; min-width: 100px; }
   .guide-btn {
     display: inline-flex;
     align-items: center;
@@ -929,7 +931,7 @@ async function loadPrices() {
 
 function formatPrice(task) {
   if (task.priceLabel) {
-    return task.priceLabel + '<span class="price-note"> ekskl. moms</span>';
+    return task.priceLabel;
   }
   if (task.price !== null && task.price !== undefined) {
     return task.price.toLocaleString('da-DK') + '&nbsp;kr.' +
