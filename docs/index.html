@@ -1411,19 +1411,24 @@ function renderExtras(data) {
   const tbody = document.createElement('tbody');
   data.extras.forEach(ex => {
     const tr = document.createElement('tr');
-    tr.innerHTML = `
-      <td>
-        <div class="task-name">${ex.name}</div>
-        ${ex.desc ? `<div class="task-desc">${ex.desc}</div>` : ''}
-      </td>
-      <td class="time-cell">${ex.perLabel || ''}</td>
-      <td class="price-cell">
-        <div class="price-row">
-          <span class="price-val" style="font-weight:800;color:var(--green-dark)">${ex.priceLabel}</span>
-        </div>
-      </td>
-      <td></td>
-    `;
+    const td1 = document.createElement('td');
+    td1.innerHTML = `<div class="task-name">${ex.name}</div>${ex.desc ? `<div class="task-desc">${ex.desc}</div>` : ''}`;
+    const td2 = document.createElement('td');
+    td2.className = 'time-cell';
+    td2.textContent = ex.perLabel || '';
+    const td3 = document.createElement('td');
+    td3.className = 'price-cell';
+    const priceRow = document.createElement('div');
+    priceRow.className = 'price-row';
+    priceRow.innerHTML = `<span class="price-val" style="font-weight:800;color:var(--green-dark)">${ex.priceLabel}</span>`;
+    const bestilBtn = document.createElement('button');
+    bestilBtn.className = 'bestil-btn';
+    bestilBtn.innerHTML = '+ Bestil';
+    bestilBtn.addEventListener('click', () => openBestil(ex));
+    priceRow.appendChild(bestilBtn);
+    td3.appendChild(priceRow);
+    const td4 = document.createElement('td');
+    tr.appendChild(td1); tr.appendChild(td2); tr.appendChild(td3); tr.appendChild(td4);
     tbody.appendChild(tr);
   });
   table.appendChild(tbody);

@@ -837,7 +837,7 @@
       "name": "SMTP via SmartPack",
       "desc": "SmartPack sender dine system-mails. Intet eget mailsetup nødvendigt.",
       "priceLabel": "100 kr.",
-      "perLabel": "pr. måned"
+      "perLabel": "pr. domæne/måned"
     },
     {
       "id": "ex2",
