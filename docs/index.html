@@ -461,7 +461,111 @@
     flex-shrink: 0;
   }
   .overlay-footer-note { font-size: .72rem; color: var(--muted); }
-  .overlay-footer-btns { display: flex; gap: 8px; flex-wrap: wrap; }
+  .overlay-footer-btns { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+  .overlay-chat-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 7px 14px;
+    border-radius: 8px;
+    border: 1.5px solid var(--border);
+    background: var(--white);
+    font-size: .78rem;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: inherit;
+    color: var(--text);
+    transition: background .15s;
+  }
+  .overlay-chat-btn:hover { background: #f3f4f6; }
+
+  /* CHAT MODAL */
+  .chat-bg {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 500;
+    align-items: flex-end;
+    justify-content: flex-end;
+    padding: 16px;
+    pointer-events: none;
+  }
+  .chat-bg.open { display: flex; }
+  .chat-window {
+    pointer-events: all;
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    width: 360px;
+    max-width: calc(100vw - 32px);
+    max-height: 520px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 8px 40px rgba(0,0,0,.18);
+    animation: sheetUp .2s cubic-bezier(.32,1,.32,1);
+  }
+  .chat-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--border);
+    flex-shrink: 0;
+  }
+  .chat-header-dot { width: 8px; height: 8px; background: #22c55e; border-radius: 50%; flex-shrink: 0; }
+  .chat-header-title { flex: 1; font-weight: 700; font-size: .88rem; }
+  .chat-header-sub { font-size: .72rem; color: var(--muted); }
+  .chat-close { background: none; border: none; font-size: 1rem; cursor: pointer; color: var(--muted); padding: 2px 6px; }
+  .chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    -webkit-overflow-scrolling: touch;
+  }
+  .chat-bubble {
+    max-width: 85%;
+    padding: 9px 13px;
+    border-radius: 12px;
+    font-size: .83rem;
+    line-height: 1.5;
+  }
+  .chat-bubble.bot { background: var(--green-light); color: var(--text); align-self: flex-start; border-bottom-left-radius: 4px; }
+  .chat-bubble.user { background: var(--green-dark); color: #fff; align-self: flex-end; border-bottom-right-radius: 4px; }
+  .chat-input-row {
+    display: flex;
+    gap: 8px;
+    padding: 12px 14px;
+    border-top: 1px solid var(--border);
+    flex-shrink: 0;
+  }
+  .chat-input {
+    flex: 1;
+    padding: 8px 12px;
+    border: 1.5px solid var(--border);
+    border-radius: 20px;
+    font-size: .83rem;
+    font-family: inherit;
+    outline: none;
+    transition: border-color .15s;
+  }
+  .chat-input:focus { border-color: var(--green); }
+  .chat-send {
+    background: var(--green-dark);
+    color: #fff;
+    border: none;
+    border-radius: 20px;
+    padding: 8px 14px;
+    font-size: .8rem;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: inherit;
+    transition: background .15s;
+  }
+  .chat-send:hover { background: #0f3d22; }
+  .chat-disclaimer { font-size: .68rem; color: var(--muted); text-align: center; padding: 0 14px 10px; }
   .overlay-guide-btn {
     display: inline-flex;
     align-items: center;
@@ -933,6 +1037,7 @@
     <div class="overlay-footer">
       <span class="overlay-footer-note">SmartPack Playbook</span>
       <div class="overlay-footer-btns">
+        <button class="overlay-chat-btn" onclick="openChat()">💬 Send besked</button>
         <a id="overlayPlaybookBtn" class="overlay-playbook-btn" href="#" target="_blank" rel="noopener" style="display:none">
           &#128218; Hele playbook
         </a>
@@ -948,6 +1053,26 @@
 <div class="extras-section" id="extrasSection" style="display:none">
   <div class="extras-title">Øvrige priser</div>
   <div class="extras-grid" id="extrasGrid"></div>
+</div>
+
+<!-- CHAT MODAL -->
+<div class="chat-bg" id="chatBg">
+  <div class="chat-window">
+    <div class="chat-header">
+      <div class="chat-header-dot"></div>
+      <div>
+        <div class="chat-header-title">SmartPack Support</div>
+        <div class="chat-header-sub">Vi svarer typisk inden for få timer</div>
+      </div>
+      <button class="chat-close" onclick="closeChat()">&#10005;</button>
+    </div>
+    <div class="chat-messages" id="chatMessages"></div>
+    <div class="chat-disclaimer">AI-assistent · Svar videresendes til support@smartpack.dk</div>
+    <div class="chat-input-row">
+      <input class="chat-input" id="chatInput" type="text" placeholder="Skriv din besked..." onkeydown="if(event.key==='Enter') sendChat()">
+      <button class="chat-send" onclick="sendChat()">Send</button>
+    </div>
+  </div>
 </div>
 
 <!-- BESTIL HJAELP MODAL -->
@@ -1389,6 +1514,54 @@ function renderPlans(cat, container) {
     </a>
   `;
   container.appendChild(cta);
+}
+
+// =====================
+// CHAT
+// =====================
+const chatBotReplies = [
+  'Tak for din besked! Vi kigger på det og vender tilbage hurtigst muligt.',
+  'God spørgsmål — det vil vi gerne hjælpe med. Vores team kontakter dig inden for arbejdsdagen.',
+  'Det noterer vi — du hører fra os snarest. Du kan også skrive direkte til support@smartpack.dk.',
+];
+let _chatTask = null;
+let _chatReplyIdx = 0;
+
+function openChat() {
+  const bg = document.getElementById('chatBg');
+  const msgs = document.getElementById('chatMessages');
+  bg.classList.add('open');
+  if (!msgs.children.length) {
+    const taskHint = _bestilTask ? ` Jeg ser du kigger på „${_bestilTask.name}“ — må jeg hjælpe med det?` : '';
+    addChatBubble('bot', `Hej! 👋 Hvad kan vi hjælpe dig med?${taskHint}`);
+  }
+  setTimeout(() => document.getElementById('chatInput').focus(), 150);
+}
+
+function closeChat() {
+  document.getElementById('chatBg').classList.remove('open');
+}
+
+function addChatBubble(type, text) {
+  const msgs = document.getElementById('chatMessages');
+  const div = document.createElement('div');
+  div.className = `chat-bubble ${type}`;
+  div.textContent = text;
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+function sendChat() {
+  const input = document.getElementById('chatInput');
+  const msg = input.value.trim();
+  if (!msg) return;
+  addChatBubble('user', msg);
+  input.value = '';
+  // Simpel auto-reply (placeholder — erstat med rigtig AI/webhook)
+  setTimeout(() => {
+    addChatBubble('bot', chatBotReplies[_chatReplyIdx % chatBotReplies.length]);
+    _chatReplyIdx++;
+  }, 700);
 }
 
 function renderExtras(data) {
