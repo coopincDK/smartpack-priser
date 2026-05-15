@@ -740,6 +740,49 @@
     .bestil-handle { display: none; }
   }
 
+  /* ── ØVRIGE PRISER ── */
+  .extras-section {
+    max-width: 1000px;
+    margin: 0 auto 48px;
+    padding: 0 16px;
+  }
+  .extras-title {
+    font-size: .72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    color: var(--green-dark);
+    margin-bottom: 12px;
+    padding-left: 4px;
+  }
+  .extras-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 14px;
+  }
+  .extra-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px 20px;
+    box-shadow: var(--shadow);
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .extra-card-name { font-weight: 700; font-size: .9rem; color: var(--text); }
+  .extra-card-desc { font-size: .8rem; color: var(--muted); line-height: 1.5; flex: 1; }
+  .extra-card-price {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+    margin-top: 8px;
+    padding-top: 10px;
+    border-top: 1px solid var(--border);
+  }
+  .extra-card-amount { font-size: 1.05rem; font-weight: 800; color: var(--green-dark); }
+  .extra-card-per { font-size: .75rem; color: var(--muted); font-weight: 500; }
+
   /* ── FOOTER ── */
   footer {
     text-align: center;
@@ -874,6 +917,10 @@
 </div>
 
 <main id="main"></main>
+<div class="extras-section" id="extrasSection" style="display:none">
+  <div class="extras-title">Øvrige priser</div>
+  <div class="extras-grid" id="extrasGrid"></div>
+</div>
 
 <!-- BESTIL HJAELP MODAL -->
 <div class="bestil-bg" id="bestilBg" onclick="closeBestil(event)">
@@ -926,6 +973,7 @@ async function loadPrices() {
   const data = await res.json();
   renderBadge(data);
   renderToc(data);
+  renderExtras(data);
   renderAll(data);
 }
 
@@ -1296,6 +1344,23 @@ function sendBestilling() {
 }
 
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeBestil({target: document.getElementById('bestilBg')}); });
+
+function renderExtras(data) {
+  if (!data.extras || !data.extras.length) return;
+  const section = document.getElementById('extrasSection');
+  const grid = document.getElementById('extrasGrid');
+  section.style.display = '';
+  grid.innerHTML = data.extras.map(ex => `
+    <div class="extra-card">
+      <div class="extra-card-name">${ex.name}</div>
+      <div class="extra-card-desc">${ex.desc}</div>
+      <div class="extra-card-price">
+        <span class="extra-card-amount">${ex.priceLabel}</span>
+        <span class="extra-card-per">${ex.perLabel}</span>
+      </div>
+    </div>
+  `).join('');
+}
 
 function closeOverlay(e) {
   if (e && e.target !== document.getElementById('overlayBg') && !e.target.classList.contains('overlay-close')) return;

@@ -793,5 +793,28 @@
         }
       ]
     }
+  ],
+  "extras": [
+    {
+      "id": "ex1",
+      "name": "SMTP via SmartPack",
+      "desc": "SmartPack sender dine system-mails. Intet eget mailsetup nødvendigt.",
+      "priceLabel": "100 kr.",
+      "perLabel": "pr. måned"
+    },
+    {
+      "id": "ex2",
+      "name": "POS flow på ekstern lokation",
+      "desc": "Opsætning og test af POS-flow på lokation uden for jeres primære lager.",
+      "priceLabel": "1.000 kr.",
+      "perLabel": "pr. flow"
+    },
+    {
+      "id": "ex3",
+      "name": "Konsulentbesøg",
+      "desc": "Vi gennemgår hele jeres SmartPack-setup og sparrer med jer på stedet. En hel dag hos jer.",
+      "priceLabel": "5.000 kr. + km",
+      "perLabel": "pr. dag"
+    }
   ]
 }
