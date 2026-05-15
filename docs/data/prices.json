@@ -775,17 +775,8 @@
           "id": "lp1",
           "name": "Opsætning af 3PL-kunder og prissætning",
           "desc": "",
-          "minutes": 75,
-          "price": 1563,
-          "guideUrl": null,
-          "playbookSection": "3PL Prissætning"
-        },
-        {
-          "id": "lp2",
-          "name": "Konfiguration af M2-priser og autotrim",
-          "desc": "",
-          "minutes": 45,
-          "price": 938,
+          "minutes": 60,
+          "price": 1250,
           "guideUrl": null,
           "playbookSection": "3PL Prissætning"
         }
