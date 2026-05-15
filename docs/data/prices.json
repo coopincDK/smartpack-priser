@@ -844,7 +844,7 @@
       "name": "POS flow på ekstern lokation",
       "desc": "Opsætning og test af POS-flow på lokation uden for jeres primære lager.",
       "priceLabel": "1.000 kr.",
-      "perLabel": "pr. flow"
+      "perLabel": "pr. flow/måned"
     },
     {
       "id": "ex3",
