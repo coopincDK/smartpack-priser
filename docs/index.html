@@ -589,6 +589,17 @@
   .guide-btn:hover { background: var(--green-mid); }
   .no-guide { color: #d1d5db; font-size: .78rem; }
   .hidden { display: none !important; }
+  .self-cell { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .free-tag {
+    font-size: .82rem;
+    font-weight: 800;
+    color: var(--green-dark);
+    background: var(--green-light);
+    border: 1.5px solid var(--green-border);
+    padding: 3px 9px;
+    border-radius: 999px;
+    white-space: nowrap;
+  }
 
   /* ── FOOTER ── */
   footer {
@@ -820,6 +831,13 @@ function renderAll(data) {
       td3.innerHTML = formatPrice(task);
 
       const td4 = document.createElement('td');
+      td4.className = 'self-cell';
+      // 0 kr. badge
+      const freeTag = document.createElement('span');
+      freeTag.className = 'free-tag';
+      freeTag.textContent = '0 kr.';
+      td4.appendChild(freeTag);
+      // Guide-knap
       const btn = document.createElement('button');
       btn.className = 'guide-btn';
       btn.innerHTML = '&#128214; Se guide';

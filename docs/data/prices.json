@@ -11,8 +11,8 @@
           "id": "b1",
           "name": "Opret ny bruger",
           "desc": "Nyt login, tildel rolle og rettigheder",
-          "minutes": 45,
-          "price": 938,
+          "minutes": 30,
+          "price": 625,
           "guideUrl": "https://support.smartpack.dk/da/articles/12352986-oprettelse-og-administration-af-brugere",
           "playbookSection": "Opret / Rediger medarbejder"
         },
@@ -20,8 +20,8 @@
           "id": "b2",
           "name": "Aktiver superbruger-adgang til supportchat",
           "desc": "",
-          "minutes": 45,
-          "price": 938,
+          "minutes": 30,
+          "price": 625,
           "guideUrl": "https://support.smartpack.dk/da/articles/9448403-fa-adgang-til-vores-nye-supportchat",
           "playbookSection": "Supportchat — adgang"
         }
@@ -29,14 +29,14 @@
     },
     {
       "id": "praeferencer",
-      "title": "2. Præferencer",
+      "title": "2. Pr├ªferencer",
       "tasks": [
         {
           "id": "p1",
-          "name": "Fastsættelse af Manuel Valutakurs",
+          "name": "Fasts├ªttelse af Manuel Valutakurs",
           "desc": "",
-          "minutes": 45,
-          "price": 938,
+          "minutes": 30,
+          "price": 625,
           "guideUrl": "https://support.smartpack.dk/da/articles/10429280-fastsaettelse-af-manuel-valutakurs",
           "playbookSection": "Valutakurs — Overstyring"
         }
@@ -50,15 +50,15 @@
           "id": "pp1",
           "name": "Generelle indstillinger",
           "desc": "Navn, prioritet, aktiv/inaktiv",
-          "minutes": 45,
-          "price": 938,
+          "minutes": 30,
+          "price": 625,
           "guideUrl": "https://support.smartpack.dk/da/articles/9374481-plukkeprofilindstilling-generelle-indstillinger",
           "playbookSection": "Plukkeprofil — Generelle indstillinger"
         },
         {
           "id": "pp2",
           "name": "Eksklusive profiler",
-          "desc": "Filtér single-lines, B2B, særlige ordretyper",
+          "desc": "Filt├®r single-lines, B2B, s├ªrlige ordretyper",
           "minutes": 45,
           "price": 938,
           "guideUrl": "https://support.smartpack.dk/da/articles/9374445-eksklusive-plukkeprofiler",
@@ -67,9 +67,9 @@
         {
           "id": "pp3",
           "name": "Ekskluder profiler",
-          "desc": "Undgå overlap mellem profiler",
-          "minutes": 45,
-          "price": 938,
+          "desc": "Undg├Ñ overlap mellem profiler",
+          "minutes": 30,
+          "price": 625,
           "guideUrl": "https://support.smartpack.dk/da/articles/9374448-plukkeprofiler-ekskluder-profiler",
           "playbookSection": "Plukkeprofil — Ekskluder profiler"
         },
@@ -77,8 +77,8 @@
           "id": "pp4",
           "name": "Lokationer og lagersektioner",
           "desc": "",
-          "minutes": 45,
-          "price": 938,
+          "minutes": 30,
+          "price": 625,
           "guideUrl": "https://support.smartpack.dk/da/articles/9374451-plukkeprofiler-lokationer-og-lagersektioner",
           "playbookSection": "Plukkeprofil — Lokationer og lagersektioner"
         },
@@ -86,17 +86,17 @@
           "id": "pp5",
           "name": "Leveringsmetoder",
           "desc": "Knyt profil til specifikke fragtprodukter",
-          "minutes": 45,
-          "price": 938,
+          "minutes": 30,
+          "price": 625,
           "guideUrl": "https://support.smartpack.dk/da/articles/9374453-plukkeprofiler-leveringsmetoder",
           "playbookSection": "Plukkeprofil — Leveringsmetoder"
         },
         {
           "id": "pp6",
           "name": "Kunder / Shops",
-          "desc": "Filtér på specifikke shops eller B2B-kunder",
-          "minutes": 45,
-          "price": 938,
+          "desc": "Filt├®r p├Ñ specifikke shops eller B2B-kunder",
+          "minutes": 30,
+          "price": 625,
           "guideUrl": "https://support.smartpack.dk/da/articles/9374458-plukkeprofiler-kunder-shops",
           "playbookSection": "Plukkeprofil — Kunder / Shops"
         },
@@ -104,8 +104,8 @@
           "id": "pp7",
           "name": "Produktfiltrering",
           "desc": "Inkluder/ekskluder produkter og kategorier",
-          "minutes": 45,
-          "price": 938,
+          "minutes": 30,
+          "price": 625,
           "guideUrl": "https://support.smartpack.dk/da/articles/9374459-plukkeprofiler-produktfiltrering",
           "playbookSection": "Plukkeprofil — Produktfiltrering"
         },
@@ -113,26 +113,26 @@
           "id": "pp8",
           "name": "Postnummer, lande og kundenummer",
           "desc": "",
-          "minutes": 45,
-          "price": 938,
+          "minutes": 30,
+          "price": 625,
           "guideUrl": "https://support.smartpack.dk/da/articles/9374465-plukkeprofiler-postnummer-lande-og-kundenummer",
           "playbookSection": "Plukkeprofil — Postnummer, lande og kundenummer"
         },
         {
           "id": "pp9",
           "name": "Ordrefiltrering",
-          "desc": "Fx kun ordrer over/under en bestemt størrelse",
-          "minutes": 45,
-          "price": 938,
+          "desc": "Fx kun ordrer over/under en bestemt st├©rrelse",
+          "minutes": 30,
+          "price": 625,
           "guideUrl": "https://support.smartpack.dk/da/articles/9374468-plukkeprofiler-ordrefiltrering",
           "playbookSection": "Plukkeprofil — Ordrefiltrering"
         },
         {
           "id": "pp10",
           "name": "Produktprioritet",
-          "desc": "Styr rækkefølgen i plukkeruten",
-          "minutes": 45,
-          "price": 938,
+          "desc": "Styr r├ªkkef├©lgen i plukkeruten",
+          "minutes": 30,
+          "price": 625,
           "guideUrl": "https://support.smartpack.dk/da/articles/9374472-plukkeprofiler-produktprioritet",
           "playbookSection": "Plukkeprofil — Produktprioritet"
         },
@@ -140,17 +140,17 @@
           "id": "pp11",
           "name": "Rute-, liste- og specielle indstillinger",
           "desc": "",
-          "minutes": 45,
-          "price": 938,
+          "minutes": 30,
+          "price": 625,
           "guideUrl": "https://support.smartpack.dk/da/articles/9374476-plukkeprofiler-rute-liste-og-specielleindstillinger",
           "playbookSection": "Plukkeprofil — Rute og listeindstillinger"
         },
         {
           "id": "pp12",
           "name": "Pakkeindstillinger",
-          "desc": "Emballage, vægt, dimensioner",
-          "minutes": 45,
-          "price": 938,
+          "desc": "Emballage, v├ªgt, dimensioner",
+          "minutes": 30,
+          "price": 625,
           "guideUrl": "https://support.smartpack.dk/da/articles/9374478-plukkeprofiler-pakkeindstillinger",
           "playbookSection": "Plukkeprofil — Pakkeindstillinger"
         },
@@ -165,7 +165,7 @@
         },
         {
           "id": "pp14",
-          "name": "Komplet opsætning af ny plukkeprofil fra bunden",
+          "name": "Komplet ops├ªtning af ny plukkeprofil fra bunden",
           "desc": "Vi designer den med jer",
           "minutes": null,
           "priceMin": 1250,
@@ -182,12 +182,12 @@
       "tasks": [
         {
           "id": "lp1",
-          "name": "Opsætning af 3PL-kunder og prissætning",
+          "name": "Ops├ªtning af 3PL-kunder og priss├ªtning",
           "desc": "",
           "minutes": 75,
           "price": 1563,
           "guideUrl": null,
-          "playbookSection": "3PL Prissætning"
+          "playbookSection": "3PL Priss├ªtning"
         },
         {
           "id": "lp2",
@@ -196,7 +196,7 @@
           "minutes": 45,
           "price": 938,
           "guideUrl": null,
-          "playbookSection": "3PL Prissætning"
+          "playbookSection": "3PL Priss├ªtning"
         }
       ]
     },
@@ -208,38 +208,38 @@
           "id": "lm1",
           "name": "Opret ny leveringsmetode",
           "desc": "",
-          "minutes": 45,
-          "price": 938,
+          "minutes": 30,
+          "price": 625,
           "guideUrl": null,
-          "playbookSection": "Leveringsmetoder — Opsætning"
+          "playbookSection": "Leveringsmetoder — Ops├ªtning"
         },
         {
           "id": "lm2",
-          "name": "Opsætning af Eget Lagerflyt",
+          "name": "Ops├ªtning af Eget Lagerflyt",
           "desc": "Intern flytning som leveringsmetode",
-          "minutes": 45,
-          "price": 938,
+          "minutes": 30,
+          "price": 625,
           "guideUrl": "https://support.smartpack.dk/da/articles/11680106-eget-lagerflyt",
           "playbookSection": "Eget lagerflyt"
         },
         {
           "id": "lm3",
-          "name": "Opsætning af fragtintegration",
-          "desc": "GLS, PostNord, Bring, BFT og øvrige",
+          "name": "Ops├ªtning af fragtintegration",
+          "desc": "GLS, PostNord, Bring, BFT og ├©vrige",
           "minutes": 45,
           "price": 938,
-          "priceNote": "pr. transportør",
+          "priceNote": "pr. transport├©r",
           "guideUrl": null,
           "playbookSection": "Generelle principper for fragtintegrationer"
         },
         {
           "id": "lm4",
-          "name": "Tilføj nye fragtprodukter til eksisterende transportør",
+          "name": "Tilf├©j nye fragtprodukter til eksisterende transport├©r",
           "desc": "",
-          "minutes": 45,
-          "price": 938,
+          "minutes": 30,
+          "price": 625,
           "guideUrl": null,
-          "playbookSection": "Leveringsmetoder — Opsætning"
+          "playbookSection": "Leveringsmetoder — Ops├ªtning"
         }
       ]
     },
@@ -249,7 +249,7 @@
       "tasks": [
         {
           "id": "ls1",
-          "name": "Komplet opsætning af Shop Checkout",
+          "name": "Komplet ops├ªtning af Shop Checkout",
           "desc": "Fragtprisformler og regler i webshoppen",
           "minutes": 75,
           "price": 1563,
@@ -269,14 +269,14 @@
     },
     {
       "id": "valuta",
-      "title": "7. Valutakurstilsidesættelser",
+      "title": "7. Valutakurstilsides├ªttelser",
       "tasks": [
         {
           "id": "v1",
-          "name": "Fastsæt manuel valutakurs",
-          "desc": "Tilsidesæt automatisk kurs",
-          "minutes": 45,
-          "price": 938,
+          "name": "Fasts├ªt manuel valutakurs",
+          "desc": "Tilsides├ªt automatisk kurs",
+          "minutes": 30,
+          "price": 625,
           "guideUrl": "https://support.smartpack.dk/da/articles/10429280-fastsaettelse-af-manuel-valutakurs",
           "playbookSection": "Valutakurs — Overstyring"
         }
@@ -288,17 +288,17 @@
       "tasks": [
         {
           "id": "f1",
-          "name": "Opsætning af Fragtbrev-skabelon",
+          "name": "Ops├ªtning af Fragtbrev-skabelon",
           "desc": "",
           "minutes": 45,
           "price": 938,
           "guideUrl": null,
-          "playbookSection": "Følgeseddel-skabeloner"
+          "playbookSection": "F├©lgeseddel-skabeloner"
         },
         {
           "id": "f2",
-          "name": "Opsætning af Kommerciel faktura",
-          "desc": "Til toldformål ved eksport",
+          "name": "Ops├ªtning af Kommerciel faktura",
+          "desc": "Til toldform├Ñl ved eksport",
           "minutes": 45,
           "price": 938,
           "guideUrl": null,
@@ -308,8 +308,8 @@
           "id": "f3",
           "name": "End-of-day / Waybill liste",
           "desc": "",
-          "minutes": 45,
-          "price": 938,
+          "minutes": 30,
+          "price": 625,
           "guideUrl": "https://support.smartpack.dk/da/articles/9439243-lav-end-of-day-waybill-liste",
           "playbookSection": "Afsendelse og Waybill / End-of-day"
         }
@@ -326,34 +326,34 @@
           "minutes": 45,
           "price": 938,
           "guideUrl": "https://support.smartpack.dk/da/articles/9405173-opsaetning-af-emailskabelon",
-          "playbookSection": "Email-skabeloner — Komplet opsætning"
+          "playbookSection": "Email-skabeloner — Komplet ops├ªtning"
         },
         {
           "id": "e2",
           "name": "Tilpas afsender-navn og emnelinjer",
           "desc": "",
-          "minutes": 45,
-          "price": 938,
+          "minutes": 30,
+          "price": 625,
           "guideUrl": null,
-          "playbookSection": "Email-skabeloner — Komplet opsætning"
+          "playbookSection": "Email-skabeloner — Komplet ops├ªtning"
         },
         {
           "id": "e3",
-          "name": "Opsætning af SMTP-server",
-          "desc": "Brug jeres eget domæne til mails",
+          "name": "Ops├ªtning af SMTP-server",
+          "desc": "Brug jeres eget dom├ªne til mails",
           "minutes": 45,
           "price": 938,
           "guideUrl": "https://support.smartpack.dk/da/articles/9374524-opsaetning-af-smtp-server-for-mailudsendelse",
-          "playbookSection": "SMTP-opsætning"
+          "playbookSection": "SMTP-ops├ªtning"
         },
         {
           "id": "e4",
           "name": "SMTP-krav og portindstillinger",
           "desc": "",
-          "minutes": 45,
-          "price": 938,
+          "minutes": 30,
+          "price": 625,
           "guideUrl": "https://support.smartpack.dk/da/articles/9374380-smtp-opsaetning-krav",
-          "playbookSection": "SMTP-opsætning"
+          "playbookSection": "SMTP-ops├ªtning"
         }
       ]
     },
@@ -363,25 +363,25 @@
       "tasks": [
         {
           "id": "s1",
-          "name": "Opsætning af følgeseddelskabelon",
+          "name": "Ops├ªtning af f├©lgeseddelskabelon",
           "desc": "Layout, logo, felter",
           "minutes": 45,
           "price": 938,
           "guideUrl": null,
-          "playbookSection": "Følgeseddel-skabeloner"
+          "playbookSection": "F├©lgeseddel-skabeloner"
         },
         {
           "id": "s2",
-          "name": "Tilpasning af eksisterende følgeseddel",
+          "name": "Tilpasning af eksisterende f├©lgeseddel",
           "desc": "",
-          "minutes": 45,
-          "price": 938,
+          "minutes": 30,
+          "price": 625,
           "guideUrl": null,
-          "playbookSection": "Følgeseddel-skabeloner"
+          "playbookSection": "F├©lgeseddel-skabeloner"
         },
         {
           "id": "s3",
-          "name": "Opsætning af indkøbsordreskabelon",
+          "name": "Ops├ªtning af indk├©bsordreskabelon",
           "desc": "",
           "minutes": 45,
           "price": 938,
@@ -390,16 +390,16 @@
         },
         {
           "id": "s4",
-          "name": "Tilpasning af eksisterende indkøbsordreskabelon",
+          "name": "Tilpasning af eksisterende indk├©bsordreskabelon",
           "desc": "",
-          "minutes": 45,
-          "price": 938,
+          "minutes": 30,
+          "price": 625,
           "guideUrl": null,
           "playbookSection": null
         },
         {
           "id": "s5",
-          "name": "Opsætning af stregkodeskabelon",
+          "name": "Ops├ªtning af stregkodeskabelon",
           "desc": "Produktlabels og placeringslabels",
           "minutes": 45,
           "price": 938,
@@ -408,10 +408,10 @@
         },
         {
           "id": "s6",
-          "name": "Opsætning af Newland til special-stregkoder",
+          "name": "Ops├ªtning af Newland til special-stregkoder",
           "desc": "",
-          "minutes": 45,
-          "price": 938,
+          "minutes": 30,
+          "price": 625,
           "guideUrl": "https://support.smartpack.dk/da/articles/12256096-opsaet-newland-til-special-stregkode",
           "playbookSection": "Newland — Special stregkode (GS1/AI)"
         }
@@ -423,30 +423,30 @@
       "tasks": [
         {
           "id": "r1",
-          "name": "Opsætning af returportal",
+          "name": "Ops├ªtning af returportal",
           "desc": "Lad kunderne oprette egne retursager",
           "minutes": 75,
           "price": 1563,
           "guideUrl": "https://support.smartpack.dk/da/articles/9374434-opsaetning-af-returportal",
-          "playbookSection": "Returportal — Opsætning"
+          "playbookSection": "Returportal — Ops├ªtning"
         },
         {
           "id": "r2",
-          "name": "Opsætning af alternativ returadresse",
+          "name": "Ops├ªtning af alternativ returadresse",
           "desc": "",
-          "minutes": 45,
-          "price": 938,
+          "minutes": 30,
+          "price": 625,
           "guideUrl": "https://support.smartpack.dk/da/articles/9812819-alternativ-returadresse-i-returportal",
           "playbookSection": "Alternativ returadresse"
         },
         {
           "id": "r3",
-          "name": "Oprettelse af returårsager og -handlinger",
+          "name": "Oprettelse af retur├Ñrsager og -handlinger",
           "desc": "",
-          "minutes": 45,
-          "price": 938,
+          "minutes": 30,
+          "price": 625,
           "guideUrl": null,
-          "playbookSection": "Returårsager og -handlinger"
+          "playbookSection": "Retur├Ñrsager og -handlinger"
         },
         {
           "id": "r4",
@@ -455,7 +455,7 @@
           "minutes": 45,
           "price": 938,
           "guideUrl": null,
-          "playbookSection": "Returportal — Opsætning"
+          "playbookSection": "Returportal — Ops├ªtning"
         }
       ]
     },
@@ -465,7 +465,7 @@
       "tasks": [
         {
           "id": "pos1",
-          "name": "Opsætning af POS-flow",
+          "name": "Ops├ªtning af POS-flow",
           "desc": "Kassesalg direkte fra lager",
           "minutes": 75,
           "price": 1563,
@@ -511,7 +511,7 @@
         },
         {
           "id": "w3",
-          "name": "Fejlsøgning i eksisterende workflow",
+          "name": "Fejls├©gning i eksisterende workflow",
           "desc": "",
           "minutes": 45,
           "price": 938,
@@ -527,16 +527,16 @@
         {
           "id": "vn1",
           "name": "Opret eller rediger varenummer",
-          "desc": "Navn, EAN, vægt, dimensioner mv.",
-          "minutes": 45,
-          "price": 938,
+          "desc": "Navn, EAN, v├ªgt, dimensioner mv.",
+          "minutes": 30,
+          "price": 625,
           "guideUrl": null,
           "playbookSection": "Produktdata — Alle felter"
         },
         {
           "id": "vn2",
-          "name": "Opsætning af Bundle",
-          "desc": "Sammensæt varer til ét produkt",
+          "name": "Ops├ªtning af Bundle",
+          "desc": "Sammens├ªt varer til ├®t produkt",
           "minutes": 45,
           "price": 938,
           "guideUrl": null,
@@ -544,7 +544,7 @@
         },
         {
           "id": "vn3",
-          "name": "Opsætning af Presell / Forudbestilling",
+          "name": "Ops├ªtning af Presell / Forudbestilling",
           "desc": "",
           "minutes": 45,
           "price": 938,
@@ -553,7 +553,7 @@
         },
         {
           "id": "vn4",
-          "name": "Opsætning af Dropshipping-vare",
+          "name": "Ops├ªtning af Dropshipping-vare",
           "desc": "",
           "minutes": 45,
           "price": 938,
@@ -578,12 +578,12 @@
         },
         {
           "id": "i2",
-          "name": "Fejlsøgning: Ordre synkroniseres ikke fra shop",
+          "name": "Fejls├©gning: Ordre synkroniseres ikke fra shop",
           "desc": "",
           "minutes": 45,
           "price": 938,
           "guideUrl": null,
-          "playbookSection": "Hurtige fejlløsninger"
+          "playbookSection": "Hurtige fejll├©sninger"
         },
         {
           "id": "i3",
@@ -597,10 +597,10 @@
         },
         {
           "id": "i4",
-          "name": "Opsætning af Herodesk",
+          "name": "Ops├ªtning af Herodesk",
           "desc": "",
-          "minutes": 45,
-          "price": 938,
+          "minutes": 30,
+          "price": 625,
           "guideUrl": "https://support.smartpack.dk/da/articles/9374406-opsaetning-af-herodesk-x-smartpack",
           "playbookSection": "Herodesk"
         }
@@ -612,8 +612,8 @@
       "tasks": [
         {
           "id": "pn1",
-          "name": "Opsætning af PostNord integration",
-          "desc": "MISKOS/GTT-nummer, API-nøgle",
+          "name": "Ops├ªtning af PostNord integration",
+          "desc": "MISKOS/GTT-nummer, API-n├©gle",
           "minutes": 45,
           "price": 938,
           "guideUrl": null,
@@ -621,10 +621,10 @@
         },
         {
           "id": "pn2",
-          "name": "Tilføj nye PostNord fragtprodukter",
+          "name": "Tilf├©j nye PostNord fragtprodukter",
           "desc": "",
-          "minutes": 45,
-          "price": 938,
+          "minutes": 30,
+          "price": 625,
           "guideUrl": null,
           "playbookSection": "PostNord"
         }
@@ -636,7 +636,7 @@
       "tasks": [
         {
           "id": "bc1",
-          "name": "Opsætning af Business Central integration",
+          "name": "Ops├ªtning af Business Central integration",
           "desc": "",
           "minutes": 75,
           "price": 1563,
@@ -689,19 +689,19 @@
         },
         {
           "id": "csv4",
-          "name": "Import af indkøbsordre via CSV",
-          "desc": "Læs ankomst ind fra fil",
+          "name": "Import af indk├©bsordre via CSV",
+          "desc": "L├ªs ankomst ind fra fil",
           "minutes": 45,
           "price": 938,
           "guideUrl": null,
-          "playbookSection": "Indkøbsordrer — Kladde, åbne, afsluttede"
+          "playbookSection": "Indk├©bsordrer — Kladde, ├Ñbne, afsluttede"
         },
         {
           "id": "csv5",
           "name": "Eksport af lagerrapport til CSV",
-          "desc": "Historik, bevægelser, beholdning",
-          "minutes": 45,
-          "price": 938,
+          "desc": "Historik, bev├ªgelser, beholdning",
+          "minutes": 30,
+          "price": 625,
           "guideUrl": "https://support.smartpack.dk/da/articles/13771718-lagerrapporter-historikvisninger-og-csv-eksport",
           "playbookSection": "Lagerrapporter og historikvisninger"
         },
@@ -709,35 +709,35 @@
           "id": "csv6",
           "name": "Eksport af ordrer til CSV",
           "desc": "",
-          "minutes": 45,
-          "price": 938,
+          "minutes": 30,
+          "price": 625,
           "guideUrl": null,
           "playbookSection": "Lagerrapporter og historikvisninger"
         },
         {
           "id": "csv7",
-          "name": "Eksport af indkøbsordrer til CSV",
+          "name": "Eksport af indk├©bsordrer til CSV",
           "desc": "",
-          "minutes": 45,
-          "price": 938,
+          "minutes": 30,
+          "price": 625,
           "guideUrl": null,
           "playbookSection": "Lagerrapporter og historikvisninger"
         },
         {
           "id": "csv8",
-          "name": "Fejlsøgning: CSV ser forkert ud i Excel",
-          "desc": "Tegnsæt / separator-problemer",
-          "minutes": 45,
-          "price": 938,
+          "name": "Fejls├©gning: CSV ser forkert ud i Excel",
+          "desc": "Tegns├ªt / separator-problemer",
+          "minutes": 30,
+          "price": 625,
           "guideUrl": "https://support.smartpack.dk/da/articles/12890543-csv-excel-ser-forkert-ud",
           "playbookSection": "Fejl: CSV/Excel ser forkert ud"
         },
         {
           "id": "csv9",
-          "name": "Fejlsøgning: Forkert format ved CSV-eksport",
+          "name": "Fejls├©gning: Forkert format ved CSV-eksport",
           "desc": "",
-          "minutes": 45,
-          "price": 938,
+          "minutes": 30,
+          "price": 625,
           "guideUrl": "https://support.smartpack.dk/da/articles/12095875-forkert-format-af-csv-eksport",
           "playbookSection": "Fejl: CSV/Excel ser forkert ud"
         }
@@ -745,7 +745,7 @@
     },
     {
       "id": "lokationer",
-      "title": "19. Opsætning af Lokationer",
+      "title": "19. Ops├ªtning af Lokationer",
       "tasks": [
         {
           "id": "lok1",
@@ -761,18 +761,18 @@
         {
           "id": "lok2",
           "name": "Opret ny lokation",
-          "desc": "Tilføj enkelt placering på eksisterende tegning",
-          "minutes": 45,
-          "price": 938,
+          "desc": "Tilf├©j enkelt placering p├Ñ eksisterende tegning",
+          "minutes": 30,
+          "price": 625,
           "guideUrl": "https://support.smartpack.dk/da/articles/11136819-oprettelse-af-ny-lokation-pa-lagertegning",
           "playbookSection": "Lokationer"
         },
         {
           "id": "lok3",
-          "name": "Omdøb eller flyt lokation",
+          "name": "Omd├©b eller flyt lokation",
           "desc": "",
-          "minutes": 45,
-          "price": 938,
+          "minutes": 30,
+          "price": 625,
           "guideUrl": null,
           "playbookSection": "Lokationer"
         },
@@ -780,23 +780,23 @@
           "id": "lok4",
           "name": "Slet lokation",
           "desc": "Inkl. flytning af evt. lager",
-          "minutes": 45,
-          "price": 938,
+          "minutes": 30,
+          "price": 625,
           "guideUrl": null,
           "playbookSection": "Lokationer"
         },
         {
           "id": "lok5",
-          "name": "Opsætning af foretrukken placering pr. produkt",
+          "name": "Ops├ªtning af foretrukken placering pr. produkt",
           "desc": "",
-          "minutes": 45,
-          "price": 938,
+          "minutes": 30,
+          "price": 625,
           "guideUrl": null,
           "playbookSection": "Foretrukken placering (Preferred Placement)"
         },
         {
           "id": "lok6",
-          "name": "Masseopsætning af foretrukne placeringer via CSV",
+          "name": "Masseops├ªtning af foretrukne placeringer via CSV",
           "desc": "",
           "minutes": 45,
           "price": 938,
@@ -807,17 +807,17 @@
           "id": "lok7",
           "name": "Udskriv hyldeforkanter / placeringslabels",
           "desc": "",
-          "minutes": 45,
-          "price": 938,
+          "minutes": 30,
+          "price": 625,
           "guideUrl": "https://support.smartpack.dk/da/articles/10062148-udskrift-af-hyldeforkanter-placeringslabels",
           "playbookSection": "Stregkode-/labelskabeloner"
         },
         {
           "id": "lok8",
-          "name": "Fejlsøgning: Lagertegning er blank",
+          "name": "Fejls├©gning: Lagertegning er blank",
           "desc": "",
-          "minutes": 45,
-          "price": 938,
+          "minutes": 30,
+          "price": 625,
           "guideUrl": "https://support.smartpack.dk/da/articles/9515116-hjaelp-min-lagertegning-er-blank",
           "playbookSection": "Lagertegning er blank (Fejl)"
         }
@@ -830,7 +830,7 @@
         {
           "id": "sz1",
           "name": "Opret ny sorteringszone",
-          "desc": "Definer bur, bane eller område",
+          "desc": "Definer bur, bane eller omr├Ñde",
           "minutes": 45,
           "price": 938,
           "guideUrl": "https://support.smartpack.dk/da/articles/13410043-sorteringszoner",
@@ -847,7 +847,7 @@
         },
         {
           "id": "sz3",
-          "name": "Opsætning af zonebaseret sortering",
+          "name": "Ops├ªtning af zonebaseret sortering",
           "desc": "Fx GLS til bur 1, PostNord til bur 2",
           "minutes": 45,
           "price": 938,
@@ -856,7 +856,7 @@
         },
         {
           "id": "sz4",
-          "name": "Komplet opsætning af sorteringszoner fra bunden",
+          "name": "Komplet ops├ªtning af sorteringszoner fra bunden",
           "desc": "",
           "minutes": 75,
           "price": 1563,
@@ -865,8 +865,8 @@
         },
         {
           "id": "sz5",
-          "name": "Opsætning af cutoff-tider pr. leveringsmetode",
-          "desc": "Hvornår stopper pluk til dagens forsendelse",
+          "name": "Ops├ªtning af cutoff-tider pr. leveringsmetode",
+          "desc": "Hvorn├Ñr stopper pluk til dagens forsendelse",
           "minutes": 45,
           "price": 938,
           "guideUrl": null,
@@ -874,28 +874,28 @@
         },
         {
           "id": "sz6",
-          "name": "Opsætning af cutoff pr. transportør",
+          "name": "Ops├ªtning af cutoff pr. transport├©r",
           "desc": "Fx GLS cutoff kl. 14:00",
-          "minutes": 45,
-          "price": 938,
+          "minutes": 30,
+          "price": 625,
           "guideUrl": null,
           "playbookSection": "Sorteringszoner — Komplet guide"
         },
         {
           "id": "sz7",
-          "name": "Opsætning af cutoff pr. ugedag",
-          "desc": "Fx ingen afhentning lørdag",
-          "minutes": 45,
-          "price": 938,
+          "name": "Ops├ªtning af cutoff pr. ugedag",
+          "desc": "Fx ingen afhentning l├©rdag",
+          "minutes": 30,
+          "price": 625,
           "guideUrl": null,
           "playbookSection": "Sorteringszoner — Komplet guide"
         },
         {
           "id": "sz8",
-          "name": "Tilpasning af cutoff ved kampagner / sæson",
+          "name": "Tilpasning af cutoff ved kampagner / s├ªson",
           "desc": "",
-          "minutes": 45,
-          "price": 938,
+          "minutes": 30,
+          "price": 625,
           "guideUrl": null,
           "playbookSection": "Sorteringszoner — Komplet guide"
         }
