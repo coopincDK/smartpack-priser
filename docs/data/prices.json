@@ -815,6 +815,13 @@
       "desc": "Vi gennemgår hele jeres SmartPack-setup og sparrer med jer på stedet. En hel dag hos jer.",
       "priceLabel": "5.000 kr. + km",
       "perLabel": "pr. dag"
+    },
+    {
+      "id": "ex4",
+      "name": "Ad hoc opgaver",
+      "desc": "Mindre tilpasninger, spørgsmål og opgaver der ikke passer i en fast kategori.",
+      "priceLabel": "1.250 kr.",
+      "perLabel": "pr. time"
     }
   ]
 }
