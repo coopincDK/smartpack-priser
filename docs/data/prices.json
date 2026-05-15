@@ -575,7 +575,8 @@
           "priceNote": "pr. shop",
           "guideUrl": "https://support.smartpack.dk/da/articles/9374401-opret-woocommerce-api-nogle-til-smartpack",
           "playbookSection": "WooCommerce integration",
-          "priceLabel": "5.000 kr."
+          "priceLabel": "5.000 kr.",
+          "perLabel": "pr. shop"
         },
         {
           "id": "i2",
@@ -595,7 +596,8 @@
           "priceNote": "pr. integration",
           "guideUrl": null,
           "playbookSection": "Visma e-conomic",
-          "priceLabel": "15.000 kr."
+          "priceLabel": "15.000 kr.",
+          "perLabel": "pr. integration"
         },
         {
           "id": "i4",
@@ -644,7 +646,8 @@
           "price": 15000,
           "guideUrl": null,
           "playbookSection": "Business Central (BC)",
-          "priceLabel": "15.000 kr."
+          "priceLabel": "15.000 kr.",
+          "perLabel": "pr. integration"
         },
         {
           "id": "bc2",

@@ -942,6 +942,7 @@ function formatPrice(task) {
 }
 
 function formatTime(task) {
+  if (task.perLabel) return `<span class="price-note">${task.perLabel}</span>`;
   if (!task.minutes) {
     if (task.priceMin && task.priceMax) {
       const lo = Math.round(task.priceMin / (1250/60));
