@@ -27,11 +27,11 @@
           "name": "Design dit lager",
           "desc": "Optegn gånge, lokationer og zoner i layoutdesigneren",
           "minutes": null,
-          "priceMin": 2500,
-          "priceMax": 5000,
-          "price": null,
+          "price": 1250,
           "guideUrl": "https://support.smartpack.dk/da/articles/9374529-optegning-af-lager-i-designeren",
-          "playbookSection": "Optegning af lager (Trin-for-trin)"
+          "playbookSection": "Optegning af lager (Trin-for-trin)",
+          "priceLabel": "1.250 kr.",
+          "perLabel": "pr. time"
         },
         {
           "id": "lok2",
