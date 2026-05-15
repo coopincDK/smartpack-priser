@@ -786,13 +786,7 @@
     margin-bottom: 12px;
     padding-left: 4px;
   }
-  .extras-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 14px;
-  }
-  @media (max-width: 900px) { .extras-grid { grid-template-columns: repeat(2, 1fr); } }
-  @media (max-width: 560px) { .extras-grid { grid-template-columns: 1fr; } }
+  .extras-grid { display: none; /* erstattet af tabel */ }
   .extra-card {
     background: var(--white);
     border: 1px solid var(--border);
@@ -1399,18 +1393,45 @@ function renderPlans(cat, container) {
 function renderExtras(data) {
   if (!data.extras || !data.extras.length) return;
   const section = document.getElementById('extrasSection');
-  const grid = document.getElementById('extrasGrid');
   section.style.display = '';
-  grid.innerHTML = data.extras.map(ex => `
-    <div class="extra-card">
-      <div class="extra-card-name">${ex.name}</div>
-      <div class="extra-card-desc">${ex.desc}</div>
-      <div class="extra-card-price">
-        <span class="extra-card-amount">${ex.priceLabel}</span>
-        <span class="extra-card-per">${ex.perLabel}</span>
-      </div>
-    </div>
-  `).join('');
+
+  const wrap = document.createElement('div');
+  wrap.className = 'table-wrap';
+
+  const table = document.createElement('table');
+  const thead = document.createElement('thead');
+  thead.innerHTML = `<tr>
+    <th>Opgave</th>
+    <th>Interval</th>
+    <th>Pris</th>
+    <th></th>
+  </tr>`;
+  table.appendChild(thead);
+
+  const tbody = document.createElement('tbody');
+  data.extras.forEach(ex => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>
+        <div class="task-name">${ex.name}</div>
+        ${ex.desc ? `<div class="task-desc">${ex.desc}</div>` : ''}
+      </td>
+      <td class="time-cell">${ex.perLabel || ''}</td>
+      <td class="price-cell">
+        <div class="price-row">
+          <span class="price-val" style="font-weight:800;color:var(--green-dark)">${ex.priceLabel}</span>
+        </div>
+      </td>
+      <td></td>
+    `;
+    tbody.appendChild(tr);
+  });
+  table.appendChild(tbody);
+  wrap.appendChild(table);
+
+  // Erstat grid med tabel
+  const grid = document.getElementById('extrasGrid');
+  grid.replaceWith(wrap);
 }
 
 function closeOverlay(e) {
