@@ -15,15 +15,6 @@
           "price": 625,
           "guideUrl": "https://support.smartpack.dk/da/articles/12352986-oprettelse-og-administration-af-brugere",
           "playbookSection": "Opret / Rediger medarbejder"
-        },
-        {
-          "id": "b2",
-          "name": "Aktiver superbruger-adgang til supportchat",
-          "desc": "",
-          "minutes": 30,
-          "price": 625,
-          "guideUrl": "https://support.smartpack.dk/da/articles/9448403-fa-adgang-til-vores-nye-supportchat",
-          "playbookSection": "Supportchat — adgang"
         }
       ]
     },
