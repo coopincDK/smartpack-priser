@@ -253,10 +253,12 @@
           "id": "ls1",
           "name": "Komplet opsætning af Shop Checkout",
           "desc": "Fragtprisformler og regler i webshoppen",
-          "minutes": 75,
-          "price": 1563,
+          "minutes": null,
+          "price": 1500,
           "guideUrl": "https://support.smartpack.dk/da/articles/9611192-guide-til-opsaetning-af-shop-checkout-i-smartpack",
-          "playbookSection": "Shop Checkout konfiguration"
+          "playbookSection": "Shop Checkout konfiguration",
+          "priceLabel": "1.500 kr.",
+          "perLabel": "pr. gruppe"
         },
         {
           "id": "ls2",
