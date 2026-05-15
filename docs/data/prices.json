@@ -729,8 +729,8 @@
           "id": "w3",
           "name": "Fejlsøgning i eksisterende workflow",
           "desc": "",
-          "minutes": 45,
-          "price": 938,
+          "minutes": 60,
+          "price": 1250,
           "guideUrl": null,
           "playbookSection": "Workflows — Komplet guide"
         },
