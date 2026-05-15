@@ -570,11 +570,12 @@
           "id": "i1",
           "name": "Forbind webshop",
           "desc": "Shopify, WooCommerce, DanDomain, Magento m.fl.",
-          "minutes": 45,
-          "price": 938,
+          "minutes": null,
+          "price": 5000,
           "priceNote": "pr. shop",
           "guideUrl": "https://support.smartpack.dk/da/articles/9374401-opret-woocommerce-api-nogle-til-smartpack",
-          "playbookSection": "WooCommerce integration"
+          "playbookSection": "WooCommerce integration",
+          "priceLabel": "5.000 kr."
         },
         {
           "id": "i2",
@@ -589,11 +590,12 @@
           "id": "i3",
           "name": "Forbind ERP-system",
           "desc": "e-conomic m.fl.",
-          "minutes": 75,
-          "price": 1563,
+          "minutes": null,
+          "price": 15000,
           "priceNote": "pr. integration",
           "guideUrl": null,
-          "playbookSection": "Visma e-conomic"
+          "playbookSection": "Visma e-conomic",
+          "priceLabel": "15.000 kr."
         },
         {
           "id": "i4",
@@ -638,10 +640,11 @@
           "id": "bc1",
           "name": "Opsætning af Business Central integration",
           "desc": "",
-          "minutes": 75,
-          "price": 1563,
+          "minutes": null,
+          "price": 15000,
           "guideUrl": null,
-          "playbookSection": "Business Central (BC)"
+          "playbookSection": "Business Central (BC)",
+          "priceLabel": "15.000 kr."
         },
         {
           "id": "bc2",

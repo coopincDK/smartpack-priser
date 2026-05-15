@@ -928,6 +928,9 @@ async function loadPrices() {
 }
 
 function formatPrice(task) {
+  if (task.priceLabel) {
+    return task.priceLabel + '<span class="price-note"> ekskl. moms</span>';
+  }
   if (task.price !== null && task.price !== undefined) {
     return task.price.toLocaleString('da-DK') + '&nbsp;kr.' +
       (task.priceNote ? `<span class="price-note"> ${task.priceNote}</span>` : '');
