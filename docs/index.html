@@ -740,6 +740,49 @@
     .bestil-handle { display: none; }
   }
 
+  /* ── PLAN KORT ── */
+  .plans-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 16px;
+    margin-top: 16px;
+  }
+  .plan-card {
+    background: var(--white);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    padding: 22px 20px 20px;
+    box-shadow: var(--shadow);
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    position: relative;
+  }
+  .plan-card.highlight { border-color: var(--green-dark); box-shadow: 0 0 0 1px var(--green-dark), var(--shadow); }
+  .plan-badge {
+    position: absolute;
+    top: -11px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--green-dark);
+    color: #fff;
+    font-size: .68rem;
+    font-weight: 800;
+    letter-spacing: .07em;
+    text-transform: uppercase;
+    padding: 3px 12px;
+    border-radius: 999px;
+    white-space: nowrap;
+  }
+  .plan-name { font-size: .72rem; font-weight: 700; text-transform: uppercase; letter-spacing: .09em; color: var(--green-dark); margin-bottom: 2px; }
+  .plan-price { font-size: 1.7rem; font-weight: 800; color: var(--text); line-height: 1.1; }
+  .plan-meta { font-size: .73rem; color: var(--muted); margin-bottom: 4px; }
+  .plan-note { font-size: .78rem; color: var(--green-dark); font-style: italic; margin: 6px 0 8px; }
+  .plan-items { list-style: none; padding: 0; margin: 10px 0 0; border-top: 1px solid var(--border); padding-top: 12px; display: flex; flex-direction: column; gap: 6px; }
+  .plan-items li { font-size: .8rem; color: var(--text); display: flex; gap: 8px; line-height: 1.4; }
+  .plan-items li::before { content: '✓'; color: var(--green); font-weight: 700; flex-shrink: 0; }
+  .plans-footer { font-size: .75rem; color: var(--muted); text-align: center; margin-top: 14px; }
+
   /* ── ØVRIGE PRISER ── */
   .extras-section {
     max-width: 1000px;
@@ -1093,6 +1136,8 @@ function renderAll(data) {
     table.appendChild(tbody);
     wrap.appendChild(table);
     section.appendChild(wrap);
+    // Vis plan-kort under kategorien hvis de findes
+    renderPlans(cat, section);
     main.appendChild(section);
   });
 }
@@ -1344,6 +1389,27 @@ function sendBestilling() {
 }
 
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeBestil({target: document.getElementById('bestilBg')}); });
+
+function renderPlans(cat, container) {
+  if (!cat.plans || !cat.plans.length) return;
+  const grid = document.createElement('div');
+  grid.className = 'plans-grid';
+  grid.innerHTML = cat.plans.map(p => `
+    <div class="plan-card${p.highlight ? ' highlight' : ''}">
+      ${p.badge ? `<div class="plan-badge">${p.badge}</div>` : ''}
+      <div class="plan-name">${p.name}</div>
+      <div class="plan-price">${p.price}</div>
+      <div class="plan-meta">${p.meta}</div>
+      ${p.note ? `<div class="plan-note">${p.note}</div>` : ''}
+      <ul class="plan-items">${p.items.map(i => `<li>${i}</li>`).join('')}</ul>
+    </div>
+  `).join('');
+  container.appendChild(grid);
+  const footer = document.createElement('p');
+  footer.className = 'plans-footer';
+  footer.textContent = 'Alle priser er ekskl. moms · Tilpasninger uden for standardrammen afregnes efter særskilt tilbud og accept fra lagerhotellet';
+  container.appendChild(footer);
+}
 
 function renderExtras(data) {
   if (!data.extras || !data.extras.length) return;

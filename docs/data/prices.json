@@ -791,6 +791,54 @@
           "guideUrl": null,
           "playbookSection": "3PL Prissætning"
         }
+      ],
+      "plans": [
+        {
+          "id": "plan-ramme",
+          "badge": "Mest valgte",
+          "name": "3PL Rammeaftale",
+          "price": "5.000 kr.",
+          "meta": "Engangsbeløb · Faktureres til lagerhotellet",
+          "highlight": true,
+          "items": [
+            "Integration til webshop (Shopify, WooCommerce, Magento m.fl.)",
+            "Standard plukkeprofil („Alle ordrer“ forudindstillet)",
+            "Op til 3 logistikpartnere opsat",
+            "Checkout-prislogik (fri fragt over X kr., op til 2 prisgrupper)",
+            "Standard returportal",
+            "Standard Track & Trace-mails",
+            "Standard følgesedler og stregkodedesign",
+            "Gennemgang af 3PL-funktioner via video"
+          ]
+        },
+        {
+          "id": "plan-support",
+          "name": "Udvidet Supportaftale",
+          "price": "10.000 kr.",
+          "meta": "Per år · Per individuel aftale · Faktureres til lagerhotellet",
+          "note": "Til lagerhoteller der vil tilbyde mere.",
+          "items": [
+            "1 times online gennemgang med fokus på webshoppens behov",
+            "E-mail support (fair use: op til 5 henvendelser/måned)",
+            "Ubegrænset support via lagerhotellet",
+            "Vejledning i opsætning og avancerede funktioner",
+            "Adgang til specialopsætninger og custom flows mod tilbud"
+          ]
+        },
+        {
+          "id": "plan-adhoc",
+          "name": "Ad hoc Support",
+          "price": "1.500 kr.",
+          "meta": "Per sag · Faktureres til lagerhotellet",
+          "note": "Uden løbende aftale.",
+          "items": [
+            "Direkte support til webshopkunden pr. sag",
+            "Driftkritiske fejl der skyldes SmartPack: altid gratis",
+            "Gælder også uden for lagerhotellets supporttider via 24/7-vagtordning",
+            "Superbrugere hos lagerhotellet: altid fri og ubegrænset adgang",
+            "Specialopsætninger og custom flows efter tilbud"
+          ]
+        }
       ]
     }
   ],
